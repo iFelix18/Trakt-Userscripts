@@ -1,0 +1,23 @@
+{
+  "name": "trakt-userscripts",
+  "version": "1.0.0",
+  "description": "Userscripts for Trakt.tv",
+  "author": "Felix",
+  "license": "MIT",
+  "repository": "https://github.com/iFelix18/Trakt-Userscripts/",
+  "scripts": {
+    "update": "updates -u & npm install"
+  },
+  "dependencies": {
+    "npm": "^6.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "updates": "^6.2.3"
+  }
+}
