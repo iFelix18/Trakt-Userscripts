@@ -7,8 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.0
-// @icon            https://api.faviconkit.com/trakt.tv/64
+// @version         1.1.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
@@ -29,13 +28,23 @@
 
   // observe node
   NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', statsForTrakt)
+  NodeCreationObserver.onCreation('.people #toast-container .toast.toast-success', updateStatsForTrakt)
 
   function statsForTrakt () {
     // run functions
+    addToMenu()
     addHTML()
     addCSS()
     addClass()
     getStats()
+  }
+
+  function updateStatsForTrakt () {
+    // run functions
+    removeStats()
+    getStats()
+
+    console.log('Stats for Trakt: stats updated')
   }
 
   function addHTML () {
@@ -62,7 +71,7 @@
 
     console.log('Stats for Trakt: role classes added')
 
-    // add classes for unreleased items
+    // add class for unreleased items
     $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () {
       $(this).parent().parent().parent().addClass('unreleased')
     })
@@ -97,7 +106,7 @@
     })
   }
 
-  function addProgressbar (state, role, watched, percentage, total) {
+  function addProgressbar (progress, role, watched, percentage, total) {
     // progressbar.js configuration
     let progressbar = new ProgressBar.Line(progressbarStats, {
       color: '#ED1C24',
@@ -114,9 +123,16 @@
     })
 
     // add progressbar
-    progressbar.set(state)
+    progressbar.set(progress)
 
     console.log(`Stats for Trakt: ${role} progressbar added`)
+  }
+
+  function removeStats () {
+    // remove old stats
+    $('#progressbarStats').children().remove()
+
+    console.log('Stats for Trakt: stats removed')
   }
 
   function addCSS () {
@@ -137,5 +153,16 @@
     `)
 
     console.log('Stats for Trakt: CSS added')
+  }
+
+  function addToMenu () {
+    // add stats to sidebar menu
+    $('#info-wrapper .sidebar .sections li a[href="#biography"]').parent().after(`
+      <li>
+        <a href="#peopleStats">Stats</a>
+      </li>
+    `)
+
+    console.log('Stats for Trakt: stats add to menu')
   }
 }())
