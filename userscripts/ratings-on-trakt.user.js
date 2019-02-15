@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.1
+// @version         2.0.2
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
@@ -55,28 +55,9 @@
           'default': ''
         }
       },
-      'css': `
-        #MyConfig {
-          background-color: #1D1D1D;
-          color: #FFF;
-        }
-        #MyConfig .reset,
-        #MyConfig .reset a {
-          color: #FFF;
-        }
-        #MyConfig .section_header {
-          background-color: #3A3A3A;
-          border: 1px solid #3A3A3A;
-        }
-        #MyConfig .section_desc {
-          background-color: #3A3A3A;
-          color: #FFF;
-          border: 1px solid #3A3A3A;
-        }
-      `,
       'events': {
         'save': function () {
-          alert('API Key saved')
+          alert('Settings saved')
           location.reload()
         }
       }
@@ -199,7 +180,7 @@
       onload: function (response) {
         let json = JSON.parse(response.responseText)
         // add IMDb ratings
-        if (json && json.imdbRating && json.imdbRating !== 'N/A' && json.imdbVotes && json.imdbVotes !== 'N/A') {
+        if (json && json.Response !== 'False' && json.imdbRating && json.imdbRating !== 'N/A' && json.imdbVotes && json.imdbVotes !== 'N/A') {
           console.log(`Ratings on Trakt: IMDb rating is ${json.imdbRating}`)
           console.log(`Ratings on Trakt: IMDb votes is ${((json.imdbVotes.replace(/,/g, '')) / 1000).toFixed(1)}k`)
           addIMDbRating(json.imdbRating, ((json.imdbVotes.replace(/,/g, '')) / 1000).toFixed(1))
@@ -208,7 +189,7 @@
         }
 
         // add Rotten Tomatoes ratings
-        if (json && json.Ratings[1] && json.Ratings[1] !== 'undefined' && json.Ratings[1].Source === 'Rotten Tomatoes' && json.Ratings[1].Value) {
+        if (json && json.Response !== 'False' && json.Ratings[1] && json.Ratings[1] !== 'undefined' && json.Ratings[1].Source === 'Rotten Tomatoes' && json.Ratings[1].Value) {
           console.log(`Ratings on Trakt: Tomatometer is ${json.Ratings[1].Value}`)
           let tomatometer = 0
           let tomatoLogo = 0
@@ -226,13 +207,13 @@
         }
 
         // add Metacritic ratings
-        if (json && json.Metascore && json.Metascore !== 'N/A' && json.Metascore < 40) {
+        if (json && json.Response !== 'False' && json.Metascore && json.Metascore !== 'N/A' && json.Metascore < 40) {
           console.log(`Ratings on Trakt: Metascore is ${json.Metascore}`)
           addMetacriticRating(json.Metascore, '#FF0000')
-        } else if (json && json.Metascore && json.Metascore !== 'N/A' && json.Metascore >= 40 && json.Metascore <= 60) {
+        } else if (json && json.Response !== 'False' && json.Metascore && json.Metascore !== 'N/A' && json.Metascore >= 40 && json.Metascore <= 60) {
           console.log(`Ratings on Trakt: Metascore is ${json.Metascore}`)
           addMetacriticRating(json.Metascore, '#FFCC33')
-        } else if (json && json.Metascore && json.Metascore !== 'N/A' && json.Metascore > 60) {
+        } else if (json && json.Response !== 'False' && json.Metascore && json.Metascore !== 'N/A' && json.Metascore > 60) {
           console.log(`Ratings on Trakt: Metascore is ${json.Metascore}`)
           addMetacriticRating(json.Metascore, '#66CC33')
         } else {
@@ -240,7 +221,7 @@
         }
 
         // error
-        if (json && json.Error) {
+        if (json && json.Response !== 'True' && json.Error) {
           console.log(`Ratings on Trakt: Error ${json.Error}`)
         }
       }
