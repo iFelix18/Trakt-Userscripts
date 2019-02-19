@@ -4,6 +4,7 @@
     <p align="center">
         <a href="https://github.com/iFelix18/Trakt-Userscripts/stargazers"><img alt="Stars" src="https://flat.badgen.net/github/stars/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/watchers"><img alt="Watchers" src="https://flat.badgen.net/github/watchers/iFelix18/Trakt-Userscripts"></a>
+        <a href="#"><img alt="Scripts" src="https://flat.badgen.net/badge/scripts/3/orange"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/issues"><img alt="Open Issues" src="https://flat.badgen.net/github/open-issues/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed"><img alt="Closed Issues" src="https://flat.badgen.net/github/closed-issues/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/commits/master"><img alt="Commits" src="https://flat.badgen.net/github/commits/iFelix18/Trakt-Userscripts"></a>
@@ -23,6 +24,7 @@
         <ul align="left">
             <li><a href="README.md#ratings-on-trakt">Ratings on Trakt</a></li>
             <li><a href="README.md#stats-for-trakt">Stats for Trakt</a></li>
+            <li><a href="README.md#translate-trakt">Translate Trakt</a></li>
         </ul>
         <li><a href="README.md#how-to-install">How to install</a></li>
     </ul>
@@ -59,6 +61,23 @@
     <details>
         <summary>Screenshots</summary>
         <a href="#"><img alt="Stats" title="Stats" src="https://i.imgur.com/TB9uvJ4.png"></a>
+    </details>
+    <hr>
+    <h2 align="center"><strong>Translate Trakt</strong></h2>
+    <h5 align="center">Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language</h5>
+    <p align="center">
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.0.0/ED1C24"></a>
+        <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/translate-trakt-downloads-q8gvapqjqt35"></a>
+        <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js"></a>
+        <a href="http://bit.ly/TranslateTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
+    </p>
+    <p align="center"><strong>Note</strong>: After installation, enter your <a href="https://developers.themoviedb.org/3/">TMDb API Key</a> and your <a href="https://developers.themoviedb.org/3/getting-started/languages">language code</a> in the script settings.</p>
+    <details>
+        <summary>Screenshots</summary>
+        <caption>Before:</caption>
+        <a href="#"><img alt="Before" title="Before" src="https://i.imgur.com/ZWn3VJe.png"></a>
+        <caption>After:</caption>
+        <a href="#"><img alt="After" title="After" src="https://i.imgur.com/KuKI4Pt.gif"></a>
     </details>
 </p>
 <hr>
