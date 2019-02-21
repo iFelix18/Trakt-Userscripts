@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.3
+// @version         2.0.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
@@ -30,6 +30,8 @@
 
 (function () {
   'use strict'
+
+  /* global Handlebars */
 
   // observe nodes
   NodeCreationObserver.onCreation('.shows #summary-wrapper .summary .container', function () {
