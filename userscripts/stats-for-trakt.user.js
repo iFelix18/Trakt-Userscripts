@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.1
+// @version         1.1.2
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
@@ -25,6 +25,8 @@
 
 (function () {
   'use strict'
+
+  /* global ProgressBar, progressbarStats, math */
 
   // observe node
   NodeCreationObserver.init('observed-stats')
