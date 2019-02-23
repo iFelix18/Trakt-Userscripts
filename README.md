@@ -53,7 +53,7 @@
     <h2 align="center"><strong>Stats for Trakt</strong></h2>
     <h5 align="center">Adds stats on <a href="https://trakt.tv/">Trakt.tv</a></h5>
     <p align="center">
-        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.1.2/ED1C24"></a>
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.1.3/ED1C24"></a>
         <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/stats-for-trakt-downloads-ru4d1dicapco"></a>
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js"></a>
         <a href="http://bit.ly/StatsForTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
