@@ -7,8 +7,10 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.1.0
+// @version         2.1.1
 // @homepageURL     https://git.io/Trakt-Userscripts
+// @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
+// @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
@@ -32,15 +34,11 @@
 (function () {
   'use strict'
 
-  /* global math, Handlebars */
+  /* global NodeCreationObserver, $, Handlebars, math, GM_config */
 
   // observe node
   NodeCreationObserver.init('observed-ratings')
-  NodeCreationObserver.onCreation('.shows #summary-wrapper .summary .container h1', function () {
-    addCSS()
-    getRatings()
-  })
-  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1', function () {
+  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', function () {
     addCSS()
     getRatings()
   })
@@ -207,7 +205,7 @@
         let json = JSON.parse(response.responseText)
         if (json && json.Response === 'False' && json.Error) { // error
           let message = `Ratings on Trakt: error "${json.Error}"`
-          if (json.Error === 'Invalid API key!') { // if invalid API Key
+          if (json.Error === 'No API key provided.' || json.Error === 'Invalid API key!') { // if invalid API Key
             alert(message)
             GM_config.open()
           } else { // other errors
