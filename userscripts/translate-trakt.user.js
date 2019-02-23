@@ -7,8 +7,10 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.1
+// @version         1.0.2
 // @homepageURL     https://git.io/Trakt-Userscripts
+// @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
+// @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
@@ -31,7 +33,7 @@
 (function () {
   'use strict'
 
-  /* global RequestQueue */
+  /* global NodeCreationObserver, $, RequestQueue, GM_config */
 
   function translateTrakt (type) {
     console.log(`Translate Trakt: is a ${type}`)
@@ -39,6 +41,7 @@
   }
 
   // NodeCreationObserver
+  NodeCreationObserver.init('observed-translate')
   NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1', function () {
     addSettings()
     translateTrakt('movie')

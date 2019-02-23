@@ -66,7 +66,7 @@
     <h2 align="center"><strong>Translate Trakt</strong></h2>
     <h5 align="center">Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language</h5>
     <p align="center">
-        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.0.1/ED1C24"></a>
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.0.2/ED1C24"></a>
         <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/translate-trakt-downloads-q8gvapqjqt35"></a>
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js"></a>
         <a href="http://bit.ly/TranslateTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
