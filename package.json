@@ -17,13 +17,10 @@
   },
   "standard": {
     "globals": [
-      "$",
-      "NodeCreationObserver",
-      "GM_config",
-      "GM_registerMenuCommand",
       "GM_xmlhttpRequest",
       "alert",
-      "location"
+      "location",
+      "GM_registerMenuCommand"
     ]
   }
 }
