@@ -1,5 +1,5 @@
 <h1>Valutazioni su Trakt</h1>
-<h3>Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a <a href="https://trakt.tv/">Trakt.tv</a></h3>
+<h3>Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a <a href="https://trakt.tv/">Trakt.tv</a></h3>
 <hr>
 <h2>Installazione</h2>
 <ol>
