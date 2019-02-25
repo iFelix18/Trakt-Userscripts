@@ -3,11 +3,11 @@
 // @name:it         Valutazioni su Trakt
 // @author          Felix
 // @namespace       https://github.com/iFelix18
-// @description     Adds ratings from IMDb, Rotten Tomatoes and Metacritic to Trakt
-// @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
+// @description     Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to Trakt
+// @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.1.1
+// @version         2.2.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -19,8 +19,10 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @require         https://cdn.jsdelivr.net/npm/mathjs@5.4.2/dist/math.min.js#sha256-W2xP+GeD3rATAAJ/rtjz0uNLqO9Ve9yk9744ImX8GWY=
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.0.12/dist/handlebars.min.js#sha256-qlku5J3WO/ehJpgXYoJWC2px3+bZquKChi4oIWrAKoI=
+// @require         https://cdn.jsdelivr.net/gh/cvzi/RequestQueue@e4297b3c2e11761d69858bad4746832ea412b571/RequestQueue.min.js
 // @include         https://trakt.tv/*
 // @connect         omdbapi.com
+// @connect         api.simkl.com
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM_registerMenuCommand
@@ -34,7 +36,7 @@
 (function () {
   'use strict'
 
-  /* global NodeCreationObserver, $, Handlebars, math, GM_config */
+  /* global NodeCreationObserver, $, Handlebars, math, GM_config, RequestQueue */
 
   // observe node
   NodeCreationObserver.init('observed-ratings')
@@ -79,6 +81,34 @@
   }
 
   // add ratings
+  function addMALRating (rating, votes) {
+    // add HTML structure
+    $(`
+      <script id="MAL-rating-template" type="text/x-handlebars-template">
+        <div class="rated-text">
+          <div class="icon">
+            <img class="MAL logo" src="https://myanimelist.cdn-dena.com/img/sp/icon/apple-touch-icon-256.png">
+          </div>
+          <div class="number">
+            <div class="rating">{{rating}}</div>
+            <div class="votes">{{votes}}k</div>
+          </div>
+        </div>
+      </script>
+      <li class="MAL-rating"></li>
+    `).appendTo($('#summary-ratings-wrapper .ratings'))
+
+    // compile HTML structure
+    let template = Handlebars.compile($('#MAL-rating-template').html())
+    let context = {
+      'rating': rating,
+      'votes': votes
+    }
+    let compile = template(context)
+    $('.MAL-rating').html(compile)
+    console.log('Ratings on Trakt: MAL rating added')
+  }
+
   function addMetacriticRating (rating) {
     // add HTML structure
     $(`
@@ -191,16 +221,27 @@
         addMetacriticRating(rating)
       }
     }
+
+    // MyAnimeList
+    if (json && json.MAL) {
+      let rating = json.MAL.rating
+      let votes = math.round((json.MAL.votes) / 1000, 1)
+      console.log(`Ratings on Trakt: MAL rating is "${rating}"`)
+      console.log(`Ratings on Trakt: MAL votes is "${votes}k"`)
+      addMALRating(rating, votes)
+    }
   }
 
   // get ratings
   function getRatings () {
-    console.log(`Ratings on Trakt: OMDb API Key is "${apikey()}"`)
-    console.log(`Ratings on Trakt: IMDb ID is "${id()}"`)
-
-    GM_xmlhttpRequest({
+    let rq = new RequestQueue(1)
+    let apikey = OMDbApikey()
+    let id = IMDbID()
+    console.log(`Ratings on Trakt: OMDb API Key is "${apikey}"`)
+    console.log(`Ratings on Trakt: IMDb ID is "${id}"`)
+    rq.add({
       method: 'GET',
-      url: `http://www.omdbapi.com/?apikey=${apikey()}&i=${id()}`,
+      url: `https://www.omdbapi.com/?apikey=${apikey}&i=${id}`,
       onload: function (response) {
         let json = JSON.parse(response.responseText)
         if (json && json.Response === 'False' && json.Error) { // error
@@ -216,15 +257,28 @@
         }
       }
     })
+    rq.add({
+      method: 'GET',
+      url: `https://api.simkl.com/ratings?imdb=${id}&fields=ext`,
+      onload: function (response) {
+        let json = JSON.parse(response.responseText)
+        if (json) {
+          addRatings(json)
+        }
+      }
+    })
   }
 
   // get IMDb ID
-  function id () {
-    return $("a[href*='imdb']").attr('href').match(/tt\d+/)
+  function IMDbID () {
+    let link = $("a[href*='imdb']")
+    if (link.length) {
+      return link.attr('href').match(/tt\d+/)[0]
+    }
   }
 
   // get API Key
-  function apikey () {
+  function OMDbApikey () {
     return GM_config.get('apikey')
   }
 
