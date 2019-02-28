@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.3
+// @version         1.1.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -20,6 +20,7 @@
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
 // @include         https://trakt.tv/*
 // @run-at          document-idle
+// @inject-into     content
 // ==/UserScript==
 //
 // Recommended in combination with Darkt, my darker theme for Trakt.
@@ -52,8 +53,7 @@
 
   // add progressbar
   function addProgressbar (progress, role, watched, percentage, total) {
-    let progressbar = new ProgressBar.Line(progressbarStats, {
-      // progressbar.js configuration
+    let progressbar = new ProgressBar.Line(progressbarStats, { // progressbar.js configuration
       color: '#ED1C24',
       strokeWidth: 2,
       trailColor: '#530D0D',
@@ -75,14 +75,10 @@
     $('.people .info h2').each(function () { // get role
       let role = this.id
       if (role !== 'peopleStats') {
-        // get not unreleased items for role
-        let items = $(`.posters.${role} .grid-item:not(.unreleased)`).length
-        // get not unreleased watched items for role
-        let watchedItems = $(`.posters.${role} .grid-item:not(.unreleased) .watch.selected`).length
-        // calculate progress
-        let watchedProgressItems = math.round((watchedItems / items) * 100)
-        // if progress is minor of 10
-        if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) {
+        let items = $(`.posters.${role} .grid-item:not(.unreleased)`).length // get not unreleased items for role
+        let watchedItems = $(`.posters.${role} .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items for role
+        let watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
+        if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) { // if progress is minor of 10
           console.log(`Stats for Trakt: ${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
           addProgressbar(`0.0${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
         } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems >= 10 && watchedProgressItems <= 99) { // if progress is from 10 to 99
@@ -98,14 +94,11 @@
 
   // add class
   function addClass () {
-    // by role
-    $('.posters').each(function () {
+    $('.posters').each(function () { // by role
       $(this).addClass($(this).prev().attr('id'))
     })
     console.log('Stats for Trakt: role classes added')
-
-    // for unreleased items
-    $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () {
+    $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () { // for unreleased items
       $(this).parent().parent().parent().addClass('unreleased')
     })
     console.log('Stats for Trakt: unreleased classes added')
