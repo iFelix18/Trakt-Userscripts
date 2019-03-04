@@ -36,7 +36,7 @@
     <h2 align="center"><strong>Ratings on Trakt</strong></h2>
     <h5 align="center">Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to <a href="https://trakt.tv/">Trakt.tv</a></h5>
     <p align="center">
-        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/2.2.0/ED1C24"></a>
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/runkit/ratings-on-trakt-version-iy6dpvbwwt51"></a>
         <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/ratings-on-trakt-downloads-xw1ittwiztu8"></a>
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js"></a>
         <a href="http://bit.ly/RatingsOnTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
@@ -53,7 +53,7 @@
     <h2 align="center"><strong>Stats for Trakt</strong></h2>
     <h5 align="center">Adds stats on <a href="https://trakt.tv/">Trakt.tv</a></h5>
     <p align="center">
-        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.1.4/ED1C24"></a>
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/runkit/stats-for-trakt-version-x0krqpt9j4ec"></a>
         <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/stats-for-trakt-downloads-ru4d1dicapco"></a>
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js"></a>
         <a href="http://bit.ly/StatsForTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
@@ -66,7 +66,7 @@
     <h2 align="center"><strong>Translate Trakt</strong></h2>
     <h5 align="center">Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language</h5>
     <p align="center">
-        <a href="#"><img alt="Version" src="https://flat.badgen.net/badge/version/1.0.2/ED1C24"></a>
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/runkit/translate-trakt-version-fnlcj02zaig9"></a>
         <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/translate-trakt-downloads-q8gvapqjqt35"></a>
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js"></a>
         <a href="http://bit.ly/TranslateTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
