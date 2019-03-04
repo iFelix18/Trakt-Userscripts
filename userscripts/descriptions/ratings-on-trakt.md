@@ -1,5 +1,5 @@
 <h1>Ratings on Trakt</h1>
-<h3>Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to <a href="https://trakt.tv/">Trakt.tv</a></h3>
+<h3>Adds ratings from IMDb, Rotten Tomatoes and Metacritic to <a href="https://trakt.tv/">Trakt.tv</a></h3>
 <hr>
 <h2>Installation</h2>
 <ol>
