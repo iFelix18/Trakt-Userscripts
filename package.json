@@ -9,18 +9,19 @@
     "update": "updates -u & npm install"
   },
   "dependencies": {
-    "npm": "^6.8.0"
+    "npm": "^6.9.0"
   },
   "devDependencies": {
     "standard": "^12.0.1",
-    "updates": "^7.2.0"
+    "updates": "^7.2.1"
   },
   "standard": {
     "globals": [
-      "GM_xmlhttpRequest",
       "alert",
-      "location",
-      "GM_registerMenuCommand"
+      "GM_info",
+      "GM_registerMenuCommand",
+      "GM_xmlhttpRequest",
+      "location"
     ]
   }
 }
