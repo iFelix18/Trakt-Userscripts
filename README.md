@@ -27,6 +27,7 @@
             <li><a href="README.md#translate-trakt">Translate Trakt</a></li>
         </ul>
         <li><a href="README.md#how-to-install">How to install</a></li>
+        <li><a href="README.md#credits">Credits</a></li>
     </ul>
 </p>
 <hr>
@@ -95,4 +96,11 @@
         <li>In case, configure the script as as reported in its description.</li>
         <li>Done!</li>
     </ol>
+</p>
+<hr>
+<hr>
+<p>
+    <h2 align="left">Credits</h2>
+    <p>This product uses the TMDb API but is not endorsed or certified by TMDb.<br>
+    This product uses the OMDb API.</p>
 </p>
