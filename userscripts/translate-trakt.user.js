@@ -7,7 +7,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.2
+// @version         2.0.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
@@ -20,6 +20,7 @@
 // @require         https://cdn.jsdelivr.net/gh/cvzi/RequestQueue@e4297b3c2e11761d69858bad4746832ea412b571/RequestQueue.min.js
 // @include         https://trakt.tv/*
 // @connect         api.themoviedb.org
+// @grant           GM_info
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM_registerMenuCommand
@@ -33,327 +34,268 @@
 (function () {
   'use strict'
 
-  /* global NodeCreationObserver, $, RequestQueue, GM_config */
+  /* global $, NodeCreationObserver, GM_config, RequestQueue */
 
-  function translateTrakt (type) {
-    console.log(`Translate Trakt: is a ${type}`)
-    request(type)
-  }
+  // settings
+  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, function () {
+    GM_config.open()
+  })
+  GM_config.init({
+    'id': 'MyConfigs',
+    'title': GM_info.script.name,
+    'fields': {
+      'apikey': {
+        'label': 'TMDb API Key',
+        'section': ['Enter your TMDb API Key', 'Get one at: https://developers.themoviedb.org/3/'],
+        'type': 'text',
+        'default': ''
+      },
+      'language': {
+        'label': 'Language',
+        'section': ['Enter the code of your language, for example: en-US, it-IT, fr-FR.', 'More info at: https://developers.themoviedb.org/3/getting-started/languages'],
+        'type': 'text',
+        'default': 'en-US'
+      }
+    },
+    'events': {
+      'save': function () {
+        location.reload()
+      }
+    }
+  })
 
   // NodeCreationObserver
   NodeCreationObserver.init('observed-translate')
-  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1', function () {
-    addSettings()
-    translateTrakt('movie')
+  NodeCreationObserver.onCreation('.movies .external a[href*="themoviedb"]', function () {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/movie/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
+      onload: function (response) {
+        let data = JSON.parse(response.responseText)
+        if (data && data.status_message) {
+          error(data.status_message)
+        } else {
+          if (data && data.poster_path && data.poster_path !== null) {
+            translatePoster(`https://image.tmdb.org/t/p/w185${data.poster_path}`)
+          }
+          if (data && data.title) {
+            translateTitle(data.title)
+          }
+          if (data && data.tagline && data.tagline !== '') {
+            translateTagline(data.tagline)
+          }
+          if (data && data.overview && data.overview !== '') {
+            translateOverview(data.overview)
+          }
+        }
+      }
+    })
   })
-  NodeCreationObserver.onCreation('.show:not(.movies) #summary-wrapper .summary .container h1', function () {
-    addSettings()
-    translateTrakt('show')
+  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .external a[href*="themoviedb"]', function () {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/tv/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
+      onload: function (response) {
+        let data = JSON.parse(response.responseText)
+        if (data && data.status_message) {
+          error(data.status_message)
+        } else {
+          if (data && data.poster_path && data.poster_path !== null) {
+            translatePoster(`https://image.tmdb.org/t/p/w185${data.poster_path}`)
+          }
+          if (data && data.name) {
+            translateTitle(data.name)
+          }
+          if (data && data.overview && data.overview !== '') {
+            translateOverview(data.overview)
+          }
+        }
+      }
+    })
   })
-  NodeCreationObserver.onCreation('.season #summary-wrapper .summary .container h1', function () {
-    addSettings()
-    translateTrakt('season')
+  NodeCreationObserver.onCreation('.season .external a[href*="themoviedb"]', function () {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/tv/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
+      onload: function (response) {
+        let data = JSON.parse(response.responseText)
+        if (data && data.status_message) {
+          error(data.status_message)
+        } else {
+          let sn = season()
+          if (data && data.seasons[sn].poster_path && data.seasons[sn].poster_path !== null) {
+            translatePoster(`https://image.tmdb.org/t/p/w185${data.seasons[sn].poster_path}`)
+          }
+          if (data && data.name) {
+            translateSeriesTitle(data.name)
+          }
+          if (data && data.seasons[sn].name) {
+            translateTitle(data.seasons[sn].name)
+          }
+          if (data && data.seasons[sn].overview && data.seasons[sn].overview !== '') {
+            translateOverview(data.seasons[sn].overview)
+          }
+        }
+      }
+    })
   })
-  NodeCreationObserver.onCreation('.episode #summary-wrapper .summary .container h1', function () {
-    addSettings()
-    translateTrakt('episode')
+  NodeCreationObserver.onCreation('.episode .external a[href*="themoviedb"]', function () {
+    let rq = new RequestQueue(1)
+    let id = TMDbID()
+    let ak = apikey()
+    let ln = language()
+    let sn = season()
+    let en = episode()
+    rq.add({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/tv/${id}?api_key=${ak}&language=${ln}`,
+      onload: function (response) {
+        let data = JSON.parse(response.responseText)
+        if (data && data.status_message) {
+          console.log(`Translate Trakt: error is "${data.status_message}"`)
+        } else {
+          if (data && data.seasons[sn].poster_path && data.seasons[sn].poster_path !== null) {
+            translatePoster(`https://image.tmdb.org/t/p/w185${data.seasons[sn].poster_path}`)
+          }
+          if (data && data.name && data.seasons[sn].name) {
+            translateSeasonTitle(data.name, data.seasons[sn].name)
+          }
+        }
+      }
+    })
+    rq.add({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/tv/${id}/season/${sn}/episode/${en}?api_key=${ak}&language=${ln}`,
+      onload: function (response) {
+        let data = JSON.parse(response.responseText)
+        if (data && data.status_message) {
+          error(data.status_message)
+        } else {
+          if (data && data.name) {
+            translateEpisodeTitle(data.name)
+          }
+          if (data && data.overview && data.overview !== '') {
+            translateOverview(data.overview)
+          }
+        }
+      }
+    })
   })
-
-  // translate episode name
-  function translateEpisodeName (data) {
-    let h1 = $('#summary-wrapper .summary .container h1 .main-title')
-    h1.text(data)
-    console.log('Translate Trakt: episode name is translated')
-  }
 
   // translate overview
-  function translateOverview (data) {
-    let div = $('#info-wrapper .info #overview p')
-    div.text(data)
+  function translateOverview (overview) {
+    console.log(`Translate Trakt: overview is "${short(overview)}"`)
+    $('#info-wrapper .info #overview p').text(overview)
     console.log('Translate Trakt: overview is translated')
   }
 
-  // translate season title
-  function translateSeasonTitle (data, type) {
-    if (type !== 'episode') {
-      let h1 = $('#summary-wrapper .summary .container h1')
-      let year = h1.find('.year')
-      let certification = h1.find('.certification')
-      h1.text(data).append(' ')
-      h1.append(year).append(certification)
-    } else {
-      let h2 = $('#summary-wrapper .summary .container h2 a:last-child')
-      h2.text(data)
-    }
-    console.log('Translate Trakt: title is translated')
-  }
-
   // translate tagline
-  function translateTagline (data) {
-    var div = $('#info-wrapper .info #tagline')
-    div.text(data)
+  function translateTagline (tagline) {
+    console.log(`Translate Trakt: tagline is "${short(tagline)}"`)
+    $('#info-wrapper .info #tagline').text(tagline)
     console.log('Translate Trakt: tagline is translated')
   }
 
   // translate title
-  function translateTitle (data, type) {
-    if (type !== 'season' && type !== 'episode') {
-      let h1 = $('#summary-wrapper .summary .container h1')
-      let year = h1.find('.year')
-      let certification = h1.find('.certification')
-      h1.text(data).append(' ')
-      h1.append(year).append(certification)
-    } else {
-      let h2 = $('#summary-wrapper .summary .container h2 a:first-child')
-      let seasonChild = $('#summary-wrapper .summary .container h2 a:nth-child(2)')
-      h2.text(data)
-      if (seasonChild.length) {
-        h2.append(': ')
-      }
-    }
+  function translateTitle (title) {
+    console.log(`Translate Trakt: title is "${title}"`)
+    let container = $('#summary-wrapper .summary .container h1')
+    let year = container.find('.year')
+    let certification = container.find('.certification')
+    container.text(title).append(' ').append(year).append(certification)
     console.log('Translate Trakt: title is translated')
+  }
+  function translateSeriesTitle (seriesTitle) {
+    console.log(`Translate Trakt: series title is "${seriesTitle}"`)
+    $('#summary-wrapper .summary .container h2 a').text(seriesTitle)
+    console.log('Translate Trakt: series title is translated')
+  }
+  function translateSeasonTitle (title, seasonTitle) {
+    console.log(`Translate Trakt: season title is "${title}: ${seasonTitle}"`)
+    $('#summary-wrapper .summary .container h2 a:first-child').text(title).append(': ')
+    $('#summary-wrapper .summary .container h2 a:last-child').text(seasonTitle)
+    console.log('Translate Trakt: season title is translated')
+  }
+  function translateEpisodeTitle (episodeTitle) {
+    console.log(`Translate Trakt: episode title is "${episodeTitle}"`)
+    $('#summary-wrapper .summary .container h1 .main-title').text(episodeTitle)
+    console.log('Translate Trakt: episode title is translated')
   }
 
   // translate poster
-  function translatePoster (data) {
-    let poster = $(`#info-wrapper .sidebar .poster .real`)
-    let mobilePoster = $(`#summary-wrapper .mobile-poster .poster .real`)
-    if (poster.length) {
-      poster.removeAttr('data-original').removeAttr('src').attr('src', data)
-      console.log('Translate Trakt: poster is translated')
-    } else if (mobilePoster.length) {
-      mobilePoster.removeAttr('data-original').removeAttr('src').attr('src', data)
-      console.log('Translate Trakt: mobile poster is translated')
-    }
-  }
-
-  // get episode overview
-  function getEpisodeOverview (json) {
-    if (json && json.tv_episode_results[0] && json.tv_episode_results[0].overview) {
-      let overview = json.tv_episode_results[0].overview
-      return overview
-    } else {
-      console.log('Translate Trakt: overview not available')
-    }
-  }
-
-  // get episode name
-  function getEpisodeName (json) {
-    if (json && json.tv_episode_results[0] && json.tv_episode_results[0].name) {
-      let name = json.tv_episode_results[0].name
-      return name
-    } else {
-      console.log('Translate Trakt: episode name not available')
-    }
-  }
-
-  // get overview
-  function getOverview (json) {
-    let season = seasonNumber()
-    if (json && json.overview && season === undefined) {
-      let overview = json.overview
-      return overview
-    } else if (json && json.seasons[season].overview && season !== undefined) {
-      let overview = json.seasons[season].overview
-      return overview
-    } else {
-      console.log('Translate Trakt: overview not available')
-    }
-  }
-
-  // get season title
-  function getSeasonTitle (json) {
-    let season = seasonNumber()
-    if (json && json.seasons[season].name && season !== undefined) {
-      let name = json.seasons[season].name
-      return name
-    } else {
-      console.log('Translate Trakt: season not available')
-    }
-  }
-
-  // get tagline
-  function getTagline (json) {
-    if (json && json.tagline) {
-      let tagline = json.tagline
-      return tagline
-    } else {
-      console.log('Translate Trakt: tagline not available')
-    }
-  }
-
-  // get title
-  function getTitle (json) {
-    let season = seasonNumber()
-    if (json && json.title && season === undefined) {
-      let title = json.title
-      return title
-    } else if (json && json.name && season === undefined) {
-      let title = json.name
-      return title
-    } else if (json && json.name && season !== undefined) {
-      let title = json.name
-      return title
-    } else {
-      console.log('Translate Trakt: title not available')
-    }
-  }
-
-  // get poster
-  function getPoster (json) {
-    let season = seasonNumber()
-    if (json && json.poster_path && season === undefined) {
-      let poster = `https://image.tmdb.org/t/p/w185${json.poster_path}`
-      return poster
-    } else if (json && json.seasons[season].poster_path && season !== undefined) {
-      let poster = `https://image.tmdb.org/t/p/w185${json.seasons[season].poster_path}`
-      return poster
-    } else {
-      console.log('Translate Trakt: poster not available')
-    }
-  }
-
-  // get data
-  function getData (json, type) {
-    let poster = getPoster(json)
+  function translatePoster (poster) {
     console.log(`Translate Trakt: poster url is "${poster}"`)
-    translatePoster(poster)
-    let title = getTitle(json)
-    console.log(`Translate Trakt: title is "${title}"`)
-    translateTitle(title, type)
-    if (type === 'movie') {
-      let tagline = getTagline(json)
-      console.log(`Translate Trakt: tagline is "${shortenLog(tagline)}..."`)
-      translateTagline(tagline)
-    }
-    if (type !== 'movie' && type !== 'show') {
-      let season = getSeasonTitle(json)
-      console.log(`Translate Trakt: season title is "${season}"`)
-      translateSeasonTitle(season, type)
-    }
-    if (type !== 'episode') {
-      let overview = getOverview(json)
-      console.log(`Translate Trakt: overview is "${shortenLog(overview)}..."`)
-      translateOverview(overview)
-    }
+    $('#info-wrapper .sidebar .poster .real').removeAttr('data-original').removeAttr('src').attr('src', poster)
+    $('#summary-wrapper .mobile-poster .poster .real').removeAttr('data-original').removeAttr('src').attr('src', poster)
+    console.log('Translate Trakt: poster is translated')
   }
 
-  function getEpisodeData (json) {
-    let episode = getEpisodeName(json)
-    console.log(`Translate Trakt: episode name is "${episode}"`)
-    translateEpisodeName(episode)
-    let overview = getEpisodeOverview(json)
-    console.log(`Translate Trakt: overview is "${shortenLog(overview)}..."`)
-    translateOverview(overview)
-  }
-
-  // request
-  function request (type) {
-    let rq = new RequestQueue(1)
-    let apikey = GM_config.get('apikey')
-    let language = GM_config.get('language')
-    let TMDB = TMDbID()
-    console.log(`Translate Trakt: TMDb ID is ${TMDB}`)
-    let IMDB = IMDbID()
-    console.log(`Translate Trakt: IMDb ID is ${IMDB}`)
-    rq.add({
-      method: 'GET',
-      url: `https://api.themoviedb.org/3/${TMDB}?api_key=${apikey}&language=${language}`,
-      onload: function (response) {
-        let json = JSON.parse(response.responseText)
-        getData(json, type)
-      }
-    })
-    if (type === 'episode') {
-      rq.add({
-        method: 'GET',
-        url: `https://api.themoviedb.org/3/find/${IMDB}?api_key=${apikey}&language=${language}&external_source=imdb_id`,
-        onload: function (response) {
-          let json = JSON.parse(response.responseText)
-          getEpisodeData(json)
-        }
-      })
-    }
-  }
-
-  // get IDs
-  function TMDbID () {
-    let link = $('.external a[href*="themoviedb"]')
-    if (link.length) {
-      return link.attr('href').match(/((movie|tv)\/\d+)/)[1]
-    }
-  }
-
-  function IMDbID () {
-    let link = $("a[href*='imdb']")
-    if (link.length) {
-      return link.attr('href').match(/tt\d+/)[0]
-    }
-  }
-
-  // get season number
-  function seasonNumber () {
-    let season = $('.season #info-wrapper .season-links .links ul li a.selected').attr('href')
-    let seasonEpisode = $('.episode #summary-wrapper .summary .container h2 a:last-child').attr('href')
-    if (season !== undefined && seasonEpisode === undefined) {
-      return season.match(/seasons\/([0-9]+)/)[1]
-    } else if (season === undefined && seasonEpisode !== undefined) {
-      return seasonEpisode.match(/seasons\/([0-9]+)/)[1]
+  // error
+  function error (error) {
+    let log = `Translate Trakt: error is "${error}"`
+    if (error === 'Invalid API key: You must be granted a valid key.') {
+      alert(log)
+      GM_config.open()
+    } else {
+      console.log(log)
     }
   }
 
   // shorten logs
-  function shortenLog (log) {
-    return log.split(/\s+/).slice(0, 6).join(' ')
+  function short (log) {
+    return log.split(/\s+/).slice(0, 6).join(' ').concat(' [...]')
   }
 
-  // settings
-  function addSettings () {
-    // settings configuration
-    GM_config.init({
-      'id': 'MyConfigs',
-      'title': 'Translate Trakt - Settings',
-      'fields': {
-        'apikey': {
-          'label': 'TMDb API Key',
-          'section': ['Enter your TMDb API Key', 'Get one at: https://developers.themoviedb.org/3/'],
-          'type': 'text',
-          'default': ''
-        },
-        'language': {
-          'label': 'Language',
-          'section': ['Enter the code of your language, for example: en-US, it-IT, fr-FR.', 'More info at: https://developers.themoviedb.org/3/getting-started/languages'],
-          'type': 'text',
-          'default': 'en-US'
-        }
-      },
-      'events': {
-        'save': function () {
-          alert('Settings saved')
-          location.reload()
-        }
-      }
-    })
-
-    // add settings on add-on menu
-    GM_registerMenuCommand('Translate Trakt - Configure', function () {
+  // get language
+  function language () {
+    let language = GM_config.get('language')
+    if (language === '') {
+      alert('Translate Trakt: error "Language not set"')
       GM_config.open()
-    })
+    } else {
+      console.log(`Translate Trakt: language is "${language}"`)
+      return language
+    }
+  }
 
-    // controll apikey
+  // get API Key
+  function apikey () {
     let apikey = GM_config.get('apikey')
     if (apikey === '') {
       GM_config.open()
     } else {
-      console.log(`Translate Trakt: TMDb API Key is ${apikey}`)
+      console.log(`Translate Trakt: TMDb API Key is "${apikey}"`)
+      return apikey
     }
+  }
 
-    // controll language
-    let language = GM_config.get('language')
-    if (language === '') {
-      GM_config.open()
-    } else {
-      console.log(`Translate Trakt: language is ${language}`)
+  // get episode
+  function episode () {
+    let link = $('.external a[href*="themoviedb"]')
+    if (link.length) {
+      let episode = link.attr('href').match(/(episode)\/(\d+)/)[2]
+      console.log(`Translate Trakt: episode is "${episode}"`)
+      return episode
+    }
+  }
+
+  // get season
+  function season () {
+    let link = $('.external a[href*="themoviedb"]')
+    if (link.length) {
+      let season = link.attr('href').match(/(season)\/(\d+)/)[2]
+      console.log(`Translate Trakt: season is "${season}"`)
+      return season
+    }
+  }
+
+  // get TMDb ID
+  function TMDbID () {
+    let link = $('.external a[href*="themoviedb"]')
+    if (link.length) {
+      let TMDbID = link.attr('href').match(/(movie|tv)\/(\d+)/)[2]
+      console.log(`Translate Trakt: TMDb ID is "${TMDbID}"`)
+      return TMDbID
     }
   }
 })()
