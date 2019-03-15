@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.4
+// @version         1.1.5
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -18,7 +18,7 @@
 // @require         https://cdn.jsdelivr.net/npm/mathjs@5.4.2/dist/math.min.js#sha256-W2xP+GeD3rATAAJ/rtjz0uNLqO9Ve9yk9744ImX8GWY=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.0.1/dist/progressbar.min.js#sha256-VupM2GVVXK2c3Smq5LxXjUHBZveWTs35hu1al6ss6kk=
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
-// @include         https://trakt.tv/*
+// @match           *://trakt.tv/*
 // @run-at          document-idle
 // @inject-into     content
 // ==/UserScript==
