@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.3.0
+// @version         2.3.1
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -19,13 +19,14 @@
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.0.12/dist/handlebars.min.js#sha256-qlku5J3WO/ehJpgXYoJWC2px3+bZquKChi4oIWrAKoI=
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
-// @include         https://trakt.tv/*
+// @match           *://trakt.tv/*
 // @connect         omdbapi.com
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM_registerMenuCommand
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
+// @inject-into     content
 // ==/UserScript==
 //
 // Recommended in combination with Darkt, my darker theme for Trakt.
