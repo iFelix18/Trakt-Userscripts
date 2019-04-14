@@ -4,7 +4,7 @@
     <p align="center">
         <a href="https://github.com/iFelix18/Trakt-Userscripts/stargazers"><img alt="Stars" src="https://flat.badgen.net/github/stars/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/watchers"><img alt="Watchers" src="https://flat.badgen.net/github/watchers/iFelix18/Trakt-Userscripts"></a>
-        <a href="#"><img alt="Scripts" src="https://flat.badgen.net/badge/scripts/3/orange"></a>
+        <a href="#"><img alt="Scripts" src="https://flat.badgen.net/badge/scripts/4/orange"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/issues"><img alt="Open Issues" src="https://flat.badgen.net/github/open-issues/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed"><img alt="Closed Issues" src="https://flat.badgen.net/github/closed-issues/iFelix18/Trakt-Userscripts"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/commits/master"><img alt="Commits" src="https://flat.badgen.net/github/commits/iFelix18/Trakt-Userscripts"></a>
@@ -25,6 +25,7 @@
             <li><a href="README.md#ratings-on-trakt">Ratings on Trakt</a></li>
             <li><a href="README.md#stats-for-trakt">Stats for Trakt</a></li>
             <li><a href="README.md#translate-trakt">Translate Trakt</a></li>
+            <li><a href="README.md#profile-image-on-trakt">Profile image on Trakt</a></li>
         </ul>
         <li><a href="README.md#how-to-install">How to install</a></li>
         <li><a href="README.md#credits">Credits</a></li>
@@ -80,6 +81,16 @@
         <caption>After:</caption>
         <a href="#"><img alt="After" title="After" src="https://i.imgur.com/KuKI4Pt.gif"></a>
     </details>
+    <hr>
+    <h2 align="center"><strong>Profile image on Trakt</strong></h2>
+    <h5 align="center">Set your favorite movie, or TV series as your profile picture</h5>
+    <p align="center">
+        <a href="#"><img alt="Version" src="https://flat.badgen.net/runkit/profile-image-on-trakt-version-0qx01pk1xjxz"></a>
+        <a href="#"><img alt="Downloads" src="https://flat.badgen.net/runkit/profile-image-on-trakt-downloads-xni9wdu2ligp"></a>
+        <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\profile-image-on-trakt.user.js"></a>
+        <a href="http://bit.ly/ProfileImageOnTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
+    </p>
+    <p align="center"><strong>Note</strong>: After installation, enter your <a href="https://developers.themoviedb.org/3/">TMDb API Key</a> and your <a href="https://developers.themoviedb.org/3/getting-started/languages">language code</a> in the script settings.</p>
 </p>
 <hr>
 <hr>
