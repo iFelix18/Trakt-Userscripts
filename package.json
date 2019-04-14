@@ -13,13 +13,16 @@
   },
   "devDependencies": {
     "standard": "^12.0.1",
-    "updates": "^7.2.1"
+    "updates": "^8.0.1"
   },
   "standard": {
     "globals": [
       "alert",
+      "GM_deleteValue",
+      "GM_getValue",
       "GM_info",
       "GM_registerMenuCommand",
+      "GM_setValue",
       "GM_xmlhttpRequest",
       "location"
     ]
