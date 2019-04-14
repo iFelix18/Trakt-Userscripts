@@ -90,7 +90,7 @@
         <a href="#"><img alt="Size" src="https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\profile-image-on-trakt.user.js"></a>
         <a href="http://bit.ly/ProfileImageOnTrakt"><img alt="Install" title="Click here!" src="https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD"></a>
     </p>
-    <p align="center"><strong>Note</strong>: After installation, enter your <a href="https://developers.themoviedb.org/3/">TMDb API Key</a> and your <a href="https://developers.themoviedb.org/3/getting-started/languages">language code</a> in the script settings.</p>
+    <p align="center"><strong>Note</strong>: Go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).</p>
 </p>
 <hr>
 <hr>
