@@ -7,10 +7,10 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.0
+// @version         1.0.1
 // @homepageURL     https://git.io/Trakt-Userscripts
-// @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
-// @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
+// @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
+// @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
