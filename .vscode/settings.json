@@ -1,6 +1,6 @@
 {
   "files.insertFinalNewline": true,
   "javascript.validate.enable": false,
-  "standard.enable": true,
-  "standard.autoFixOnSave": true
+  "standard.autoFixOnSave": true,
+  "standard.enable": true
 }
