@@ -7,7 +7,7 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.1
+// @version         1.0.2
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
@@ -34,9 +34,8 @@
     getFanart(this)
   })
   NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', function () {
-    let parent = $(this).parent()
-    parent.find('.shadow.hidden-xs').remove()
-    parent.append('<div class="shade"></div>')
+    $(this).parent().find('.shadow.hidden-xs').remove()
+    $(this).append('<div class="shade"></div>')
     setProfileImage(this)
   })
   NodeCreationObserver.onCreation('#results-top-wrapper:not(.watching-now) .poster-bg', function () {
