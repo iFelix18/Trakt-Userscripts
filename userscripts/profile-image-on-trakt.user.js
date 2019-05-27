@@ -7,7 +7,7 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.0
+// @version         1.1.1
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
@@ -16,13 +16,16 @@
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
-// @include         https://trakt.tv/*
+// @match           *://trakt.tv/*
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM_deleteValue
 // @run-at          document-idle
 // @inject-into     content
 // ==/UserScript==
+//
+// Recommended in combination with Darkt, my darker theme for Trakt.
+// More info on: https://git.io/Darkt
 
 (function () {
   'use strict'
