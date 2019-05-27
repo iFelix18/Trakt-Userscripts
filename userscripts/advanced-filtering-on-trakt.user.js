@@ -7,8 +7,10 @@
 // @description:it  Mostra i Filtri Avanzati su Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.0
+// @version         1.0.1
 // @homepageURL     https://git.io/Trakt-Userscripts
+// @homepageURL     https://greasyfork.org/scripts/383595-advanced-filtering-on-trakt
+// @homepageURL     https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/advanced-filtering-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js
