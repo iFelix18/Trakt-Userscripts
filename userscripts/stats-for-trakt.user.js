@@ -7,16 +7,17 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.5
+// @version         1.1.6
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js#sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=
-// @require         https://cdn.jsdelivr.net/npm/mathjs@5.4.2/dist/math.min.js#sha256-W2xP+GeD3rATAAJ/rtjz0uNLqO9Ve9yk9744ImX8GWY=
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
+// @require         https://cdn.jsdelivr.net/npm/mathjs@5.10.3/dist/math.min.js#sha256-xH4Fi/9s8w8vjYByZ7IW9Rhk0hKicK+ayA4vRAiMnLc=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.0.1/dist/progressbar.min.js#sha256-VupM2GVVXK2c3Smq5LxXjUHBZveWTs35hu1al6ss6kk=
+// @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js#sha256-7QS1cHsH75h3IFgrFKsdhmKHHpWqF82sb/9vNLqcqs0=
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
 // @match           *://trakt.tv/*
 // @run-at          document-idle
@@ -111,6 +112,12 @@
         <a href="#peopleStats">Stats</a>
       </li>
     `)
+    $('#info-wrapper .sidebar .sections li a[href="#peopleStats"]').click(function (event) {
+      event.preventDefault()
+      $.scrollTo('#peopleStats', 1000, {
+        offset: -70
+      })
+    })
     console.log('Stats for Trakt: stats add to menu')
   }
 
