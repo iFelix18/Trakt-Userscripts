@@ -4,16 +4,22 @@
   "description": "Userscripts for Trakt.tv",
   "author": "Felix",
   "license": "MIT",
-  "repository": "https://github.com/iFelix18/Trakt-Userscripts/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iFelix18/Trakt-Userscripts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iFelix18/Trakt-Userscripts/issues"
+  },
   "scripts": {
     "update": "updates -u & npm install"
   },
   "dependencies": {
-    "npm": "^6.9.0"
+    "npm": "^6.10.0"
   },
   "devDependencies": {
     "standard": "^12.0.1",
-    "updates": "^8.0.3"
+    "updates": "^8.2.0"
   },
   "standard": {
     "globals": [
