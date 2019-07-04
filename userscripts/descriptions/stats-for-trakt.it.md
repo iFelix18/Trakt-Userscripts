@@ -13,4 +13,7 @@
     <li>Fatto!</li>
 </ol>
 <h2>Screenshots</h2>
-<a href="#"><img alt="Stats" title="Stats" src="https://i.imgur.com/TB9uvJ4.png"></a>
+<caption>Statistiche persone:</caption>
+<a href="#"><img alt="People Stats" title="People Stats" src="https://i.imgur.com/KX0dOmL.png"></a>
+<caption>Statistiche serie:</caption>
+<a href="#"><img alt="Series Stats" title="Series Stats" src="https://i.imgur.com/1tPTgCp.png"></a>
