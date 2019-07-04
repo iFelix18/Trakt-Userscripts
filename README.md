@@ -63,7 +63,10 @@
     </p>
     <details>
         <summary>Screenshots</summary>
-        <a href="#"><img alt="Stats" title="Stats" src="https://i.imgur.com/TB9uvJ4.png"></a>
+        <caption>People stats:</caption>
+        <a href="#"><img alt="People Stats" title="People Stats" src="https://i.imgur.com/KX0dOmL.png"></a>
+        <caption>Series stats:</caption>
+        <a href="#"><img alt="Series Stats" title="Series Stats" src="https://i.imgur.com/1tPTgCp.png"></a>
     </details>
     <hr>
     <h2 align="center"><strong>Translate Trakt</strong></h2>
