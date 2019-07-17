@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.gitignore.io/api/linux,macos,node,notepadpp,sass,visualstudiocode,windows,git
-# Edit at https://www.gitignore.io/?templates=linux,macos,node,notepadpp,sass,visualstudiocode,windows,git
+# Created by https://www.gitignore.io/api/git,linux,macos,notepadpp,visualstudiocode,windows,node
+# Edit at https://www.gitignore.io/?templates=git,linux,macos,notepadpp,visualstudiocode,windows,node
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -68,6 +68,10 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Runtime data
 pids
@@ -80,6 +84,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+*.lcov
 
 # nyc test coverage
 .nyc_output
@@ -103,6 +108,9 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# TypeScript cache
+*.tsbuildinfo
+
 # Optional npm cache directory
 .npm
 
@@ -120,6 +128,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -134,20 +143,17 @@ typings/
 .vuepress/dist
 
 # Serverless directories
-.serverless
+.serverless/
 
 # FuseBox cache
 .fusebox/
 
+# DynamoDB Local files
+.dynamodb/
+
 ### NotepadPP ###
 # Notepad++ backups #
 *.bak
-
-### Sass ###
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
 
 ### VisualStudioCode ###
 .vscode/*
@@ -163,6 +169,7 @@ typings/
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -185,6 +192,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/linux,macos,node,notepadpp,sass,visualstudiocode,windows,git
+# End of https://www.gitignore.io/api/git,linux,macos,notepadpp,visualstudiocode,windows,node
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
+
