@@ -11,6 +11,7 @@
         <a href="https://github.com/iFelix18/Trakt-Userscripts/commits/master"><img alt="Last Commit" src="https://flat.badgen.net/github/last-commit/iFelix18/Trakt-Userscripts"></a>
         <a href="https://david-dm.org/iFelix18/Trakt-Userscripts"><img alt="dependencies" src="https://flat.badgen.net/david/dep/iFelix18/Trakt-Userscripts"></a>
         <a href="https://david-dm.org/iFelix18/Trakt-Userscripts?type=dev"><img alt="devDependencies" src="https://flat.badgen.net/david/dev/iFelix18/Trakt-Userscripts"></a>
+        <a href="https://dependabot.com"><img alt="Dependabot Status" src="https://flat.badgen.net/dependabot/iFelix18/Trakt-Userscripts/?icon=dependabot"></a>
         <a href="https://standardjs.com"><img alt="JavaScript Style Guide" src="https://flat.badgen.net/badge/code%20style/standard/44CC11"></a>
         <a href="https://saythanks.io/to/iFelix18"><img alt="Say Thanks" src="https://flat.badgen.net/badge/say/thanks/FF69B4"></a>
         <a href="https://github.com/iFelix18/Trakt-Userscripts/blob/master/LICENSE.md"><img alt="License" src="https://flat.badgen.net/github/license/iFelix18/Trakt-Userscripts"></a>
