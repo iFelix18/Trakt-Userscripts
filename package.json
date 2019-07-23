@@ -15,7 +15,7 @@
     "update": "updates -u & npm install"
   },
   "dependencies": {
-    "npm": "^6.10.1"
+    "npm": "^6.10.2"
   },
   "devDependencies": {
     "standard": "^13.1.0",
