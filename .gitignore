@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.gitignore.io/api/git,linux,macos,notepadpp,visualstudiocode,windows,node
-# Edit at https://www.gitignore.io/?templates=git,linux,macos,notepadpp,visualstudiocode,windows,node
+# Created by https://www.gitignore.io/api/git,linux,macos,node,notepadpp,visualstudiocode,windows
+# Edit at https://www.gitignore.io/?templates=git,linux,macos,node,notepadpp,visualstudiocode,windows
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -192,7 +192,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/git,linux,macos,notepadpp,visualstudiocode,windows,node
+# End of https://www.gitignore.io/api/git,linux,macos,node,notepadpp,visualstudiocode,windows
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
