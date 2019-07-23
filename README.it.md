@@ -6,7 +6,7 @@
 
 <div align="center">
 
-### Userscripts to improve and add features to [Trakt.tv](https://trakt.tv/)
+### Userscripts per migliorare e aggiungere funzionalità a [Trakt.tv](https://trakt.tv/)
 
 </div>
 
@@ -30,7 +30,7 @@
 
 <div align="right">
 
-Readme languages:
+Lingue readme:
 •[_en_](README.md "English")
 •[_it_](README.it.md "Italiano")
 
@@ -40,14 +40,14 @@ Readme languages:
 
 ## Menu
 
-1. [Userscripts](README.md#userscripts)
-    - [Ratings on Trakt](README.md#ratings-on-trakt)
-    - [Stats for Trakt](README.md#stats-for-trakt)
-    - [Translate Trakt](README.md#translate-trakt)
-    - [Profile image on Trakt](README.md#profile-image-on-trakt)
-    - [Advanced Filtering on Trakt](README.md#advanced-filtering-on-trakt)
-2. [How to install](README.md#how-to-install)
-3. [Credits](README.md#credits)
+1. [Userscripts](README.it.md#userscripts)
+    - [Valutazioni su Trakt](README.it.md#valutazioni-su-trakt)
+    - [Statistiche per Trakt](README.it.md#statistiche-per-trakt)
+    - [Traduci Trakt](README.it.md#traduci-trakt)
+    - [Immagine profilo su Trakt](README.it.md#immagine-profilo-su-trakt)
+    - [Filtri Avanzati su Trakt](README.it.md#filtri-avanzati-su-trakt)
+2. [Come installare](README.it.md#come-installare)
+3. [Credits](README.it.md#credits)
 
 ---
 
@@ -55,30 +55,30 @@ Readme languages:
 
 ## Userscripts
 
--   ### Ratings on Trakt
+-   ### Valutazioni su Trakt
 
-    #### Adds ratings from IMDb, Rotten Tomatoes, Metacritic to [Trakt.tv](https://trakt.tv/)
+    #### Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a [Trakt.tv](https://trakt.tv/)
 
     [![Version](https://flat.badgen.net/runkit/ratings-on-trakt-version-iy6dpvbwwt51)](#)
     [![Downloads](https://flat.badgen.net/runkit/ratings-on-trakt-downloads-xw1ittwiztu8)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/RatingsOnTrakt)
 
-    **Note**: After installation, enter your [OMDb APIKey](https://www.omdbapi.com/apikey.aspx) in the script settings.
+    **Nota**: Dopo l'installazione, inserisci la tua [OMDb APIKey](https://www.omdbapi.com/apikey.aspx) nelle impostazioni dello script.
 
     <details>
     <summary>Screenshots</summary>
 
-    Before: [![Before](https://i.imgur.com/2cFZHL5.png "Before")](#)
-    After: [![After](https://i.imgur.com/cSiRt7P.png "After")](#)
+    Prima: [![Before](https://i.imgur.com/2cFZHL5.png "Before")](#)
+    Dopo: [![After](https://i.imgur.com/cSiRt7P.png "After")](#)
 
     </details>
 
 ---
 
--   ### Stats for Trakt
+-   ### Statistiche per Trakt
 
-    #### Adds stats on [Trakt.tv](https://trakt.tv/)
+    #### Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 
     [![Version](https://flat.badgen.net/runkit/stats-for-trakt-version-x0krqpt9j4ec)](#)
     [![Downloads](https://flat.badgen.net/runkit/stats-for-trakt-downloads-ru4d1dicapco)](#)
@@ -88,51 +88,51 @@ Readme languages:
     <details>
     <summary>Screenshots</summary>
 
-    People stats: [![People Stats](https://i.imgur.com/KX0dOmL.png "People Stats")](#)
-    Series stats: [![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
+    Statistiche persone: [![People Stats](https://i.imgur.com/KX0dOmL.png "People Stats")](#)
+    Statistiche serie: [![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
 
     </details>
 
 ---
 
--   ### Translate Trakt
+-   ### Traduci Trakt
 
-    #### Translates titles, plots, taglines and posters of movies, TV series and episodes on [Trakt.tv](https://trakt.tv/) in the choice language
+    #### Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.tv](https://trakt.tv/) nella lingua scelta
 
     [![Version](https://flat.badgen.net/runkit/translate-trakt-version-fnlcj02zaig9)](#)
     [![Downloads](https://flat.badgen.net/runkit/translate-trakt-downloads-q8gvapqjqt35)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/TranslateTrakt)
 
-    **Note**: After installation, enter your [TMDb APIKey](https://developers.themoviedb.org/3/) and your [language code](https://developers.themoviedb.org/3/getting-started/languages) in the script settings.
+    **Nota**: Dopo l'installazione, inserisci la tua [TMDb APIKey](https://developers.themoviedb.org/3/) e il tuo [language code](https://developers.themoviedb.org/3/getting-started/languages) nelle impostazioni dello script.
 
     <details>
     <summary>Screenshots</summary>
 
-    Before: [![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#)
+    Prima: [![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#)
 
-    After: [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#)
+    Dopo: [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#)
 
     </details>
 
 ---
 
--   ### Profile image on Trakt
+-   ### Immagine profilo su Trakt
 
-    #### Set your favorite movie, or TV series as your profile picture on [Trakt.tv](https://trakt.tv/)
+    #### Imposta il tuo film preferito, o serie TV come immagine del tuo profilo su [Trakt.tv](https://trakt.tv/)
 
     [![Version](https://flat.badgen.net/runkit/profile-image-on-trakt-version-0qx01pk1xjxz)](#)
     [![Downloads](https://flat.badgen.net/runkit/profile-image-on-trakt-downloads-xni9wdu2ligp)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\profile-image-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/ProfileImageOnTrakt)
 
-    **Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
+    **Nota**: Dopo l'installazione, vai alla pagina del tuo film preferito o serie TV e fai clic su "SET PROFILE IMAGE" (fai di nuovo clic per eliminare l'immagine, fai clic su un altro film o serie TV per cambiarla).
 
 ---
 
--   ### Advanced Filtering on Trakt
+-   ### Filtri Avanzati su Trakt
 
-    #### Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
+    #### Mostra i Filtri Avanzati su [Trakt.tv](https://trakt.tv/)
 
     [![Version](https://flat.badgen.net/runkit/advanced-filtering-on-trakt-version-kpj4catmnm2n)](#)
     [![Downloads](https://flat.badgen.net/runkit/advanced-filtering-on-trakt-downloads-cfwepea7wqg4)](#)
@@ -143,14 +143,14 @@ Readme languages:
 
 ---
 
-## How to install
+## Come installare
 
-1. Download one of these add-ons for your browser:
-    - Tampermonkey for [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/), [Safari](https://safari-extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) or [Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S).
-    - Violentmonkey for [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) or [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
-2. Install the userscript directly from GitHub by clicking on the related installation badge.
-3. In case, configure the script as as reported in its description.
-4. Done!
+1. Scarica uno di questi add-on per il browser:
+    - Tampermonkey per [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/), [Safari](https://safari-extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) o [Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S).
+    - Violentmonkey per [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) o [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
+2. Installa l'userscript direttamente da GitHub facendo clic sul relativo badge di installazione.
+3. Nel caso, configura lo script come riportato nella sua descrizione.
+4. Fatto!
 
 ---
 
@@ -158,5 +158,5 @@ Readme languages:
 
 ## Credits
 
-This product uses the TMDb API but is not endorsed or certified by TMDb.<br>
-This product uses the OMDb API.
+Questo prodotto utilizza l'API TMDb ma non è approvato o certificato da TMDb.<br>
+Questo prodotto utilizza l'API OMDb.
