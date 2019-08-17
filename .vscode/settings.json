@@ -10,6 +10,9 @@
   "editor.formatOnSave": false,
   "files.insertFinalNewline": true,
   "javascript.validate.enable": false,
+  "prettier.disableLanguages": [
+    "javascript"
+  ],
   "standard.autoFixOnSave": true,
-  "standard.enable": true
+  "standard.enable": true,
 }
