@@ -7,7 +7,7 @@
 // @description:it  Mostra i Filtri Avanzati su Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.2
+// @version         1.0.3
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/383595-advanced-filtering-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt
@@ -36,23 +36,6 @@
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
 
-  const log = message => {
-    if (GM_config.get('logging') === true) {
-      console.log(`${GM_info.script.name}: ${message}`)
-    }
-  }
-
-  NodeCreationObserver.init('observed-filtering')
-  NodeCreationObserver.onCreation('a[href$="/vip/filtering"]', function () {
-    $('.frame-wrapper .sidenav .alert-vip-required').hide()
-    $('.frame-wrapper .sidenav h4 a.btn-filter-save').hide()
-    $('a[href$="/vip/filtering"]').removeAttr('href').click(function () {
-      $('.frame-wrapper .advanced-filters').toggleClass('open')
-      $('.frame-wrapper .frame').toggleClass('with-advanced-filters')
-      log('Click on Advanced Filters')
-    })
-  })
-
   // configuration
   GM_config.init({
     id: 'trakt-config',
@@ -77,5 +60,24 @@
   // menu command to open configuration
   GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
     GM_config.open()
+  })
+
+  // logs
+  const log = message => {
+    if (GM_config.get('logging') === true) {
+      console.log(`${GM_info.script.name}: ${message}`)
+    }
+  }
+
+  // NodeCreationObserver
+  NodeCreationObserver.init('observed-filtering')
+  NodeCreationObserver.onCreation('a[href$="/vip/filtering"]', function () {
+    $('.frame-wrapper .sidenav .alert-vip-required').hide()
+    $('.frame-wrapper .sidenav h4 a.btn-filter-save').hide()
+    $('a[href$="/vip/filtering"]').removeAttr('href').click(function () {
+      $('.frame-wrapper .advanced-filters').toggleClass('open')
+      $('.frame-wrapper .frame').toggleClass('with-advanced-filters')
+      log('Click on Advanced Filters')
+    })
   })
 })()
