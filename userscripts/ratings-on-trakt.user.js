@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.3.1
+// @version         2.3.2
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -21,32 +21,41 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
 // @connect         omdbapi.com
+// @grant           GM_info
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM_registerMenuCommand
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
-// @inject-into     content
+// @inject-into     page
 // ==/UserScript==
 //
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
+/* global $, math, Handlebars, NodeCreationObserver, GM_config */
+
 (function () {
   'use strict'
 
-  /* global $, math, Handlebars, NodeCreationObserver, GM_config */
+  console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
 
-  // observe node
+  const log = message => {
+    if (GM_config.get('logging') === true) {
+      console.log(`${GM_info.script.name}: ${message}`)
+    }
+  }
+
+  // NodeCraetionObserver
   NodeCreationObserver.init('observed-ratings')
-  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', function () {
+  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', () => {
     addCSS()
     getData()
   })
 
   // color
   function color (rating) {
-    let color = 0
+    var color = 0
     if (rating < 40) {
       color = '#ff0000'
     } else if (rating >= 40 && rating <= 60) {
@@ -61,14 +70,14 @@
   function addMetascoreBar (rating, color) {
     $('#summary-ratings-wrapper .Metascore-rating .votes').css({
       'margin-top': '2px',
-      'height': '8px',
+      height: '8px',
       'background-color': 'rgba(0, 0, 0, .5)'
     }).append(`<div class="bar" style="height: 8px; width: ${rating}%; background-color: ${color};"></div>`)
   }
 
   // get Fresh or Rotten
   function getTomatometer (rating) {
-    let votes = 0
+    var votes = 0
     if (parseFloat(rating) < 60) {
       votes = 'Rotten'
     } else {
@@ -79,7 +88,7 @@
 
   // get RottenTomatoes Logo
   function getRottenTomatoesLogo (rating) {
-    let logo = 0
+    var logo = 0
     if (parseFloat(rating) < 60) {
       logo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten-lg.ecdfcf9596f.png'
     } else {
@@ -107,15 +116,15 @@
     `).appendTo($('#summary-ratings-wrapper .ratings'))
 
     // compile HTML structure
-    let template = Handlebars.compile($(`#${type}-rating-template`).html())
-    let context = {
-      'logo': logo,
-      'rating': rating,
-      'votes': votes
+    const template = Handlebars.compile($(`#${type}-rating-template`).html())
+    const context = {
+      logo: logo,
+      rating: rating,
+      votes: votes
     }
-    let compile = template(context)
+    const compile = template(context)
     $(`.${type}-rating`).html(compile)
-    console.log(`Ratings on Trakt: ${type} rating added`)
+    log(`${type} rating added`)
   }
 
   // get ratings
@@ -123,28 +132,28 @@
     if (data && data.Response === 'True') {
       // IMDb
       if (data.imdbRating && data.imdbRating !== 'N/A' && data.imdbVotes && data.imdbVotes !== 'N/A') {
-        let logo = 'https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png'
-        let rating = data.imdbRating
-        let votes = `${math.round((data.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
-        console.log(`Ratings on Trakt: IMDb rating is "${rating}"`)
-        console.log(`Ratings on Trakt: IMDb votes is "${votes}"`)
+        const logo = 'https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png'
+        const rating = data.imdbRating
+        const votes = `${math.round((data.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
+        log(`IMDb rating is "${rating}"`)
+        log(`IMDb votes is "${votes}"`)
         addRating('IMDb', logo, rating, votes)
       }
 
       // Rotten Tomatoes
       if (data.Ratings[1] && data.Ratings[1] !== 'undefined' && data.Ratings[1].Source === 'Rotten Tomatoes' && data.Ratings[1].Value) {
-        let rating = data.Ratings[1].Value
-        let logo = getRottenTomatoesLogo(rating)
-        let votes = getTomatometer(rating)
-        console.log(`Ratings on Trakt: Tomatometer is "${rating}"`)
+        const rating = data.Ratings[1].Value
+        const logo = getRottenTomatoesLogo(rating)
+        const votes = getTomatometer(rating)
+        log(`Tomatometer is "${rating}"`)
         addRating('Tomatometer', logo, rating, votes)
       }
 
       // Metacritic
       if (data.Metascore && data.Metascore !== 'N/A' && data.Metascore) {
-        let logo = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg'
-        let rating = data.Metascore
-        console.log(`Ratings on Trakt: Metascore is "${rating}"`)
+        const logo = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg'
+        const rating = data.Metascore
+        log(`Metascore is "${rating}"`)
         addRating('Metascore', logo, rating)
         addMetascoreBar(rating, color(rating))
       }
@@ -157,14 +166,14 @@
       method: 'GET',
       url: `https://www.omdbapi.com/?apikey=${OMDbApikey()}&i=${IMDbID()}`,
       onload: function (response) {
-        let data = JSON.parse(response.responseText)
+        const data = JSON.parse(response.responseText)
         if (data && data.Response === 'False' && data.Error) { // error
-          let error = `Ratings on Trakt: error "${data.Error}"`
+          const error = data.Error
           if (data.Error === 'Invalid API key!') { // if invalid API Key
-            alert(error)
+            alert(`${GM_info.script.name}: error "${error}"`)
             GM_config.open()
           } else { // other errors
-            console.log(error)
+            log(error)
           }
         } else {
           getRatings(data)
@@ -175,21 +184,21 @@
 
   // get IMDb ID
   function IMDbID () {
-    let link = $("a[href*='imdb']")
+    const link = $("a[href*='imdb']")
     if (link.length) {
-      let IMDbID = link.attr('href').match(/tt\d+/)[0]
-      console.log(`Ratings on Trakt: IMDb ID is "${IMDbID}"`)
+      const IMDbID = link.attr('href').match(/tt\d+/)[0]
+      log(`IMDb ID is "${IMDbID}"`)
       return IMDbID
     }
   }
 
   // get API Key
   function OMDbApikey () {
-    let apikey = GM_config.get('apikey')
+    const apikey = GM_config.get('apikey')
     if (apikey === '') {
       GM_config.open()
     } else {
-      console.log(`Ratings on Trakt: OMDb API Key is "${apikey}"`)
+      log(`OMDb API Key is "${apikey}"`)
       return apikey
     }
   }
@@ -212,30 +221,36 @@
         }
       </style>
     `)
-    console.log('Ratings on Trakt: CSS added')
+    log('CSS added')
   }
 
-  // settings
-  GM_registerMenuCommand('Ratings on Trakt - Configure', function () {
-    GM_config.open()
-  })
-
+  // configuration
   GM_config.init({
-    'id': 'MyConfig',
-    'title': 'Ratings on Trakt - Settings',
-    'fields': {
-      'apikey': {
-        'label': 'OMDb API Key',
-        'section': ['You can request a free OMDb API Key at:', 'https://www.omdbapi.com/apikey.aspx'],
-        'type': 'text',
-        'default': ''
+    id: 'trakt-config',
+    title: `${GM_info.script.name} Settings`,
+    fields: {
+      apikey: {
+        label: 'OMDb API Key',
+        section: ['You can request a free OMDb API Key at:', 'https://www.omdbapi.com/apikey.aspx'],
+        type: 'text',
+        default: ''
+      },
+      logging: {
+        label: 'Logging',
+        type: 'checkbox',
+        default: false
       }
     },
-    'events': {
-      'save': function () {
-        alert('Ratings on Trakt: Settings saved')
+    events: {
+      save: () => {
+        alert(`${GM_info.script.name} : Settings saved`)
         location.reload()
       }
     }
+  })
+
+  // menu command to open configuration
+  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
+    GM_config.open()
   })
 })()
