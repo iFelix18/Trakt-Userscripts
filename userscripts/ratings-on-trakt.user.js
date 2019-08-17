@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.3.2
+// @version         2.3.3
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -237,10 +237,12 @@
       },
       logging: {
         label: 'Logging',
+        labelPos: 'above',
         type: 'checkbox',
         default: false
       }
     },
+    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
