@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.1
+// @version         2.0.2
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -38,7 +38,7 @@
 (function () {
   'use strict'
 
-  console.log(`${GM_info.script.name} v${GM_info.script.version} by ${GM_info.script.author}`)
+  console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
 
   // configuration
   GM_config.init({
