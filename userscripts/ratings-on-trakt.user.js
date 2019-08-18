@@ -7,16 +7,16 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.3.3
+// @version         2.3.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js#sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=
-// @require         https://cdn.jsdelivr.net/npm/mathjs@5.4.2/dist/math.min.js#sha256-W2xP+GeD3rATAAJ/rtjz0uNLqO9Ve9yk9744ImX8GWY=
-// @require         https://cdn.jsdelivr.net/npm/handlebars@4.0.12/dist/handlebars.min.js#sha256-qlku5J3WO/ehJpgXYoJWC2px3+bZquKChi4oIWrAKoI=
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
+// @require         https://cdn.jsdelivr.net/npm/mathjs@6.1.0/dist/math.min.js#sha256-zo143442aZ+Y+PiyyCVSkoFYE5sDJ8tXP4zeRpIZDdw=
+// @require         https://cdn.jsdelivr.net/npm/handlebars@4.1.2/dist/handlebars.min.js#sha256-ngJY93C4H39YbmrWhnLzSyiepRuQDVKDNCWO2iyMzFw=
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
@@ -40,6 +40,39 @@
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
 
+  // configuration
+  GM_config.init({
+    id: 'trakt-config',
+    title: `${GM_info.script.name} Settings`,
+    fields: {
+      apikey: {
+        label: 'OMDb API Key',
+        section: ['You can request a free OMDb API Key at:', 'https://www.omdbapi.com/apikey.aspx'],
+        type: 'text',
+        default: ''
+      },
+      logging: {
+        label: 'Logging',
+        labelPos: 'above',
+        type: 'checkbox',
+        default: false
+      }
+    },
+    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    events: {
+      save: () => {
+        alert(`${GM_info.script.name} : Settings saved`)
+        location.reload()
+      }
+    }
+  })
+
+  // menu command to open configuration
+  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
+    GM_config.open()
+  })
+
+  // logs
   const log = message => {
     if (GM_config.get('logging') === true) {
       console.log(`${GM_info.script.name}: ${message}`)
@@ -48,7 +81,7 @@
 
   // NodeCraetionObserver
   NodeCreationObserver.init('observed-ratings')
-  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', () => {
+  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', function () {
     addCSS()
     getData()
   })
@@ -223,36 +256,4 @@
     `)
     log('CSS added')
   }
-
-  // configuration
-  GM_config.init({
-    id: 'trakt-config',
-    title: `${GM_info.script.name} Settings`,
-    fields: {
-      apikey: {
-        label: 'OMDb API Key',
-        section: ['You can request a free OMDb API Key at:', 'https://www.omdbapi.com/apikey.aspx'],
-        type: 'text',
-        default: ''
-      },
-      logging: {
-        label: 'Logging',
-        labelPos: 'above',
-        type: 'checkbox',
-        default: false
-      }
-    },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
-    events: {
-      save: () => {
-        alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
-      }
-    }
-  })
-
-  // menu command to open configuration
-  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
-    GM_config.open()
-  })
 })()
