@@ -7,7 +7,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.2
+// @version         2.0.3
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
@@ -26,7 +26,7 @@
 // @grant           GM_registerMenuCommand
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
-// @inject-into     content
+// @inject-into     page
 // ==/UserScript==
 //
 // Recommended in combination with Darkt, my darker theme for Trakt.
