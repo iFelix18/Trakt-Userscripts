@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.0
+// @version         2.0.1
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -15,28 +15,65 @@
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
-// @require         https://cdn.jsdelivr.net/npm/mathjs@6.0.2/dist/math.min.js#sha256-V3DeZ7u2Gzw4BsHgnjSqiMUJVScBb2Je/+oMck2V4QQ=
+// @require         https://cdn.jsdelivr.net/npm/mathjs@6.1.0/dist/math.min.js#sha256-zo143442aZ+Y+PiyyCVSkoFYE5sDJ8tXP4zeRpIZDdw=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.0.1/dist/progressbar.min.js#sha256-VupM2GVVXK2c3Smq5LxXjUHBZveWTs35hu1al6ss6kk=
 // @require         https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js#sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js#sha256-7QS1cHsH75h3IFgrFKsdhmKHHpWqF82sb/9vNLqcqs0=
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.js
+// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
+// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
 // @grant           GM_info
+// @grant           GM_getValue
+// @grant           GM_setValue
+// @grant           GM_registerMenuCommand
 // @run-at          document-idle
-// @inject-into     content
+// @inject-into     page
 // ==/UserScript==
 //
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
+/* global $, math, ProgressBar, statsProgressbar, Chart, NodeCreationObserver, GM_config */
+
 (function () {
   'use strict'
 
-  /* global $, math, ProgressBar, statsProgressbar, Chart, NodeCreationObserver */
-
   console.log(`${GM_info.script.name} v${GM_info.script.version} by ${GM_info.script.author}`)
 
-  // Node Creation Observer
+  // configuration
+  GM_config.init({
+    id: 'trakt-config',
+    title: `${GM_info.script.name} Settings`,
+    fields: {
+      logging: {
+        label: 'Logging',
+        labelPos: 'above',
+        type: 'checkbox',
+        default: false
+      }
+    },
+    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    events: {
+      save: () => {
+        alert(`${GM_info.script.name} : Settings saved`)
+        location.reload()
+      }
+    }
+  })
+
+  // menu command to open configuration
+  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
+    GM_config.open()
+  })
+
+  // logs
+  const log = message => {
+    if (GM_config.get('logging') === true) {
+      console.log(`${GM_info.script.name}: ${message}`)
+    }
+  }
+
+  // NodeCraetionObserver
   NodeCreationObserver.init('observed-stats')
   NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', function () {
     addCSS()
@@ -57,12 +94,12 @@
   // remove old stats
   function removePeopleStats () {
     $('#statsProgressbar').children().remove()
-    console.log(`${GM_info.script.name}: stats removed`)
+    log('stats removed')
   }
 
   // progressbar.js
   function addProgressbar (progress, role, watched, percentage, total) {
-    let progressbar = new ProgressBar.Line(statsProgressbar, { // progressbar.js configuration
+    const progressbar = new ProgressBar.Line(statsProgressbar, { // progressbar.js configuration
       color: '#ed1c24',
       strokeWidth: 2,
       trailColor: '#530d0d',
@@ -76,12 +113,12 @@
     })
     progressbar.set(progress)
     progressbar.setText(`${role}: watched ${watched} (${percentage}) items out of a total of ${total}.`)
-    console.log(`${GM_info.script.name}: ${role} progressbar added`)
+    log(`${role} progressbar added`)
   }
 
   // Chart.js
   function addChart (labels, dataset) {
-    let data = { // Chart.js data
+    const data = { // Chart.js data
       labels: labels,
       datasets: [{
         backgroundColor: 'transparent',
@@ -94,7 +131,7 @@
         pointBackgroundColor: '#ed1c24'
       }]
     }
-    let options = { // Chart.js options
+    const options = { // Chart.js options
       legend: {
         display: false
       },
@@ -122,37 +159,37 @@
       data: data,
       options: options
     })
-    console.log(`${GM_info.script.name}: chart added`)
+    log('chart added')
   }
 
   // get stats
   function getPeopleStats () {
     addClass()
     $('.people .info h2').each(function () { // get role
-      let role = this.id
-      let items = $(`.posters.${role} .grid-item:not(.unreleased)`).length // get not unreleased items for role
-      let watchedItems = $(`.posters.${role} .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items for role
-      let watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
+      const role = this.id
+      const items = $(`.posters.${role} .grid-item:not(.unreleased)`).length // get not unreleased items for role
+      const watchedItems = $(`.posters.${role} .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items for role
+      const watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
       if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) { // if progress is minor of 10
-        console.log(`${GM_info.script.name}: ${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar(`0.0${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems >= 10 && watchedProgressItems <= 99) { // if progress is from 10 to 99
-        console.log(`${GM_info.script.name}: ${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar(`0.${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems === 100) { // if progress is 100
-        console.log(`${GM_info.script.name}: ${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar('1.0', `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       }
     })
   }
   function getSeriesStats () {
-    let json = []
-    let labels = []
-    let dataset = []
+    const json = []
+    const labels = []
+    const dataset = []
     $('.shows:not(.season):not(.episode) .season-posters .grid-item').each(function () {
-      let seasonNumber = $(this).data('season-number') // get season number
-      let rating = $(this).data('percentage') // get Trakt rating
-      let data = {
+      const seasonNumber = $(this).data('season-number') // get season number
+      const rating = $(this).data('percentage') // get Trakt rating
+      const data = {
         rating: rating
       }
       json[seasonNumber] = data
@@ -161,8 +198,8 @@
       labels.push(`Season ${i}`) // labels for chart
       dataset.push(json[i].rating) // dataset for chart
     }
-    console.log(`${GM_info.script.name}: ${labels}`)
-    console.log(`${GM_info.script.name}: ${dataset}`)
+    log(labels)
+    log(dataset)
     addChart(labels, dataset) // add chart
   }
 
@@ -171,11 +208,11 @@
     $('.posters').each(function () { // by role
       $(this).addClass($(this).prev().attr('id'))
     })
-    console.log(`${GM_info.script.name}: role classes added`)
+    log('role classes added')
     $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () { // for unreleased items
       $(this).parent().parent().parent().addClass('unreleased')
     })
-    console.log(`${GM_info.script.name}: unreleased classes added`)
+    log('unreleased classes added')
   }
 
   // add stats to sidebar menu
@@ -191,12 +228,12 @@
         offset: -70
       })
     })
-    console.log(`${GM_info.script.name}: stats add to menu`)
+    log('stats add to menu')
   }
 
   // add structure
   function addProgressbarStructure () {
-    let HTML = `<h2 id="stats">
+    const HTML = `<h2 id="stats">
                   <strong>Stats</strong>
                   <div style="clear:both;"></div>
                   <div class="statsContainer col-lg-8 col-md-7">
@@ -205,10 +242,10 @@
                   <div style="clear:both;"></div>
                 </h2>`
     $(HTML).insertBefore($('.people #info-wrapper h2:first-of-type'))
-    console.log(`${GM_info.script.name}: progressbar structure added`)
+    log('progressbar structure added')
   }
   function addChartStructure () {
-    let HTML = `<h2 id="stats">
+    const HTML = `<h2 id="stats">
                   <strong>Stats</strong>
                   <div style="clear:both;"></div>
                   <div class="statsContainer col-lg-8 col-md-7">
@@ -217,7 +254,7 @@
                   <div style="clear:both;"></div>
                 </h2>`
     $(HTML).insertBefore($('#info-wrapper #activity'))
-    console.log(`${GM_info.script.name}: chart structure added`)
+    log('chart structure added')
   }
 
   // add CSS
@@ -229,6 +266,6 @@
         }
       </style>
     `)
-    console.log(`${GM_info.script.name}: CSS added`)
+    log('CSS added')
   }
-}())
+})()
