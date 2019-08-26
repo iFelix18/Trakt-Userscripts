@@ -18,7 +18,7 @@
     "npm": "^6.10.3"
   },
   "devDependencies": {
-    "standard": "^13.1.0",
+    "standard": "^14.0.2",
     "updates": "^8.5.2"
   },
   "standard": {
