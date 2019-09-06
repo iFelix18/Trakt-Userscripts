@@ -24,6 +24,7 @@
   "standard": {
     "globals": [
       "alert",
+      "GM_addStyle",
       "GM_deleteValue",
       "GM_getValue",
       "GM_info",
