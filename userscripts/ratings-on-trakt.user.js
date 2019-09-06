@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.3.4
+// @version         2.4.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -22,9 +22,10 @@
 // @match           *://trakt.tv/*
 // @connect         omdbapi.com
 // @grant           GM_info
-// @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM_getValue
 // @grant           GM_registerMenuCommand
+// @grant           GM_addStyle
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
 // @inject-into     page
@@ -35,7 +36,7 @@
 
 /* global $, math, Handlebars, NodeCreationObserver, GM_config */
 
-(function () {
+(() => {
   'use strict'
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
@@ -58,11 +59,11 @@
         default: false
       }
     },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
+        location.reload(false)
       }
     }
   })
@@ -81,72 +82,26 @@
 
   // NodeCraetionObserver
   NodeCreationObserver.init('observed-ratings')
-  NodeCreationObserver.onCreation('.movies #summary-wrapper .summary .container h1, .shows #summary-wrapper .summary .container h1', function () {
-    addCSS()
+  NodeCreationObserver.onCreation('body.movies #summary-ratings-wrapper, body.shows #summary-ratings-wrapper', () => {
+    addStyle()
     getData()
   })
 
-  // color
-  function color (rating) {
-    var color = 0
-    if (rating < 40) {
-      color = '#ff0000'
-    } else if (rating >= 40 && rating <= 60) {
-      color = '#ffcc33'
-    } else if (rating > 60) {
-      color = '#66cc33'
-    }
-    return color
-  }
-
   // add metascore bar
   function addMetascoreBar (rating, color) {
-    $('#summary-ratings-wrapper .Metascore-rating .votes').css({
-      'margin-top': '2px',
+    $('#summary-ratings-wrapper .metascore-rating .votes').css({
+      marginTop: '2px',
       height: '8px',
-      'background-color': 'rgba(0, 0, 0, .5)'
+      backgroundColor: 'rgba(0, 0, 0, .5)'
     }).append(`<div class="bar" style="height: 8px; width: ${rating}%; background-color: ${color};"></div>`)
-  }
-
-  // get Fresh or Rotten
-  function getTomatometer (rating) {
-    var votes = 0
-    if (parseFloat(rating) < 60) {
-      votes = 'Rotten'
-    } else {
-      votes = 'Fresh'
-    }
-    return votes
-  }
-
-  // get RottenTomatoes Logo
-  function getRottenTomatoesLogo (rating) {
-    var logo = 0
-    if (parseFloat(rating) < 60) {
-      logo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten-lg.ecdfcf9596f.png'
-    } else {
-      logo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-fresh-lg.12e316e31d2.png'
-    }
-    return logo
+    log('metascore bar added')
   }
 
   // add ratings
   function addRating (type, logo, rating, votes) {
     // add HTML structure
-    $(`
-      <script id="${type}-rating-template" type="text/x-handlebars-template">
-        <div class="rated-text">
-          <div class="icon">
-            <img class="${type}-rating-logo" src="{{logo}}">
-          </div>
-          <div class="number">
-            <div class="rating">{{rating}}</div>
-            <div class="votes">{{votes}}</div>
-          </div>
-        </div>
-      </script>
-      <li class="${type}-rating"></li>
-    `).appendTo($('#summary-ratings-wrapper .ratings'))
+    const html = `<script id="${type}-rating-template" type="text/x-handlebars-template"><div class="icon"><img class="${type}-rating-logo" src="{{logo}}"></div><div class="number"><div class="rating">{{rating}}</div><div class="votes">{{votes}}</div></div></script><li class="${type}-rating"></li>`
+    $(html).appendTo($('#summary-ratings-wrapper .ratings'))
 
     // compile HTML structure
     const template = Handlebars.compile($(`#${type}-rating-template`).html())
@@ -168,27 +123,30 @@
         const logo = 'https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png'
         const rating = data.imdbRating
         const votes = `${math.round((data.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
-        log(`IMDb rating is "${rating}"`)
-        log(`IMDb votes is "${votes}"`)
-        addRating('IMDb', logo, rating, votes)
+        log(`imdb rating is "${rating}"`)
+        log(`imdb votes is "${votes}"`)
+        addRating('imdb', logo, rating, votes)
       }
 
       // Rotten Tomatoes
       if (data.Ratings[1] && data.Ratings[1] !== 'undefined' && data.Ratings[1].Source === 'Rotten Tomatoes' && data.Ratings[1].Value) {
+        const rottenLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten-lg.ecdfcf9596f.png'
+        const freshLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-fresh-lg.12e316e31d2.png'
         const rating = data.Ratings[1].Value
-        const logo = getRottenTomatoesLogo(rating)
-        const votes = getTomatometer(rating)
-        log(`Tomatometer is "${rating}"`)
-        addRating('Tomatometer', logo, rating, votes)
+        const logo = (parseFloat(rating) < 60) ? rottenLogo : freshLogo
+        const votes = (parseFloat(rating) < 60) ? 'Rotten' : 'Fresh'
+        log(`tomatometer is "${rating} - ${votes}"`)
+        addRating('tomatometer', logo, rating, votes)
       }
 
-      // Metacritic
+      // Metascore
       if (data.Metascore && data.Metascore !== 'N/A' && data.Metascore) {
         const logo = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg'
         const rating = data.Metascore
-        log(`Metascore is "${rating}"`)
-        addRating('Metascore', logo, rating)
-        addMetascoreBar(rating, color(rating))
+        const color = (rating < 40) ? '#ff0000' : (rating >= 40 && rating <= 60) ? '#ffcc33' : '#66cc33'
+        log(`metascore is "${rating}"`)
+        addRating('metascore', logo, rating)
+        addMetascoreBar(rating, color)
       }
     }
   }
@@ -202,13 +160,14 @@
         const data = JSON.parse(response.responseText)
         if (data && data.Response === 'False' && data.Error) { // error
           const error = data.Error
-          if (data.Error === 'Invalid API key!') { // if invalid API Key
+          if (error === 'Invalid API key!') { // if invalid API Key
             alert(`${GM_info.script.name}: error "${error}"`)
             GM_config.open()
           } else { // other errors
             log(error)
           }
         } else {
+          log(`the ${data.Type} is "${data.Title}"`)
           getRatings(data)
         }
       }
@@ -220,7 +179,7 @@
     const link = $("a[href*='imdb']")
     if (link.length) {
       const IMDbID = link.attr('href').match(/tt\d+/)[0]
-      log(`IMDb ID is "${IMDbID}"`)
+      log(`imdb id is "${IMDbID}"`)
       return IMDbID
     }
   }
@@ -231,29 +190,14 @@
     if (apikey === '') {
       GM_config.open()
     } else {
-      log(`OMDb API Key is "${apikey}"`)
+      log(`omdb api key is "${apikey}"`)
       return apikey
     }
   }
 
-  // add CSS
-  function addCSS () {
-    $('head').append(`
-      <style type='text/css'>
-        #summary-ratings-wrapper ul li {
-          margin-right: 18px;
-        }
-        #summary-ratings-wrapper ul li:last-child {
-          margin-right: 18px;
-        }
-        #summary-ratings-wrapper ul.stats {
-          margin-left: 0px;
-        }
-        #summary-ratings-wrapper .summary-user-rating.popover-on {
-          min-width: 0px;
-        }
-      </style>
-    `)
-    log('CSS added')
+  function addStyle () {
+    const css = '#summary-ratings-wrapper ul li{margin-right:25px}#summary-ratings-wrapper ul.stats{margin-left:25px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}'
+    GM_addStyle(css)
+    log('style added')
   }
 })()
