@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "standard": "^14.1.0",
-    "updates": "^8.5.3"
+    "updates": "^9.0.0"
   },
   "standard": {
     "globals": [
