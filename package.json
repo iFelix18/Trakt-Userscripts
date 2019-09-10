@@ -12,10 +12,10 @@
     "url": "https://github.com/iFelix18/Trakt-Userscripts/issues"
   },
   "scripts": {
-    "update": "updates -u & npm install"
+    "update": "updates -u & yarn install"
   },
   "dependencies": {
-    "npm": "^6.11.3"
+    "yarn": "^1.17.3"
   },
   "devDependencies": {
     "standard": "^14.1.0",
