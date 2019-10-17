@@ -7,7 +7,7 @@
 // @description:it  Mostra i Filtri Avanzati su Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.3
+// @version         1.0.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/383595-advanced-filtering-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt
@@ -19,8 +19,8 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
 // @grant           GM_info
-// @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM_getValue
 // @grant           GM_registerMenuCommand
 // @run-at          document-start
 // @inject-into     page
@@ -31,7 +31,7 @@
 
 /* global  $, NodeCreationObserver, GM_config */
 
-(function () {
+(() => {
   'use strict'
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
@@ -48,11 +48,11 @@
         default: false
       }
     },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
+        location.reload(false)
       }
     }
   })
@@ -71,13 +71,13 @@
 
   // NodeCreationObserver
   NodeCreationObserver.init('observed-filtering')
-  NodeCreationObserver.onCreation('a[href$="/vip/filtering"]', function () {
+  NodeCreationObserver.onCreation('a[href$="/vip/filtering"]', () => {
     $('.frame-wrapper .sidenav .alert-vip-required').hide()
     $('.frame-wrapper .sidenav h4 a.btn-filter-save').hide()
-    $('a[href$="/vip/filtering"]').removeAttr('href').click(function () {
+    $('a[href$="/vip/filtering"]').removeAttr('href').click(() => {
       $('.frame-wrapper .advanced-filters').toggleClass('open')
       $('.frame-wrapper .frame').toggleClass('with-advanced-filters')
-      log('Click on Advanced Filters')
+      log('clicked on Advanced Filters')
     })
   })
 })()
