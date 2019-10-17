@@ -7,7 +7,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.3
+// @version         2.0.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
@@ -21,8 +21,8 @@
 // @match           *://trakt.tv/*
 // @connect         api.themoviedb.org
 // @grant           GM_info
-// @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM_getValue
 // @grant           GM_registerMenuCommand
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
@@ -34,7 +34,7 @@
 
 /* global $, NodeCreationObserver, GM_config, RequestQueue */
 
-(function () {
+(() => {
   'use strict'
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
@@ -63,11 +63,11 @@
         default: false
       }
     },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
+        location.reload(false)
       }
     }
   })
@@ -86,11 +86,11 @@
 
   // NodeCreationObserver
   NodeCreationObserver.init('observed-translate')
-  NodeCreationObserver.onCreation('.movies .external a[href*="themoviedb"]', function () {
+  NodeCreationObserver.onCreation('.movies .external a[href*="themoviedb"]', () => {
     GM_xmlhttpRequest({
       method: 'GET',
       url: `https://api.themoviedb.org/3/movie/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
-      onload: function (response) {
+      onload: response => {
         const data = JSON.parse(response.responseText)
         if (data && data.status_message) {
           error(data.status_message)
@@ -111,11 +111,11 @@
       }
     })
   })
-  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .external a[href*="themoviedb"]', function () {
+  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .external a[href*="themoviedb"]', () => {
     GM_xmlhttpRequest({
       method: 'GET',
       url: `https://api.themoviedb.org/3/tv/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
-      onload: function (response) {
+      onload: response => {
         const data = JSON.parse(response.responseText)
         if (data && data.status_message) {
           error(data.status_message)
@@ -133,11 +133,11 @@
       }
     })
   })
-  NodeCreationObserver.onCreation('.season .external a[href*="themoviedb"]', function () {
+  NodeCreationObserver.onCreation('.season .external a[href*="themoviedb"]', () => {
     GM_xmlhttpRequest({
       method: 'GET',
       url: `https://api.themoviedb.org/3/tv/${TMDbID()}?api_key=${apikey()}&language=${language()}`,
-      onload: function (response) {
+      onload: response => {
         const data = JSON.parse(response.responseText)
         if (data && data.status_message) {
           error(data.status_message)
@@ -159,7 +159,7 @@
       }
     })
   })
-  NodeCreationObserver.onCreation('.episode .external a[href*="themoviedb"]', function () {
+  NodeCreationObserver.onCreation('.episode .external a[href*="themoviedb"]', () => {
     const rq = new RequestQueue(1)
     const id = TMDbID()
     const ak = apikey()
@@ -169,7 +169,7 @@
     rq.add({
       method: 'GET',
       url: `https://api.themoviedb.org/3/tv/${id}?api_key=${ak}&language=${ln}`,
-      onload: function (response) {
+      onload: response => {
         const data = JSON.parse(response.responseText)
         if (data && data.status_message) {
           log(`error is "${data.status_message}"`)
@@ -186,7 +186,7 @@
     rq.add({
       method: 'GET',
       url: `https://api.themoviedb.org/3/tv/${id}/season/${sn}/episode/${en}?api_key=${ak}&language=${ln}`,
-      onload: function (response) {
+      onload: response => {
         const data = JSON.parse(response.responseText)
         if (data && data.status_message) {
           error(data.status_message)
@@ -206,14 +206,14 @@
   function translateOverview (overview) {
     log(`overview is "${short(overview)}"`)
     $('#info-wrapper .info #overview p').text(overview)
-    log('overview is translated')
+    log('overview translated')
   }
 
   // translate tagline
   function translateTagline (tagline) {
     log(`tagline is "${short(tagline)}"`)
     $('#info-wrapper .info #tagline').text(tagline)
-    log('tagline is translated')
+    log('tagline translated')
   }
 
   // translate title
@@ -223,23 +223,23 @@
     const year = container.find('.year')
     const certification = container.find('.certification')
     container.text(title).append(' ').append(year).append(certification)
-    log('title is translated')
+    log('title translated')
   }
   function translateSeriesTitle (seriesTitle) {
     log(`series title is "${seriesTitle}"`)
     $('#summary-wrapper .summary .container h2 a').text(seriesTitle)
-    log('series title is translated')
+    log('series title translated')
   }
   function translateSeasonTitle (title, seasonTitle) {
     log(`season title is "${title}: ${seasonTitle}"`)
     $('#summary-wrapper .summary .container h2 a:first-child').text(title).append(': ')
     $('#summary-wrapper .summary .container h2 a:last-child').text(seasonTitle)
-    log('season title is translated')
+    log('season title translated')
   }
   function translateEpisodeTitle (episodeTitle) {
     log(`episode title is "${episodeTitle}"`)
     $('#summary-wrapper .summary .container h1 .main-title').text(episodeTitle)
-    log('episode title is translated')
+    log('episode title translated')
   }
 
   // translate poster
@@ -247,7 +247,7 @@
     log(`poster url is "${poster}"`)
     $('#info-wrapper .sidebar .poster .real').removeAttr('data-original').removeAttr('src').attr('src', poster)
     $('#summary-wrapper .mobile-poster .poster .real').removeAttr('data-original').removeAttr('src').attr('src', poster)
-    log('poster is translated')
+    log('poster translated')
   }
 
   // error
@@ -262,7 +262,7 @@
   }
 
   // shorten logs
-  function short (log) {
+  const short = log => {
     return log.split(/\s+/).slice(0, 6).join(' ').concat(' [...]')
   }
 
