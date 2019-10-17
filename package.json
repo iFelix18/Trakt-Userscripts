@@ -15,7 +15,7 @@
     "update": "updates -u & yarn install"
   },
   "dependencies": {
-    "yarn": "^1.17.3"
+    "yarn": "^1.19.1"
   },
   "devDependencies": {
     "standard": "^14.3.1",
