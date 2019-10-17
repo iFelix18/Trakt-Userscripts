@@ -7,7 +7,7 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.2
+// @version         1.1.3
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
@@ -19,8 +19,8 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
 // @grant           GM_info
-// @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM_getValue
 // @grant           GM_deleteValue
 // @grant           GM_registerMenuCommand
 // @run-at          document-idle
@@ -32,7 +32,7 @@
 
 /* global $, NodeCreationObserver, GM_config */
 
-(function () {
+(() => {
   'use strict'
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
@@ -49,11 +49,11 @@
         default: false
       }
     },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
+        location.reload(false)
       }
     }
   })
@@ -96,9 +96,9 @@
     const year = GM_getValue('year')
     if (url !== undefined && title !== undefined && year !== undefined) {
       $(selector).parent().append(`<div class="hidden-xs" id="backdrop-info"><a href="${url}">${title} <span class="year">${year}</span></a></div>`)
-      log('set info')
+      log('info setted')
     } else {
-      log('no info setted')
+      log('info not setted')
     }
   }
 
@@ -107,15 +107,15 @@
     const fanart = GM_getValue('fanart')
     if (fanart !== undefined) {
       $(selector).css('background-image', `url('${fanart}.webp')`)
-      log('set background')
+      log('background setted')
     } else {
-      log('no background setted')
+      log('background not setted')
     }
   }
 
   // get data
   function getData (selector) {
-    $(selector).removeAttr('href').click(function () {
+    $(selector).removeAttr('href').click(() => {
       const fanart = $('#summary-wrapper').data('fanart') // get fanart
       const url = $('meta[property="og:url"]').attr('content') // get url
       const title = ($('#info-wrapper .info .action-buttons>.btn-checkin').length) ? $('#info-wrapper .info .action-buttons>.btn-checkin').data('top-title') : $('meta[property="og:title"]').attr('content') // get title
@@ -125,19 +125,19 @@
         GM_deleteValue('url') // remove url
         GM_deleteValue('title') // remove title
         GM_deleteValue('year') // remove year
-        log('delete fanart data')
+        log('data deleted')
         alert('Profile image removed!')
       } else {
         GM_setValue('fanart', fanart) // save fanart url
         GM_setValue('url', url) // save url
         GM_setValue('title', title) // save title
         GM_setValue('year', year) // save year
-        log('set fanart data')
+        log('data setted')
         log(`url fanart is "${fanart}"`)
         log(`url is "${url}"`)
         log(`title is "${title}"`)
         log(`year is "${year}"`)
-        alert('Profile image set!')
+        alert('Profile image setted!')
       }
     })
     $(selector).parent().css('cursor', 'pointer') // add pointer
