@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.2
+// @version         2.0.3
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -15,7 +15,7 @@
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
-// @require         https://cdn.jsdelivr.net/npm/mathjs@6.1.0/dist/math.min.js#sha256-zo143442aZ+Y+PiyyCVSkoFYE5sDJ8tXP4zeRpIZDdw=
+// @require         https://cdn.jsdelivr.net/npm/mathjs@6.2.3/dist/math.min.js#sha256-jnrFf6CiZ2veyKUaL7l7FHWW/ela8txaw/J7SVZzW5o=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.0.1/dist/progressbar.min.js#sha256-VupM2GVVXK2c3Smq5LxXjUHBZveWTs35hu1al6ss6kk=
 // @require         https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js#sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js#sha256-7QS1cHsH75h3IFgrFKsdhmKHHpWqF82sb/9vNLqcqs0=
@@ -23,8 +23,8 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
 // @grant           GM_info
-// @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM_getValue
 // @grant           GM_registerMenuCommand
 // @run-at          document-idle
 // @inject-into     page
@@ -35,7 +35,7 @@
 
 /* global $, math, ProgressBar, statsProgressbar, Chart, NodeCreationObserver, GM_config */
 
-(function () {
+(() => {
   'use strict'
 
   console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
@@ -52,11 +52,11 @@
         default: false
       }
     },
-    css: '#trakt-config {background-color: #343434; color: #fff;} #trakt-config * {font-family: varela round,helvetica neue,Helvetica,Arial,sans-serif;} #trakt-config .section_header {background-color: #282828; border: 1px solid #282828; border-bottom: none; color: #fff; font-size: 10pt;} #trakt-config .section_desc {background-color: #282828; border: 1px solid #282828; border-top: none; color: #fff; font-size: 10pt;} #trakt-config .reset {color: #fff;}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
         alert(`${GM_info.script.name} : Settings saved`)
-        location.reload()
+        location.reload(false)
       }
     }
   })
@@ -75,17 +75,17 @@
 
   // NodeCraetionObserver
   NodeCreationObserver.init('observed-stats')
-  NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', function () {
+  NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', () => {
     addCSS()
     addProgressbarStructure()
     addToMenu()
     getPeopleStats()
   })
-  NodeCreationObserver.onCreation('.people #toast-container .toast.toast-success', function () {
+  NodeCreationObserver.onCreation('.people #toast-container .toast.toast-success', () => {
     removePeopleStats()
     getPeopleStats()
   })
-  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .season-posters', function () {
+  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .season-posters', () => {
     addChartStructure()
     addToMenu()
     getSeriesStats()
@@ -112,7 +112,7 @@
       }
     })
     progressbar.set(progress)
-    progressbar.setText(`${role}: watched ${watched} (${percentage}) items out of a total of ${total}.`)
+    progressbar.setText(`${role}: watched ${watched} (${percentage}) out of a total of ${total} released items.`)
     log(`${role} progressbar added`)
   }
 
@@ -164,11 +164,11 @@
 
   // get stats
   function getPeopleStats () {
-    addClass()
-    $('.people .info h2').each(function () { // get role
-      const role = this.id
-      const items = $(`.posters.${role} .grid-item:not(.unreleased)`).length // get not unreleased items for role
-      const watchedItems = $(`.posters.${role} .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items for role
+    addUnreleasedClass()
+    $('.posters').each(function () { // get role
+      const role = $(this).data('role')
+      const items = $(`.posters[data-role="${role}"] .grid-item:not(.unreleased)`).length // get not unreleased items by role
+      const watchedItems = $(`.posters[data-role="${role}"] .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items by role
       const watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
       if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) { // if progress is minor of 10
         log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
@@ -203,13 +203,9 @@
     addChart(labels, dataset) // add chart
   }
 
-  // add class
-  function addClass () {
-    $('.posters').each(function () { // by role
-      $(this).addClass($(this).prev().attr('id'))
-    })
-    log('role classes added')
-    $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () { // for unreleased items
+  // add unreleased class
+  function addUnreleasedClass () {
+    $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () {
       $(this).parent().parent().parent().addClass('unreleased')
     })
     log('unreleased classes added')
@@ -217,55 +213,32 @@
 
   // add stats to sidebar menu
   function addToMenu () {
-    $('#info-wrapper .sidebar .sections li:first-of-type a').parent().after(`
-      <li>
-        <a href="#stats">Stats</a>
-      </li>
-    `)
-    $('#info-wrapper .sidebar .sections li a[href="#stats"]').click(function (event) {
+    $('#info-wrapper .sidebar .sections li:first-of-type a').parent().after('<li><a href="#stats">Stats</a></li>')
+    $('#info-wrapper .sidebar .sections li a[href="#stats"]').click(event => {
       event.preventDefault()
       $.scrollTo('#stats', 1000, {
         offset: -70
       })
     })
-    log('stats add to menu')
+    log('stats added to menu')
   }
 
   // add structure
   function addProgressbarStructure () {
-    const HTML = `<h2 id="stats">
-                  <strong>Stats</strong>
-                  <div style="clear:both;"></div>
-                  <div class="statsContainer col-lg-8 col-md-7">
-                    <div id="statsProgressbar"></div>
-                  </div>
-                  <div style="clear:both;"></div>
-                </h2>`
+    const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"><div id="statsProgressbar"></div></div><div style="clear:both;"></div></h2>'
     $(HTML).insertBefore($('.people #info-wrapper h2:first-of-type'))
     log('progressbar structure added')
   }
   function addChartStructure () {
-    const HTML = `<h2 id="stats">
-                  <strong>Stats</strong>
-                  <div style="clear:both;"></div>
-                  <div class="statsContainer col-lg-8 col-md-7">
-                    <canvas id="statsChart"></canvas>
-                  </div>
-                  <div style="clear:both;"></div>
-                </h2>`
+    const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"> <canvas id="statsChart"></canvas></div><div style="clear:both;"></div></h2>'
     $(HTML).insertBefore($('#info-wrapper #activity'))
     log('chart structure added')
   }
 
   // add CSS
   function addCSS () {
-    $('head').append(`
-      <style type='text/css'>
-        .progressbar-text:first-letter {
-          text-transform: capitalize;
-        }
-      </style>
-    `)
+    const CSS = '<style type="text/css">.progressbar-text:first-letter{text-transform:capitalize}</style>'
+    $('head').append(CSS)
     log('CSS added')
   }
 })()
