@@ -7,21 +7,28 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.3
+// @version         1.1.4
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
+// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@master/gm4-polyfill.min.js
+// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@master/gm_config.min.js
+// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
-// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@a4a49b47ecfb1d8fcd27049cc0e8114d05522a0f/gm_config.min.js
 // @match           *://trakt.tv/*
-// @grant           GM_info
-// @grant           GM_setValue
+// @grant           GM.getValue
 // @grant           GM_getValue
+// @grant           GM.setValue
+// @grant           GM_setValue
+// @grant           GM.deleteValue
 // @grant           GM_deleteValue
+// @grant           GM.info
+// @grant           GM_info
+// @grant           GM.registerMenuCommand
 // @grant           GM_registerMenuCommand
 // @run-at          document-idle
 // @inject-into     page
@@ -30,17 +37,15 @@
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
-/* global $, NodeCreationObserver, GM_config */
+/* global GM_config, NodeCreationObserver, Utils, $ */
 
 (() => {
   'use strict'
 
-  console.log(`${GM_info.script.name} v${GM_info.script.version} by Felix is running!`)
-
-  // configuration
+  //* GM_config
   GM_config.init({
     id: 'trakt-config',
-    title: `${GM_info.script.name} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       logging: {
         label: 'Logging',
@@ -52,25 +57,75 @@
     css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       save: () => {
-        alert(`${GM_info.script.name} : Settings saved`)
-        location.reload(false)
+        window.alert(`${GM.info.script.name}: settings saved`)
+        GM_config.close()
+        window.location.reload(false)
       }
     }
   })
+  GM.registerMenuCommand('Configure', () => GM_config.open())
 
-  // menu command to open configuration
-  GM_registerMenuCommand(`${GM_info.script.name} - Configure`, () => {
-    GM_config.open()
+  //* Utils
+  const ut = new Utils({
+    name: GM.info.script.name,
+    version: GM.info.script.version,
+    author: 'Felix',
+    color: '#ed1c24',
+    logging: GM_config.get('logging')
   })
+  ut.init('trakt-config')
 
-  // logs
-  const log = message => {
-    if (GM_config.get('logging') === true) {
-      console.log(`${GM_info.script.name}: ${message}`)
+  //* functions
+  const setProfileImageInfo = async (selector) => { // set profile image info
+    const url = await GM.getValue('url')
+    const title = await GM.getValue('title')
+    const year = await GM.getValue('year')
+    if (url !== undefined && title !== undefined && year !== undefined) {
+      $(selector).parent().append(`<div class="hidden-xs" id="backdrop-info"><a href="${url}">${title} <span class="year">${year}</span></a></div>`)
+      ut.log('info setted')
+    } else {
+      ut.log('info not setted')
     }
   }
+  const setProfileImage = async (selector) => { // set profile image
+    const fanart = await GM.getValue('fanart')
+    if (fanart !== undefined) {
+      $(selector).css('background-image', `url('${fanart}.webp')`)
+      ut.log('background setted')
+    } else {
+      ut.log('background not setted')
+    }
+  }
+  const getData = (selector) => { // get data
+    $(selector).removeAttr('href').click(async () => {
+      const fanart = $('#summary-wrapper').data('fanart') // get fanart
+      const url = $('meta[property="og:url"]').attr('content') // get url
+      const title = ($('#info-wrapper .info .action-buttons>.btn-checkin').length) ? $('#info-wrapper .info .action-buttons>.btn-checkin').data('top-title') : $('meta[property="og:title"]').attr('content') // get title
+      const year = $('#summary-wrapper .summary .container h1 .year').html() // get year
+      if (fanart === await GM.getValue('fanart')) {
+        GM.deleteValue('fanart') // remove fanart url
+        GM.deleteValue('url') // remove url
+        GM.deleteValue('title') // remove title
+        GM.deleteValue('year') // remove year
+        ut.log('data deleted')
+        ut.alert('Profile image removed!')
+      } else {
+        GM.setValue('fanart', fanart) // save fanart url
+        GM.setValue('url', url) // save url
+        GM.setValue('title', title) // save title
+        GM.setValue('year', year) // save year
+        ut.log('data setted')
+        ut.log(`url fanart is "${fanart}"`)
+        ut.log(`url is "${url}"`)
+        ut.log(`title is "${title}"`)
+        ut.log(`year is "${year}"`)
+        ut.alert('Profile image setted!')
+      }
+    })
+    $(selector).parent().css('cursor', 'pointer') // add pointer
+  }
 
-  // NodeCreationObserver
+  //* NodeCreationObserver
   NodeCreationObserver.init('observed-profile-image')
   NodeCreationObserver.onCreation('a[href$="/vip/cover"]', function () {
     getData(this)
@@ -88,58 +143,4 @@
     $(this).css('filter', 'blur(0px)')
     setProfileImage(this)
   })
-
-  // set profile image info
-  function setProfileImageInfo (selector) {
-    const url = GM_getValue('url')
-    const title = GM_getValue('title')
-    const year = GM_getValue('year')
-    if (url !== undefined && title !== undefined && year !== undefined) {
-      $(selector).parent().append(`<div class="hidden-xs" id="backdrop-info"><a href="${url}">${title} <span class="year">${year}</span></a></div>`)
-      log('info setted')
-    } else {
-      log('info not setted')
-    }
-  }
-
-  // set profile image
-  function setProfileImage (selector) {
-    const fanart = GM_getValue('fanart')
-    if (fanart !== undefined) {
-      $(selector).css('background-image', `url('${fanart}.webp')`)
-      log('background setted')
-    } else {
-      log('background not setted')
-    }
-  }
-
-  // get data
-  function getData (selector) {
-    $(selector).removeAttr('href').click(() => {
-      const fanart = $('#summary-wrapper').data('fanart') // get fanart
-      const url = $('meta[property="og:url"]').attr('content') // get url
-      const title = ($('#info-wrapper .info .action-buttons>.btn-checkin').length) ? $('#info-wrapper .info .action-buttons>.btn-checkin').data('top-title') : $('meta[property="og:title"]').attr('content') // get title
-      const year = $('#summary-wrapper .summary .container h1 .year').html() // get year
-      if (fanart === GM_getValue('fanart')) {
-        GM_deleteValue('fanart') // remove fanart url
-        GM_deleteValue('url') // remove url
-        GM_deleteValue('title') // remove title
-        GM_deleteValue('year') // remove year
-        log('data deleted')
-        alert('Profile image removed!')
-      } else {
-        GM_setValue('fanart', fanart) // save fanart url
-        GM_setValue('url', url) // save url
-        GM_setValue('title', title) // save title
-        GM_setValue('year', year) // save year
-        log('data setted')
-        log(`url fanart is "${fanart}"`)
-        log(`url is "${url}"`)
-        log(`title is "${title}"`)
-        log(`year is "${year}"`)
-        alert('Profile image setted!')
-      }
-    })
-    $(selector).parent().css('cursor', 'pointer') // add pointer
-  }
 })()
