@@ -7,5 +7,5 @@
 // @description:it  Mostra i Filtri Avanzati su Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.5
+// @version         1.1.0
 // ==/UserScript==

@@ -7,7 +7,7 @@
 // @description:it  Mostra i Filtri Avanzati su Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.5
+// @version         1.1.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/383595-advanced-filtering-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt
@@ -35,7 +35,7 @@
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
-/* global GM_config, NodeCreationObserver, Utils, $ */
+/* global GM_config, NodeCreationObserver, MonkeyUtils, $ */
 
 (() => {
   'use strict'
@@ -64,15 +64,15 @@
   })
   GM.registerMenuCommand('Configure', () => GM_config.open())
 
-  //* Utils
-  const ut = new Utils({
+  //* MonkeyUtils
+  const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
     author: 'Felix',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  ut.init('trakt-config')
+  MU.init('trakt-config')
 
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-filtering')
@@ -82,7 +82,7 @@
     $('a[href$="/vip/filtering"]').removeAttr('href').click(() => {
       $('.frame-wrapper .advanced-filters').toggleClass('open')
       $('.frame-wrapper .frame').toggleClass('with-advanced-filters')
-      ut.log('clicked on Advanced Filters')
+      MU.log('clicked on Advanced Filters')
     })
   })
 })()
