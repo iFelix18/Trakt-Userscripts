@@ -7,7 +7,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.5.1
+// @version         2.6.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377523-ratings-on-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt
@@ -34,7 +34,6 @@
 // @grant           GM_registerMenuCommand
 // @grant           GM.xmlHttpRequest
 // @grant           GM_xmlhttpRequest
-// @grant           GM_addStyle
 // @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
@@ -42,7 +41,7 @@
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
-/* global GM_config, NodeCreationObserver, Utils, OMDb, $, math, Handlebars, GM_addStyle */
+/* global GM_config, NodeCreationObserver, MonkeyUtils, OMDb, $, math, Handlebars */
 
 (() => {
   'use strict'
@@ -94,15 +93,15 @@
   })
   GM.registerMenuCommand('Configure', () => GM_config.open())
 
-  //* Utils
-  const ut = new Utils({
+  //* MonkeyUtils
+  const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
     author: 'Felix',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  ut.init('trakt-config')
+  MU.init('trakt-config')
 
   //* OMDb API
   const omdb = new OMDb({
@@ -110,57 +109,16 @@
     debug: GM_config.get('debugging')
   })
 
-  //* NodeCraetionObserver
-  NodeCreationObserver.init('observed-ratings')
-  NodeCreationObserver.onCreation('body.movies #summary-ratings-wrapper, body.shows #summary-ratings-wrapper', () => {
-    addStyle()
-
-    const id = $("a[href*='imdb']").attr('href').match(/tt\d+/)[0]
-    ut.log(`imdb id is "${id}"`)
-
-    omdb.get({
-      id: id
-    }).then((data) => {
-      if (data.imdbRating && data.imdbRating !== 'N/A' && data.imdbVotes && data.imdbVotes !== 'N/A') { // IMDb
-        const logo = 'https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png'
-        const rating = data.imdbRating
-        const votes = `${math.round((data.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
-        ut.log(`imdb rating is "${rating}"`)
-        ut.log(`imdb votes is "${votes}"`)
-        addRating('imdb', logo, rating, votes)
-      }
-      if (data.Ratings[1] && data.Ratings[1] !== 'undefined' && data.Ratings[1].Source === 'Rotten Tomatoes' && data.Ratings[1].Value) { // Rotten Tomatoes
-        const rottenLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten-lg.ecdfcf9596f.png'
-        const freshLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-fresh-lg.12e316e31d2.png'
-        const rating = data.Ratings[1].Value
-        const logo = (parseFloat(rating) < 60) ? rottenLogo : freshLogo
-        const votes = (parseFloat(rating) < 60) ? 'Rotten' : 'Fresh'
-        ut.log(`tomatometer is "${rating} - ${votes}"`)
-        addRating('tomatometer', logo, rating, votes)
-      }
-      if (data.Metascore && data.Metascore !== 'N/A' && data.Metascore) { // Metascore
-        const logo = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg'
-        const rating = data.Metascore
-        const color = (rating < 40) ? '#ff0000' : (rating >= 40 && rating <= 60) ? '#ffcc33' : '#66cc33'
-        ut.log(`metascore is "${rating}"`)
-        addRating('metascore', logo, rating)
-        addMetascoreBar(rating, color)
-      }
-    }).catch((error) => console.error(error))
-  })
-
-  // add metascore bar
-  const addMetascoreBar = (rating, color) => {
+  //* functions
+  const addMetascoreBar = (rating, color) => { // add metascore bar
     $('#summary-ratings-wrapper .metascore-rating .votes').css({
       marginTop: '2px',
       height: '8px',
       backgroundColor: 'rgba(0, 0, 0, .5)'
     }).append(`<div class="bar" style="height: 8px; width: ${rating}%; background-color: ${color};"></div>`)
-    ut.log('metascore bar added')
+    MU.log('metascore bar added')
   }
-
-  // add ratings
-  const addRating = (type, logo, rating, votes) => {
+  const addRating = (type, logo, rating, votes) => { // add ratings
     // add HTML structure
     const html = `<script id="${type}-rating-template" type="text/x-handlebars-template"><div class="icon"><img class="${type}-rating-logo" src="{{logo}}"></div><div class="number"><div class="rating">{{rating}}</div><div class="votes">{{votes}}</div></div></script><li class="${type}-rating"></li>`
     $(html).appendTo($('#summary-ratings-wrapper .ratings'))
@@ -174,13 +132,50 @@
     }
     const compile = template(context)
     $(`.${type}-rating`).html(compile)
-    ut.log(`${type} rating added`)
+    MU.log(`${type} rating added`)
+  }
+  const addStyle = () => { // add style
+    const css = '<style type="text/css">#summary-ratings-wrapper ul li{margin-right:25px}#summary-ratings-wrapper ul.stats{margin-left:25px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}</style>'
+    $('head').append(css)
+    MU.log('style added')
   }
 
-  // add style
-  const addStyle = () => {
-    const css = '#summary-ratings-wrapper ul li{margin-right:25px}#summary-ratings-wrapper ul.stats{margin-left:25px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}'
-    GM_addStyle(css)
-    ut.log('style added')
-  }
+  //* NodeCraetionObserver
+  NodeCreationObserver.init('observed-ratings')
+  NodeCreationObserver.onCreation('body.movies #summary-ratings-wrapper, body.shows #summary-ratings-wrapper', () => {
+    addStyle()
+
+    const id = $("a[href*='imdb']").attr('href').match(/tt\d+/)[0]
+    MU.log(`imdb id is "${id}"`)
+
+    omdb.get({
+      id: id
+    }).then((data) => {
+      if (data.imdbRating && data.imdbRating !== 'N/A' && data.imdbVotes && data.imdbVotes !== 'N/A') { // IMDb
+        const logo = 'https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png'
+        const rating = data.imdbRating
+        const votes = `${math.round((data.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
+        MU.log(`imdb rating is "${rating}"`)
+        MU.log(`imdb votes is "${votes}"`)
+        addRating('imdb', logo, rating, votes)
+      }
+      if (data.Ratings[1] && data.Ratings[1] !== 'undefined' && data.Ratings[1].Source === 'Rotten Tomatoes' && data.Ratings[1].Value) { // Rotten Tomatoes
+        const rottenLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten-lg.ecdfcf9596f.png'
+        const freshLogo = 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-fresh-lg.12e316e31d2.png'
+        const rating = data.Ratings[1].Value
+        const logo = (parseFloat(rating) < 60) ? rottenLogo : freshLogo
+        const votes = (parseFloat(rating) < 60) ? 'Rotten' : 'Fresh'
+        MU.log(`tomatometer is "${rating} - ${votes}"`)
+        addRating('tomatometer', logo, rating, votes)
+      }
+      if (data.Metascore && data.Metascore !== 'N/A' && data.Metascore) { // Metascore
+        const logo = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg'
+        const rating = data.Metascore
+        const color = (rating < 40) ? '#ff0000' : (rating >= 40 && rating <= 60) ? '#ffcc33' : '#66cc33'
+        MU.log(`metascore is "${rating}"`)
+        addRating('metascore', logo, rating)
+        addMetascoreBar(rating, color)
+      }
+    }).catch((error) => console.error(error))
+  })
 })()
