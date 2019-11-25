@@ -7,7 +7,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.1.0
+// @version         2.2.0
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
@@ -39,7 +39,7 @@
 // Recommended in combination with Darkt, my darker theme for Trakt.
 // More info on: https://git.io/Darkt
 
-/* global GM_config, NodeCreationObserver, Utils, $, math, ProgressBar, Chart */
+/* global GM_config, NodeCreationObserver, MonkeyUtils, $, math, ProgressBar, Chart */
 
 (() => {
   'use strict'
@@ -68,26 +68,26 @@
   })
   GM.registerMenuCommand('Configure', () => GM_config.open())
 
-  //* Utils
-  const ut = new Utils({
+  //* MonkeyUtils
+  const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
     author: 'Felix',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  ut.init('trakt-config')
+  MU.init('trakt-config')
 
   //* functions
-  const addCSS = () => { // add CSS
-    const CSS = '<style type="text/css">.progressbar-text:first-letter{text-transform:capitalize}</style>'
-    $('head').append(CSS)
-    ut.log('CSS added')
+  const addStyle = () => { // add style
+    const css = '<style type="text/css">.progressbar-text:first-letter{text-transform:capitalize}</style>'
+    $('head').append(css)
+    MU.log('style added')
   }
   const addProgressbarStructure = () => { // add progressbar structure
     const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"><div id="statsProgressbar"></div></div><div style="clear:both;"></div></h2>'
     $(HTML).insertBefore($('.people #info-wrapper h2:first-of-type'))
-    ut.log('progressbar structure added')
+    MU.log('progressbar structure added')
   }
   const addToMenu = () => { // add stats to sidebar menu
     $('#info-wrapper .sidebar .sections li:first-of-type a').parent().after('<li><a href="#stats">Stats</a></li>')
@@ -97,13 +97,13 @@
         offset: -70
       })
     })
-    ut.log('stats added to menu')
+    MU.log('stats added to menu')
   }
   const addUnreleasedClass = () => { // add unreleased class
     $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () {
       $(this).parent().parent().parent().addClass('unreleased')
     })
-    ut.log('unreleased classes added')
+    MU.log('unreleased classes added')
   }
   const addProgressbar = (progress, role, watched, percentage, total) => { // add progressbar
     const progressbar = new ProgressBar.Line('#statsProgressbar', { // progressbar.js configuration
@@ -120,7 +120,7 @@
     })
     progressbar.set(progress)
     progressbar.setText(`${role}: watched ${watched} (${percentage}) out of a total of ${total} released items.`)
-    ut.log(`${role} progressbar added`)
+    MU.log(`${role} progressbar added`)
   }
   const getPeopleStats = () => { // get people stats
     addUnreleasedClass()
@@ -130,13 +130,13 @@
       const watchedItems = $(`.posters[data-role="${role}"] .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items by role
       const watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
       if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) { // if progress is minor of 10
-        ut.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar(`0.0${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems >= 10 && watchedProgressItems <= 99) { // if progress is from 10 to 99
-        ut.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar(`0.${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems === 100) { // if progress is 100
-        ut.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
+        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
         addProgressbar('1.0', `${role}`, watchedItems, `${watchedProgressItems}%`, items)
       }
     })
@@ -144,11 +144,11 @@
   const addChartStructure = () => { // add chart structure
     const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"> <canvas id="statsChart"></canvas></div><div style="clear:both;"></div></h2>'
     $(HTML).insertBefore($('#info-wrapper #activity'))
-    ut.log('chart structure added')
+    MU.log('chart structure added')
   }
   const removePeopleStats = () => { // remove old stats
     $('#statsProgressbar').children().remove()
-    ut.log('stats removed')
+    MU.log('stats removed')
   }
   const addChart = (labels, dataset) => { // add chart
     const data = { // Chart.js data
@@ -192,7 +192,7 @@
       data: data,
       options: options
     })
-    ut.log('chart added')
+    MU.log('chart added')
   }
   const getSeriesStats = () => { // get series stats
     const json = []
@@ -210,15 +210,15 @@
       labels.push(`Season ${i}`) // labels for chart
       dataset.push(json[i].rating) // dataset for chart
     }
-    ut.log(labels)
-    ut.log(dataset)
+    MU.log(labels)
+    MU.log(dataset)
     addChart(labels, dataset) // add chart
   }
 
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-stats')
   NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', () => {
-    addCSS()
+    addStyle()
     addProgressbarStructure()
     addToMenu()
     getPeopleStats()
