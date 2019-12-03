@@ -1946,10 +1946,10 @@ unique-slug@^2.0.0:
   dependencies:
     imurmurhash "^0.1.4"
 
-updates@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/updates/-/updates-9.1.0.tgz#51f889c958ceb50ba207eb69a739ecd9ba10def7"
-  integrity sha512-bfR6SDIP1VRd2dBxnCSUZjesWI0kmZMQN1/GxiCHlSgURG1RrQ8fcl81N8AMUTnHFUrl92TuD4syt0g/jTu0wA==
+updates@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/updates/-/updates-9.2.0.tgz#8371e26b2e06721f8f5590c682fe7a8429c12b39"
+  integrity sha512-bm+6byNtuDf0SXBBEUru2z7NyQ2h3oxoxz69q3VEqVYR2jMLpEiMNMGF8lFYNUdkQavWXFdFiLJE22KoL1SCgg==
   dependencies:
     chalk "3.0.0"
     find-up "4.1.0"
