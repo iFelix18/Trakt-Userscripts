@@ -55,7 +55,7 @@ Readme languages:
 
 ## Userscripts
 
--   ### Ratings on Trakt
+*   ### Ratings on Trakt
 
     #### Adds ratings from IMDb, Rotten Tomatoes, Metacritic to [Trakt.tv](https://trakt.tv/)
 
@@ -76,7 +76,7 @@ Readme languages:
 
 ---
 
--   ### Stats for Trakt
+*   ### Stats for Trakt
 
     #### Adds stats on [Trakt.tv](https://trakt.tv/)
 
@@ -95,7 +95,7 @@ Readme languages:
 
 ---
 
--   ### Translate Trakt
+*   ### Translate Trakt
 
     #### Translates titles, plots, taglines and posters of movies, TV series and episodes on [Trakt.tv](https://trakt.tv/) in the choice language
 
@@ -117,7 +117,7 @@ Readme languages:
 
 ---
 
--   ### Profile image on Trakt
+*   ### Profile image on Trakt
 
     #### Set your favorite movie, or TV series as your profile picture on [Trakt.tv](https://trakt.tv/)
 
@@ -130,7 +130,7 @@ Readme languages:
 
 ---
 
--   ### Advanced Filtering on Trakt
+*   ### Advanced Filtering on Trakt
 
     #### Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
 
@@ -160,3 +160,4 @@ Readme languages:
 
 This product uses the TMDb API but is not endorsed or certified by TMDb.<br>
 This product uses the OMDb API.
+

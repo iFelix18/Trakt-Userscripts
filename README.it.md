@@ -55,7 +55,7 @@ Lingue readme:
 
 ## Userscripts
 
--   ### Valutazioni su Trakt
+*   ### Valutazioni su Trakt
 
     #### Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a [Trakt.tv](https://trakt.tv/)
 
@@ -76,7 +76,7 @@ Lingue readme:
 
 ---
 
--   ### Statistiche per Trakt
+*   ### Statistiche per Trakt
 
     #### Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 
@@ -95,7 +95,7 @@ Lingue readme:
 
 ---
 
--   ### Traduci Trakt
+*   ### Traduci Trakt
 
     #### Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.tv](https://trakt.tv/) nella lingua scelta
 
@@ -117,7 +117,7 @@ Lingue readme:
 
 ---
 
--   ### Immagine profilo su Trakt
+*   ### Immagine profilo su Trakt
 
     #### Imposta il tuo film preferito, o serie TV come immagine del tuo profilo su [Trakt.tv](https://trakt.tv/)
 
@@ -130,7 +130,7 @@ Lingue readme:
 
 ---
 
--   ### Filtri Avanzati su Trakt
+*   ### Filtri Avanzati su Trakt
 
     #### Mostra i Filtri Avanzati su [Trakt.tv](https://trakt.tv/)
 
@@ -160,3 +160,4 @@ Lingue readme:
 
 Questo prodotto utilizza l'API TMDb ma non è approvato o certificato da TMDb.<br>
 Questo prodotto utilizza l'API OMDb.
+
