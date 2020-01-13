@@ -21,3 +21,4 @@ Statistiche persone:
 
 Statistiche serie:
 [![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
+

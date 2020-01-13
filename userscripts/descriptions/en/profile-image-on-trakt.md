@@ -12,3 +12,4 @@
 2. Install it from this page.
 3. Go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
 4. Done!
+

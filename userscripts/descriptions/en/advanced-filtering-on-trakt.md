@@ -11,3 +11,4 @@
     - Violentmonkey for [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) or [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
 2. Install it from this page.
 3. Done!
+
