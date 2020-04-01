@@ -45,7 +45,7 @@ Readme languages:
     - [Stats for Trakt](README.md#stats-for-trakt)
     - [Translate Trakt](README.md#translate-trakt)
     - [Profile image on Trakt](README.md#profile-image-on-trakt)
-    - [Advanced Filtering on Trakt](README.md#advanced-filtering-on-trakt)
+    - [Advanced Filtering on Trakt](README.md#advanced-filtering-on-trakt) 
 2. [How to install](README.md#how-to-install)
 3. [Credits](README.md#credits)
 
@@ -134,6 +134,7 @@ Readme languages:
 
     #### Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
 
+    [![Not working](https://flat.badgen.net/badge/%E2%9A%A0/NOT%20WORKING/red?labelColor=red)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
     [![Version](https://flat.badgen.net/runkit/advanced-filtering-on-trakt-version-kpj4catmnm2n)](#)
     [![Downloads](https://flat.badgen.net/runkit/advanced-filtering-on-trakt-downloads-cfwepea7wqg4)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\advanced-filtering-on-trakt.user.js)](#)
