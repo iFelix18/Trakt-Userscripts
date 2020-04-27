@@ -64,7 +64,7 @@ Readme languages:
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/RatingsOnTrakt)
 
-    **Note**: After installation, enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt API Key](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
+    **Note**: After installation, enter your [OMDb APIKey](https://www.omdbapi.com/apikey.aspx) in the script settings.
 
     <details>
     <summary>Screenshots</summary>
@@ -104,7 +104,7 @@ Readme languages:
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/TranslateTrakt)
 
-    **Note**: After installation, enter your [TMDb APIKey](https://developers.themoviedb.org/3/) and your [language code](https://developers.themoviedb.org/3/getting-started/languages) in the script settings.
+    **Note**: After installation, enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt API Key](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
 
     <details>
     <summary>Screenshots</summary>
