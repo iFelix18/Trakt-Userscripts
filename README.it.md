@@ -104,7 +104,7 @@ Lingue readme:
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/TranslateTrakt)
 
-    **Nota**: Dopo l'installazione, inserisci la tua [TMDb APIKey](https://developers.themoviedb.org/3/) e il tuo [language code](https://developers.themoviedb.org/3/getting-started/languages) nelle impostazioni dello script.
+    **Nota**: Dopo l'installazione, inserisci la tua [TMDb API Key](https://developers.themoviedb.org/3/), la tua [Trakt API Key](https://trakt.tv/oauth/applications/new) e seleziona la tua [lingua](https://developers.themoviedb.org/3/configuration/get-primary-translations) nelle impostazioni dello script.
 
     <details>
     <summary>Screenshots</summary>

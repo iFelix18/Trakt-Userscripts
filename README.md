@@ -45,7 +45,7 @@ Readme languages:
     - [Stats for Trakt](README.md#stats-for-trakt)
     - [Translate Trakt](README.md#translate-trakt)
     - [Profile image on Trakt](README.md#profile-image-on-trakt)
-    - [Advanced Filtering on Trakt](README.md#advanced-filtering-on-trakt) 
+    - [Advanced Filtering on Trakt](README.md#advanced-filtering-on-trakt)
 2. [How to install](README.md#how-to-install)
 3. [Credits](README.md#credits)
 
@@ -64,7 +64,7 @@ Readme languages:
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](http://bit.ly/RatingsOnTrakt)
 
-    **Note**: After installation, enter your [OMDb APIKey](https://www.omdbapi.com/apikey.aspx) in the script settings.
+    **Note**: After installation, enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt API Key](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
 
     <details>
     <summary>Screenshots</summary>
@@ -161,4 +161,3 @@ Readme languages:
 
 This product uses the TMDb API but is not endorsed or certified by TMDb.<br>
 This product uses the OMDb API.
-
