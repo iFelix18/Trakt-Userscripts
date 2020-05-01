@@ -7,7 +7,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.0
+// @version         3.0.1
 //
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
@@ -66,7 +66,7 @@
       },
       traktapikey: {
         label: 'Trakt API Key',
-        section: ['Enter your Trakt API Key', 'Get one at: https://trakt.tv/oauth/applications/new'],
+        section: ['Enter your Trakt API Key (Client ID)', 'Get one at: https://trakt.tv/oauth/applications/new'],
         type: 'text',
         title: 'Your Trakt API Key',
         size: 70,
