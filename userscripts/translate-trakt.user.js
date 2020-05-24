@@ -7,7 +7,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Felix (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.1
+// @version         3.0.2
 //
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
@@ -54,7 +54,7 @@
   //* GM_config
   GM_config.init({
     id: 'trakt-config',
-    title: `${GM.info.script.name} v${GM.info.script.version}`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       tmdbapikey: {
         label: 'TMDb API Key',
@@ -112,7 +112,7 @@
       }
     }
   })
-  GM.registerMenuCommand(`${GM.info.script.name} - Configure`, () => GM_config.open())
+  GM.registerMenuCommand('Configure', () => GM_config.open())
 
   //* MonkeyUtils
   const MU = new MonkeyUtils({
