@@ -1471,10 +1471,10 @@ uniq@^1.0.1:
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
   integrity sha1-sxxa6CVIRKOoKBVBzisEuGWnNP8=
 
-updates@^10.2.10:
-  version "10.2.10"
-  resolved "https://registry.yarnpkg.com/updates/-/updates-10.2.10.tgz#eb98774593cc1bfd609ae66a8590c5a40f71bfef"
-  integrity sha512-Bf+TtXUhqr/9xbVXYHlgm/dLEF+OuH4eXtZTVyj1vlms5/7ghZtAlzLX1YQILP13HEEyF7cQahkKszVOdArUdg==
+updates@^10.2.12:
+  version "10.2.12"
+  resolved "https://registry.yarnpkg.com/updates/-/updates-10.2.12.tgz#3222d53d9ae1105aacbd9c6a3a7398a8bfb8fa36"
+  integrity sha512-4BeXY106bP+7gwinButIRE733fVXYSdPGrIVv/h2k04K06WSanSZ6loFj57Qq4nmD6QukTaYar5xJ6KjJ7u2hQ==
 
 uri-js@^4.2.2:
   version "4.2.2"
