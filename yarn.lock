@@ -1525,7 +1525,7 @@ xtend@^4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
-yarn@^1.22.4:
-  version "1.22.4"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.4.tgz#01c1197ca5b27f21edc8bc472cd4c8ce0e5a470e"
-  integrity sha512-oYM7hi/lIWm9bCoDMEWgffW8aiNZXCWeZ1/tGy0DWrN6vmzjCXIKu2Y21o8DYVBUtiktwKcNoxyGl/2iKLUNGA==
+yarn@^1.22.7:
+  version "1.22.7"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.7.tgz#b04f8779f4d4efd0211067dd9abf09c47f1a5d96"
+  integrity sha512-Kj70fr/tH6tYZPeOKHKXtaOxhiXCaMTQxMzRRwk13nn9mcPUuXqX+ve66rxFgMmD8NiZXIsLP+VP+fJFjLPJDA==
