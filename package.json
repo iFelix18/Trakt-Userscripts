@@ -18,7 +18,7 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "standard": "^14.3.4",
+    "standard": "^16.0.3",
     "updates": "^11.4.0"
   },
   "standard": {
