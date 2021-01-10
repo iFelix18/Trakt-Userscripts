@@ -1481,10 +1481,10 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
-updates@^11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/updates/-/updates-11.4.0.tgz#14a7bbb6d21b92ad4032084263033cd15c6a0b2f"
-  integrity sha512-dnJ5yRrLZ+O7oGhapzw7yfmhVTlv4Z3g888dDdmEZzY2MmfYjeVliE6Ff8b4HY0os1bexwaNUvKPX+zHgNkTWg==
+updates@^11.4.2:
+  version "11.4.2"
+  resolved "https://registry.yarnpkg.com/updates/-/updates-11.4.2.tgz#73cc7670516ee5a005a16a577aa66feff0c60a6d"
+  integrity sha512-5xtBOb15oytcrWIPAfgDxD4GCSwDeIe21uhN4Gfi8lSVLOAnikZotKpvZPlMM5ayyyE5NW49qqablhk6kGEtwg==
 
 uri-js@^4.2.2:
   version "4.2.2"
