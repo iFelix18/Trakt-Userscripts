@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name            Translate Trakt
 // @name:it         Traduci Trakt
-// @author          Felix
+// @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
+// @icon            https://avatars.githubusercontent.com/u/19800006?v=4?s=64
 // @description     Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
-// @copyright       2019, Felix (https://github.com/iFelix18)
+// @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.2
+// @version         3.0.3
 //
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
@@ -18,11 +19,11 @@
 //
 // @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@master/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@master/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/api/trakt.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/api/tmdb.min.js
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
+// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/jquery-visible@1.2.0/jquery.visible.min.js#sha256-VzXcD0HmV1s8RGdJ/yIf7YkZiOZrcxPphaDpwM++pSs=
 //
 // @match           *://trakt.tv/*
@@ -31,12 +32,10 @@
 //
 // @grant           GM.info
 // @grant           GM_info
-// @grant           GM.setValue
-// @grant           GM_setValue
 // @grant           GM.getValue
 // @grant           GM_getValue
-// @grant           GM.deleteValue
-// @grant           GM_deleteValue
+// @grant           GM.setValue
+// @grant           GM_setValue
 // @grant           GM.registerMenuCommand
 // @grant           GM_registerMenuCommand
 // @grant           GM.xmlHttpRequest
@@ -46,7 +45,7 @@
 // @inject-into     page
 // ==/UserScript==
 
-/* global $, GM_config, NodeCreationObserver, MonkeyUtils, TMDb , Trakt */
+/* global $, GM_config, MonkeyUtils, NodeCreationObserver, TMDb, Trakt */
 
 (() => {
   'use strict'
@@ -56,7 +55,7 @@
     id: 'trakt-config',
     title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
-      tmdbapikey: {
+      tmdbApiKey: {
         label: 'TMDb API Key',
         section: ['Enter your TMDb API Key', 'Get one at: https://developers.themoviedb.org/3/'],
         type: 'text',
@@ -64,11 +63,11 @@
         size: 70,
         default: ''
       },
-      traktapikey: {
-        label: 'Trakt API Key',
-        section: ['Enter your Trakt API Key (Client ID)', 'Get one at: https://trakt.tv/oauth/applications/new'],
+      traktClientID: {
+        label: 'Trakt Client ID',
+        section: ['Enter your Trakt Client ID', 'Get one at: https://trakt.tv/oauth/applications/new'],
         type: 'text',
-        title: 'Your Trakt API Key',
+        title: 'Your Trakt Client ID',
         size: 70,
         default: ''
       },
@@ -97,12 +96,12 @@
     css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       init: () => {
-        if (!GM_config.isOpen && (GM_config.get('tmdbapikey') === '' | GM_config.get('traktapikey') === '')) {
+        if (!GM_config.isOpen && (GM_config.get('tmdbApiKey') === '' | GM_config.get('traktClientID') === '')) {
           window.onload = () => GM_config.open()
         }
       },
       save: () => {
-        if (GM_config.isOpen && (GM_config.get('tmdbapikey') === '' | GM_config.get('traktapikey') === '')) {
+        if (GM_config.isOpen && (GM_config.get('tmdbApiKey') === '' | GM_config.get('traktClientID') === '')) {
           window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
           window.alert(`${GM.info.script.name}: settings saved`)
@@ -118,7 +117,7 @@
   const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Felix',
+    author: 'Davide',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -126,14 +125,13 @@
 
   //* Trakt API
   const trakt = new Trakt({
-    apikey: GM_config.get('traktapikey'),
-    language: GM_config.get('language'),
+    clientID: GM_config.get('traktClientID'),
     debug: GM_config.get('debugging')
   })
 
   //* TMDb API
   const tmdb = new TMDb({
-    apikey: GM_config.get('tmdbapikey'),
+    apikey: GM_config.get('tmdbApiKey'),
     language: GM_config.get('language'),
     debug: GM_config.get('debugging')
   })
@@ -145,17 +143,21 @@
     const infos = {}
     const type = $(i).data('type') // item type
     const id = ( // Trakt ID
-      (type === 'movie') ? $(i).data('movie-id') // movie Trakt ID
-        : (type === 'episode') ? $(i).data('episode-id') // episode Trakt ID
-          : $(i).data('show-id') // show Trakt ID
+      (type === 'movie') // movie Trakt ID
+        ? $(i).data('movie-id')
+        : (type === 'episode') // episode Trakt ID
+            ? $(i).data('episode-id')
+            : $(i).data('show-id') // show Trakt ID
     )
     infos.type = type
     infos.id = id
     if (type === 'episode') { // episode and season number
       const sxe = ( // seasonXepisode
-        ($(i).find('h3 .main-title-sxe').length > 0) ? $(i).find('h3 .main-title-sxe').text().split('x')
-          : ($(i).parents().find('h1 .main-title-sxe').length > 0) ? $(i).parents().find('h1 .main-title-sxe').text().split('x') // edpisode details page
-            : null
+        ($(i).find('h3 .main-title-sxe').length > 0)
+          ? $(i).find('h3 .main-title-sxe').text().split('x')
+          : ($(i).parents().find('h1 .main-title-sxe').length > 0) // episode details page
+              ? $(i).parents().find('h1 .main-title-sxe').text().split('x')
+              : null
       )
       const s = (sxe !== null) ? parseInt(sxe[0]) : '' // season
       const e = (sxe !== null) ? parseInt(sxe[1]) : '' // episode
@@ -164,7 +166,8 @@
     }
     if (type === 'season') { // season number
       const s = ( // season
-        ($(i).data('season-number')) ? $(i).data('season-number')
+        ($(i).data('season-number'))
+          ? $(i).data('season-number')
           : $(i).data('number')
       )
       infos.season = s
@@ -196,7 +199,7 @@
   }
 
   const translateMainTitle = (i, title, secondTitle) => { // translate main title
-    if (secondTitle) { // episode deatails page
+    if (secondTitle) { // episode details page
       $(i).find('#summary-wrapper .summary .container h2 a:first-child').text(title).append(': ')
       $(i).find('#summary-wrapper .summary .container h2 a:last-child').text(secondTitle)
     } else {
@@ -208,7 +211,7 @@
     if ($(i).parent('.fanarts').length > 0) { // fanart
       $(i).find('.titles h5').text(title)
     } else {
-      if ($(i).find('h4 .titles-link:last-of-type').length === 0) { // screnshoot
+      if ($(i).find('h4 .titles-link:last-of-type').length === 0) { // screenshot
         $(i).find('.titles h4:first-of-type').text(title)
       } else { // poster
         $(i).find('h4 .titles-link:last-of-type').text(title)
@@ -242,7 +245,7 @@
     if (!infos) return
 
     trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-      const id = data.movie.ids.tmdb // TMDb ID
+      const id = data[0].movie.ids.tmdb // TMDb ID
       if (!id) $(i).addClass('untranslatable') // untranslatable
       tmdb.moviesDetails(id).then((data) => { // get movie details from TMDb API
         const title = data.title // movie title
@@ -280,7 +283,7 @@
     if (!infos) return
 
     trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-      const id = data.show.ids.tmdb // TMDb ID
+      const id = data[0].show.ids.tmdb // TMDb ID
       if (!id) $(i).addClass('untranslatable') // untranslatable
       tmdb.tvDetails(id).then((data) => { // get show details from TMDb API
         const title = data.name // show title
@@ -318,7 +321,7 @@
     const type = (infos.type === 'season') ? 'show' : infos.type // season ==> show
 
     trakt.searchID('trakt', infos.id, type).then((data) => { // get TMDb ID from Trakt API
-      const id = data.show.ids.tmdb // TMDb ID
+      const id = data[0].show.ids.tmdb // TMDb ID
       if (!id) $(i).addClass('untranslatable') // untranslatable
       tmdb.tvDetails(id).then((data) => { // get show details from TMDb API
         const sn = infos.season // season number
@@ -357,7 +360,7 @@
     if (!infos) return
 
     trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-      const id = data.show.ids.tmdb // TMDb ID
+      const id = data[0].show.ids.tmdb // TMDb ID
       if (!id) $(i).addClass('untranslatable') // untranslatable
       tmdb.tvDetails(id).then((data) => { // get show details from TMDb API
         const sn = infos.season
@@ -407,10 +410,10 @@
     const type = (infos.type === 'season') ? 'show' : infos.type // season ==> show
 
     trakt.searchID('trakt', infos.id, type).then((data) => { // get TMDb ID from Trakt API
-      if (infos.type === 'movie') translateGridMovie(i, infos, data) // translate movie
-      if (infos.type === 'show') translateGridShow(i, infos, data) // translate show
-      if (infos.type === 'season') translateGridSeason(i, infos, data) // translate season
-      if (infos.type === 'episode') translateGridEpisode(i, infos, data) // translate episode
+      if (infos.type === 'movie') translateGridMovie(i, infos, data[0]) // translate movie
+      if (infos.type === 'show') translateGridShow(i, infos, data[0]) // translate show
+      if (infos.type === 'season') translateGridSeason(i, infos, data[0]) // translate season
+      if (infos.type === 'episode') translateGridEpisode(i, infos, data[0]) // translate episode
     }).catch((e) => MU.error(e))
   }
 
@@ -432,7 +435,7 @@
     translateGridItems()
   }
 
-  //* NodeCraetionObserver
+  //* NodeCreationObserver
   NodeCreationObserver.init('observed-translate')
   NodeCreationObserver.onCreation('.movies.show', (i) => { // movie
     $(document).ready(() => {
