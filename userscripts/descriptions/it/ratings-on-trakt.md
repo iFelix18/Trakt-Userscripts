@@ -2,13 +2,16 @@
 
 ### Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a [Trakt.tv](https://trakt.tv/)
 
+[![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/ratings-on-trakt.meta.js)](#)
+[![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)](#)
+
 ---
 
 ## Installazione
 
 1. Scarica uno di questi add-on per il browser:
-    - Tampermonkey per [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/), [Safari](https://safari-extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) o [Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S).
-    - Violentmonkey per [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) o [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
+    - [Violentmonkey](https://violentmonkey.github.io/)
+    - [Tampermonkey](https://www.tampermonkey.net/)
 2. Installalo da questa pagina.
 3. Inserisci la tua [OMDb API Key](https://www.omdbapi.com/apikey.aspx) nelle impostazioni dello script, e salva.
 4. Fatto!
@@ -22,4 +25,3 @@ Prima:
 
 Dopo:
 [![After](https://i.imgur.com/cSiRt7P.png "After")](#)
-

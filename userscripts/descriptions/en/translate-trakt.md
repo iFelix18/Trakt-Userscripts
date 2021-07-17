@@ -2,15 +2,18 @@
 
 ### Translates titles, plots, taglines and posters of movies, TV series and episodes on [Trakt.tv](https://trakt.tv/) in the choice language
 
+[![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/translate-trakt.meta.js)](#)
+[![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js)](#)
+
 ---
 
 ## Installation
 
 1. Download one of these add-ons for your browser:
-    - Tampermonkey for [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/), [Safari](https://safari-extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) or [Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S).
-    - Violentmonkey for [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) or [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
+    - [Violentmonkey](https://violentmonkey.github.io/)
+    - [Tampermonkey](https://www.tampermonkey.net/)
 2. Install it from this page.
-3. Enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt API Key](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
+3. Enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt Client ID](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
 4. Done!
 
 ---

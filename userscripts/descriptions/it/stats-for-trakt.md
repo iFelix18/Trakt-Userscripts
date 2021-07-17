@@ -2,13 +2,16 @@
 
 ### Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 
+[![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/stats-for-trakt.meta.js)](#)
+[![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)](#)
+
 ---
 
 ## Installazione
 
 1. Scarica uno di questi add-on per il browser:
-    - Tampermonkey per [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/), [Safari](https://safari-extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) o [Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S).
-    - Violentmonkey per [Chrome](https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag) o [Firefox](https://addons.mozilla.org/firefox/addon/violentmonkey/).
+    - [Violentmonkey](https://violentmonkey.github.io/)
+    - [Tampermonkey](https://www.tampermonkey.net/)
 2. Installalo da questa pagina.
 3. Fatto!
 
@@ -21,4 +24,3 @@ Statistiche persone:
 
 Statistiche serie:
 [![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
-
