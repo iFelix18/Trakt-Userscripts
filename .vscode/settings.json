@@ -1,15 +1,13 @@
 {
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.formatOnSave": true
+  "[javascript]": {
+    "editor.formatOnSave": false,
   },
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.formatOnSave": true
-  },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
   "javascript.validate.enable": false,
+  "search.exclude": {
+    "**/node_modules": true
+  },
   "standard.autoFixOnSave": true,
   "standard.enable": true
 }

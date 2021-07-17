@@ -1,13 +1,10 @@
 version: 2
 updates:
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/"
   schedule:
-    interval: weekly
+    interval: "weekly"
+    day: "sunday"
     time: "12:00"
-    timezone: Europe/Rome
+    timezone: "Europe/Rome"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: updates
-    versions:
-    - 11.4.3

@@ -2,8 +2,10 @@
   "name": "trakt-userscripts",
   "version": "1.0.0",
   "description": "Userscripts for Trakt.tv",
-  "author": "Felix",
-  "license": "MIT",
+  "scripts": {
+    "update": "updates -u & yarn install"
+  },
+  "homepage": "https://github.com/iFelix18/Trakt-Userscripts#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iFelix18/Trakt-Userscripts.git"
@@ -11,15 +13,16 @@
   "bugs": {
     "url": "https://github.com/iFelix18/Trakt-Userscripts/issues"
   },
-  "scripts": {
-    "update": "updates -u & yarn install"
+  "author": {
+    "name": "Davide",
+    "email": "iFelix18@protonmail.com",
+    "url": "https://twitter.com/iFeIix18"
   },
-  "dependencies": {
-    "yarn": "^1.22.10"
-  },
+  "license": "MIT",
   "devDependencies": {
     "standard": "^16.0.3",
-    "updates": "^12.1.0"
+    "updates": "^12.1.0",
+    "yarn": "^1.22.10"
   },
   "standard": {
     "globals": [
