@@ -8,11 +8,9 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.0
+// @version         3.0.1
 //
-// @homepageURL     https://git.io/Trakt-Userscripts
-// @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
-// @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
+// @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
