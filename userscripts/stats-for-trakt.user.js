@@ -1,45 +1,52 @@
 // ==UserScript==
 // @name            Stats for Trakt
 // @name:it         Statistiche per Trakt
-// @author          Felix
+// @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
+// @icon            https://avatars.githubusercontent.com/u/19800006?v=4?s=64
 // @description     Adds stats on Trakt
 // @description:it  Aggiunge statistiche a Trakt
-// @copyright       2019, Felix (https://github.com/iFelix18)
+// @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.2.0
+// @version         3.0.0
+//
 // @homepageURL     https://git.io/Trakt-Userscripts
 // @homepageURL     https://greasyfork.org/scripts/377524-stats-for-trakt
 // @homepageURL     https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
+//
 // @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@master/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@master/gm_config.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils-2.2.0.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/api/trakt-1.2.0.min.js
 // @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
-// @require         https://cdn.jsdelivr.net/npm/mathjs@6.2.3/dist/math.min.js#sha256-jnrFf6CiZ2veyKUaL7l7FHWW/ela8txaw/J7SVZzW5o=
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
+// @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js#sha256-HGSZhocOCEHviq7s3a917LyjMaqXB75C7kLVDqlMfdc=
+// @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js#sha256-jLFv9iIrIbqKULHpqp/jmePDqi989pKXOcOht3zgRcw=
+// @require         https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js#sha256-GMN9UIJeUeOsn/Uq4xDheGItEeSpI5Hcfp/63GclDZk=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js#sha256-c83qPqBpH5rEFQvgyTfcLufqoQIFFoqE5B71yeBXhLc=
-// @require         https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js#sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=
-// @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js#sha256-7QS1cHsH75h3IFgrFKsdhmKHHpWqF82sb/9vNLqcqs0=
+//
 // @match           *://trakt.tv/*
+// @connect         api.trakt.tv
+//
+// @grant           GM.info
+// @grant           GM_info
 // @grant           GM.getValue
 // @grant           GM_getValue
 // @grant           GM.setValue
 // @grant           GM_setValue
-// @grant           GM.info
-// @grant           GM_info
 // @grant           GM.registerMenuCommand
 // @grant           GM_registerMenuCommand
+// @grant           GM.xmlHttpRequest
+// @grant           GM_xmlhttpRequest
+//
 // @run-at          document-idle
 // @inject-into     page
 // ==/UserScript==
-//
-// Recommended in combination with Darkt, my darker theme for Trakt.
-// More info on: https://git.io/Darkt
 
-/* global GM_config, NodeCreationObserver, MonkeyUtils, $, math, ProgressBar, Chart */
+/* global $, GM_config, MonkeyUtils, NodeCreationObserver, ProgressBar, Trakt */
 
 (() => {
   'use strict'
@@ -49,9 +56,23 @@
     id: 'trakt-config',
     title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
+      traktClientID: {
+        label: 'Trakt Client ID',
+        section: ['Enter your Trakt Client ID', 'Get one at: https://trakt.tv/oauth/applications/new'],
+        type: 'text',
+        title: 'Your Trakt Client ID',
+        size: 70,
+        default: ''
+      },
       logging: {
         label: 'Logging',
         section: ['Develop'],
+        labelPos: 'above',
+        type: 'checkbox',
+        default: false
+      },
+      debugging: {
+        label: 'Debugging',
         labelPos: 'above',
         type: 'checkbox',
         default: false
@@ -59,10 +80,19 @@
     },
     css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
+      init: () => {
+        if (!GM_config.isOpen && GM_config.get('traktClientID') === '') {
+          window.onload = () => GM_config.open()
+        }
+      },
       save: () => {
-        window.alert(`${GM.info.script.name}: settings saved`)
-        GM_config.close()
-        window.location.reload(false)
+        if (GM_config.isOpen && GM_config.get('traktClientID') === '') {
+          window.alert(`${GM.info.script.name}: check your settings and save`)
+        } else {
+          window.alert(`${GM.info.script.name}: settings saved`)
+          GM_config.close()
+          window.location.reload(false)
+        }
       }
     }
   })
@@ -72,164 +102,359 @@
   const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Felix',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
   MU.init('trakt-config')
 
-  //* functions
-  const addStyle = () => { // add style
-    const css = '<style type="text/css">.progressbar-text:first-letter{text-transform:capitalize}</style>'
-    $('head').append(css)
-    MU.log('style added')
+  //* Trakt API
+  const trakt = new Trakt({
+    clientID: GM_config.get('traktClientID'),
+    debug: GM_config.get('debugging')
+  })
+
+  //* Constants
+  const loading = $('<div>', {
+    css: {
+      'font-family': 'varela round,helvetica neue,Helvetica,Arial,sans-serif',
+      'font-size': '14px',
+      'text-align': 'center',
+      'white-space': 'nowrap'
+    },
+    class: 'statsLoading',
+    text: 'Loading stats...'
+  })
+
+  //* Functions
+  /**
+   * Returns a normalized episodes and season numbers by adding a zero to individual numbers: 1 => 01
+   * @param {number} number Episode o season number
+   * @returns {number}
+   */
+  const normalize = (number) => {
+    return (number < 10 ? '0' : '') + number
   }
-  const addProgressbarStructure = () => { // add progressbar structure
-    const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"><div id="statsProgressbar"></div></div><div style="clear:both;"></div></h2>'
-    $(HTML).insertBefore($('.people #info-wrapper h2:first-of-type'))
-    MU.log('progressbar structure added')
+
+  /**
+   * Capitalize first letter
+   * @param {string} string
+   * @returns {string}
+   */
+  const capitalizeFirstLetter = (string) => {
+    return (string.charAt(0).toUpperCase() + string.slice(1)).trim()
   }
-  const addToMenu = () => { // add stats to sidebar menu
-    $('#info-wrapper .sidebar .sections li:first-of-type a').parent().after('<li><a href="#stats">Stats</a></li>')
-    $('#info-wrapper .sidebar .sections li a[href="#stats"]').click(event => {
+
+  /**
+   * Returns a color
+   * @param {number} index Datasets length
+   * @returns {string}
+   */
+  const color = (index) => {
+    const colors = [
+      'rgb(204, 51, 63)',
+      'rgb(0, 160, 176)',
+      'rgb(235, 104, 65)',
+      'rgb(106, 74, 60)',
+      'rgb(237, 201, 81)',
+      'rgb(171, 62, 91)',
+      'rgb(179, 204, 87)',
+      'rgb(239, 116, 111)',
+      'rgb(62, 65, 71)',
+      'rgb(255, 190, 64)',
+      'rgb(123, 59, 59)'
+    ]
+    return colors[index % colors.length]
+  }
+
+  /**
+   * Returns Trakt ID
+   * @returns {number}
+   */
+  const id = () => {
+    const type = $('.btn-list[data-type]').data('type')
+    const id = $(`.btn-list[data-${type}-id]`).data(`${type}-id`)
+    return id
+  }
+
+  /**
+   * Returns all episodes ratings in a show
+   * @param {number} id Trakt ID
+   * @returns {Promise}
+   */
+  const episodesRatings = (id) => {
+    let data = []
+    let episodesProcessed = 0
+    return new Promise((resolve, reject) => {
+      trakt.showSummary(id).then((response) => { // gets details for a show from Trakt
+        const episodesAired = response.aired_episodes
+        trakt.seasonSummary(id).then((response) => { // gets all seasons for a show from Trakt
+          response.map((season) => season).filter((season) => season.number !== 0).forEach((season) => { // for each season
+            trakt.seasonsSeason(id, season.number).then((response) => { // gets all episodes for a specific season of a show from Trakt
+              response.map((episode) => episode).forEach((episode) => { // for each episode
+                trakt.episodeSummary(id, episode.season, episode.number).then((response) => { // gets rating for an episode from Trakt
+                  data.push({
+                    season: response.season,
+                    episode: response.number,
+                    first_aired: response.first_aired,
+                    title: response.title,
+                    rating: response.rating,
+                    votes: response.votes
+                  })
+                  episodesProcessed++
+                  if (episodesProcessed === episodesAired) { // got all ratings for all aired episodes
+                    data = data.sort((a, b) => new Date(a.first_aired) - new Date(b.first_aired))
+                    resolve(data)
+                  }
+                }).catch((error) => MU.error(error))
+              })
+            }).catch((error) => MU.error(error))
+          })
+        }).catch((error) => MU.error(error))
+      }).catch((error) => MU.error(error))
+    })
+  }
+
+  /**
+   * Returns your people progress
+   * @returns {Promise}
+   */
+  const peopleProgress = () => {
+    const data = []
+    return new Promise((resolve, reject) => {
+      $('.tab-links a').each((index, element) => {
+        let role = $(element).data('role')
+        const items = $(`.posters[data-role="${role}"] .grid-item[data-released!="0"]`).length
+        const watched = $(`.posters[data-role="${role}"] .grid-item[data-released!="0"] .watch.selected`).length
+        const progress = Math.round(((watched / items) ? (watched / items) : 0) * 100)
+        role = capitalizeFirstLetter($(`.tab-links a[data-role="${role}"] h3`).clone().children().remove().end().text())
+        data.push({
+          role: role,
+          items: items,
+          watched: watched,
+          progress: progress
+        })
+      })
+      resolve(data)
+    })
+  }
+
+  /**
+   * Returns a datasets
+   * @param {Object} data Episodes ratings
+   * @returns {Array}
+   */
+  const scatterDatasets = (data) => {
+    let datasets = []
+    data = data.reduce((data, { season, episode, title, rating, votes }, key) => {
+      (data[season - 1] = data[season - 1] || []).push({
+        x: key,
+        y: rating
+      })
+      return data
+    }, {})
+    Object.keys(data).map((season) => season).forEach((key) => {
+      (datasets = datasets || []).push({
+        label: `Season ${parseFloat(key) + 1}`,
+        data: data[key],
+        backgroundColor: color(datasets.length)
+      })
+    })
+    return datasets
+  }
+
+  /**
+   * Add scatter chart html structure to the page
+   */
+  const addChartStructure = () => {
+    const html = `
+      <div id="stats">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>
+              <span><strong>Stats</strong></span>
+            </h2>
+            <div style="clear:both;"></div>
+            <div class="statsContainer col-md-12">
+              <canvas id="episodesRatingsChart"></canvas>
+            </div>
+            <div style="clear:both;"></div>
+          </div>
+        </div>
+      </div>
+    `
+    $(html).insertBefore($('#recent-episodes'))
+  }
+
+  /**
+   * Add progress bar html structure to the page
+   */
+  const addProgressBarStructure = () => {
+    const html = `
+      <div id="stats">
+        <div class="row">
+          <div>
+            <h2>
+              <span><strong>Stats</strong></span>
+            </h2>
+            <div style="clear:both;"></div>
+            <div class="statsContainer col-lg-8 col-md-7">
+              <div id="peopleProgressBar"></div>
+            </div>
+            <div style="clear:both;"></div>
+          </div>
+        </div>
+      </div>
+    `
+    $(html).insertBefore($('#credits'))
+  }
+
+  /**
+   * Add stats to sidebar menu
+   * @param {number} child
+   */
+  const addToMenu = (child) => {
+    $(`#info-wrapper .sidebar .sections li:nth-child(${child}) a`).parent().after('<li><a href="#stats">Stats</a></li>')
+    $('#info-wrapper .sidebar .sections li a[href="#stats"]').click((event) => {
       event.preventDefault()
-      $.scrollTo('#stats', 1000, {
+      $.scrollTo('#stats', 500, {
         offset: -70
       })
     })
-    MU.log('stats added to menu')
   }
-  const addUnreleasedClass = () => { // add unreleased class
-    $('.posters .grid-item h4:first-of-type:contains("\u00a0")').each(function () {
-      $(this).parent().parent().parent().addClass('unreleased')
-    })
-    MU.log('unreleased classes added')
-  }
-  const addProgressbar = (progress, role, watched, percentage, total) => { // add progressbar
-    const progressbar = new ProgressBar.Line('#statsProgressbar', { // progressbar.js configuration
-      color: '#ed1c24',
-      strokeWidth: 2,
-      trailColor: '#530d0d',
-      text: {
-        style: {
-          color: 'inherit',
-          margin: '1px 0 5px',
-          font: '14px varela round, helvetica neue, Helvetica, Arial, sans-serif'
+
+  /**
+   * Add chart to the page
+   * @param {Object} data Episodes ratings
+   */
+  const addScatterChart = (data) => {
+    const myChart = new Chart($('#episodesRatingsChart'), { // eslint-disable-line
+      type: 'scatter',
+      data: {
+        datasets: scatterDatasets(data)
+      },
+      options: {
+        scales: {
+          x: {
+            display: true,
+            ticks: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Episode',
+              font: {
+                family: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
+                size: 14,
+                weight: 'normal',
+                lineHeight: 'normal'
+              }
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Rating',
+              font: {
+                family: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
+                size: 14,
+                weight: 'normal',
+                lineHeight: 'normal'
+              }
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: false,
+            position: 'top',
+            fontSize: 14,
+            fontFamily: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
+            fontStyle: 'normal',
+            padding: 5,
+            lineHeight: 'normal',
+            text: 'Episodes ratings'
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const episode = data[context.parsed.x]
+                return [`s${normalize(episode.season)}e${normalize(episode.episode)} - ${episode.title}`, '', `Rating: ${episode.rating}`, `Votes:  ${episode.votes}`]
+              }
+            }
+          }
         }
       }
     })
-    progressbar.set(progress)
-    progressbar.setText(`${role}: watched ${watched} (${percentage}) out of a total of ${total} released items.`)
-    MU.log(`${role} progressbar added`)
   }
-  const getPeopleStats = () => { // get people stats
-    addUnreleasedClass()
-    $('.posters').each(function () { // get role
-      const role = $(this).data('role')
-      const items = $(`.posters[data-role="${role}"] .grid-item:not(.unreleased)`).length // get not unreleased items by role
-      const watchedItems = $(`.posters[data-role="${role}"] .grid-item:not(.unreleased) .watch.selected`).length // get not unreleased watched items by role
-      const watchedProgressItems = math.round((watchedItems / items) * 100) // calculate progress
-      if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems < 10) { // if progress is minor of 10
-        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
-        addProgressbar(`0.0${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
-      } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems >= 10 && watchedProgressItems <= 99) { // if progress is from 10 to 99
-        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
-        addProgressbar(`0.${watchedProgressItems}`, `${role}`, watchedItems, `${watchedProgressItems}%`, items)
-      } else if (items > 0 && watchedProgressItems !== 'NaN' && watchedProgressItems === 100) { // if progress is 100
-        MU.log(`${items} ${role} items, including ${watchedItems} (${watchedProgressItems}%) seen.`)
-        addProgressbar('1.0', `${role}`, watchedItems, `${watchedProgressItems}%`, items)
-      }
-    })
-  }
-  const addChartStructure = () => { // add chart structure
-    const HTML = '<h2 id="stats"><strong>Stats</strong><div style="clear:both;"></div><div class="statsContainer col-lg-8 col-md-7"> <canvas id="statsChart"></canvas></div><div style="clear:both;"></div></h2>'
-    $(HTML).insertBefore($('#info-wrapper #activity'))
-    MU.log('chart structure added')
-  }
-  const removePeopleStats = () => { // remove old stats
-    $('#statsProgressbar').children().remove()
-    MU.log('stats removed')
-  }
-  const addChart = (labels, dataset) => { // add chart
-    const data = { // Chart.js data
-      labels: labels,
-      datasets: [{
-        backgroundColor: 'transparent',
-        borderColor: '#ed1c24',
-        borderWidth: 4,
-        data: dataset,
-        fill: false,
-        label: 'Rating',
-        lineTension: 0,
-        pointBackgroundColor: '#ed1c24'
-      }]
-    }
-    const options = { // Chart.js options
-      legend: {
-        display: false
-      },
-      responsive: true,
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
+
+  /**
+   * Add progress bar to the page
+   * @param {Object} data People progress
+   */
+  const addProgressBar = (data) => {
+    data.forEach((role) => {
+      const progressbar = new ProgressBar.Line('#peopleProgressBar', {
+        color: '#ed1c24',
+        strokeWidth: 2,
+        trailColor: '#530d0d',
+        text: {
+          style: {
+            color: 'inherit',
+            margin: '1px 0 5px',
+            font: '14px varela round, helvetica neue, Helvetica, Arial, sans-serif'
           }
-        }]
-      },
-      title: {
-        display: true,
-        position: 'top',
-        fontSize: 14,
-        fontFamily: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
-        fontStyle: 'normal',
-        padding: 5,
-        lineHeight: 'normal',
-        text: 'Seasons ratings from Trakt'
-      }
-    }
-    const myChart = new Chart($('#statsChart'), { // eslint-disable-line
-      type: 'line',
-      data: data,
-      options: options
+        }
+      })
+      progressbar.set(role.progress / 100)
+      progressbar.setText(`${role.role}: watched ${role.watched} (${role.progress}%) out of a total of ${role.items} released items.`)
     })
-    MU.log('chart added')
   }
-  const getSeriesStats = () => { // get series stats
-    const json = []
-    const labels = []
-    const dataset = []
-    $('.shows:not(.season):not(.episode) .season-posters .grid-item').each(function () {
-      const seasonNumber = $(this).data('season-number') // get season number
-      const rating = $(this).data('percentage') // get Trakt rating
-      const data = {
-        rating: rating
-      }
-      json[seasonNumber] = data
-    })
-    for (let i = 1; i < json.length; i++) { // seasons rating excluding 0
-      labels.push(`Season ${i}`) // labels for chart
-      dataset.push(json[i].rating) // dataset for chart
-    }
-    MU.log(labels)
-    MU.log(dataset)
-    addChart(labels, dataset) // add chart
+
+  /**
+   * Remove progress bar
+   */
+  const removeProgressBar = () => {
+    $('#peopleProgressBar').children().remove()
   }
 
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-stats')
-  NodeCreationObserver.onCreation('.people #summary-wrapper .summary .container h1', () => {
-    addStyle()
-    addProgressbarStructure()
-    addToMenu()
-    getPeopleStats()
+  NodeCreationObserver.onCreation('.shows.show', () => { // show page
+    const traktID = id() // Trakt ID
+    addChartStructure() // add chart structure
+    addToMenu(2) // add stats to the menu
+    $('.statsContainer').LoadingOverlay('show', { // show loading
+      image: '',
+      custom: loading
+    })
+    episodesRatings(traktID).then((response) => { // get episodes ratings
+      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+      addScatterChart(response) // add chart
+    }).catch((error) => MU.error(error))
   })
-  NodeCreationObserver.onCreation('.people #toast-container .toast.toast-success', () => {
-    removePeopleStats()
-    getPeopleStats()
+  NodeCreationObserver.onCreation('.people.show', () => { // people page
+    addProgressBarStructure() // add progress bar structure
+    addToMenu(1) // add stats to the menu
+    $('.statsContainer').LoadingOverlay('show', { // show loading
+      image: '',
+      custom: loading
+    })
+    peopleProgress().then((response) => { // get people progress
+      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+      addProgressBar(response) // add progress bar
+    }).catch((error) => MU.error(error))
   })
-  NodeCreationObserver.onCreation('.shows:not(.season):not(.episode) .season-posters', () => {
-    addChartStructure()
-    addToMenu()
-    getSeriesStats()
+  NodeCreationObserver.onCreation('.people.show #toast-container .toast.toast-success', () => { // people page
+    $('.statsContainer').LoadingOverlay('show', { // show loading
+      image: '',
+      custom: loading
+    })
+    removeProgressBar()
+    peopleProgress().then((response) => { // get people progress
+      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+      addProgressBar(response) // add progress bar
+    }).catch((error) => MU.error(error))
   })
 })()
