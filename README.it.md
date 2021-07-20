@@ -80,11 +80,13 @@ Lingue readme:
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)
 
+    **Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) nelle impostazioni dello script.
+
     <details>
     <summary>Screenshots</summary>
 
-    Statistiche persone: [![People Stats](https://i.imgur.com/KX0dOmL.png "People Stats")](#)
-    Statistiche serie: [![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
+    Statistiche valutazioni episodi: [![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Episodes Ratings Stats")](#)
+    Statistiche persone: [![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#)
 
     </details>
 

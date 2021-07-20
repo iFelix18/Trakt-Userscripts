@@ -13,14 +13,14 @@
     - [Violentmonkey](https://violentmonkey.github.io/)
     - [Tampermonkey](https://www.tampermonkey.net/)
 2. Install it from this page.
-3. Done!
+3. Enter your [Trakt Client ID](https://trakt.tv/oauth/applications/new) in the script settings, and save.
+4. Done!
 
 ---
 
 ## Screenshots
 
+Episodes ratings stats:
+[![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Episodes Ratings Stats")](#)
 People stats:
-[![People Stats](https://i.imgur.com/KX0dOmL.png "People Stats")](#)
-
-Series stats:
-[![Series Stats](https://i.imgur.com/1tPTgCp.png "Series Stats")](#)
+[![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#)
