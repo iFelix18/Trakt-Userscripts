@@ -1,43 +1,44 @@
 // ==UserScript==
 // @name            Profile image on Trakt
 // @name:it         Immagine profilo su Trakt
-// @author          Felix
+// @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
+// @icon            https://avatars.githubusercontent.com/u/19800006?v=4&s=64
 // @description     Set your favorite movie, or TV series as your profile picture
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
-// @copyright       2019, Felix (https://github.com/iFelix18)
+// @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.0
-// @homepageURL     https://git.io/Trakt-Userscripts
-// @homepageURL     https://greasyfork.org/scripts/381892-profile-image-on-trakt
-// @homepageURL     https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt
+// @version         1.2.1
+//
+// @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
-// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@master/gm4-polyfill.min.js
-// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@master/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js#sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=
+//
+// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
+// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@73a5f7bffb3009c77beee5ef541d3a12928b4531/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
+//
 // @match           *://trakt.tv/*
+//
+// @grant           GM.info
+// @grant           GM_info
 // @grant           GM.getValue
 // @grant           GM_getValue
 // @grant           GM.setValue
 // @grant           GM_setValue
 // @grant           GM.deleteValue
 // @grant           GM_deleteValue
-// @grant           GM.info
-// @grant           GM_info
 // @grant           GM.registerMenuCommand
 // @grant           GM_registerMenuCommand
+//
 // @run-at          document-idle
 // @inject-into     page
 // ==/UserScript==
-//
-// Recommended in combination with Darkt, my darker theme for Trakt.
-// More info on: https://git.io/Darkt
 
-/* global GM_config, NodeCreationObserver, MonkeyUtils, $ */
+/* global $, GM_config, MonkeyUtils, NodeCreationObserver */
 
 (() => {
   'use strict'
@@ -69,34 +70,18 @@
   const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Felix',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
   MU.init('trakt-config')
 
-  //* functions
-  const setProfileImageInfo = async (selector) => { // set profile image info
-    const url = await GM.getValue('url')
-    const title = await GM.getValue('title')
-    const year = await GM.getValue('year')
-    if (url !== undefined && title !== undefined && year !== undefined) {
-      $(selector).parent().append(`<div class="hidden-xs" id="backdrop-info"><a href="${url}">${title} <span class="year">${year}</span></a></div>`)
-      MU.log('info setted')
-    } else {
-      MU.log('info not setted')
-    }
-  }
-  const setProfileImage = async (selector) => { // set profile image
-    const fanart = await GM.getValue('fanart')
-    if (fanart !== undefined) {
-      $(selector).css('background-image', `url('${fanart}.webp')`)
-      MU.log('background setted')
-    } else {
-      MU.log('background not setted')
-    }
-  }
-  const getData = (selector) => { // get data
+  //* Functions
+  /**
+   * Get data
+   * @param {Object} selector
+   */
+  const getData = (selector) => {
     $(selector).removeAttr('href').click(async () => {
       const fanart = $('#summary-wrapper').data('fanart') // get fanart
       const url = $('meta[property="og:url"]').attr('content') // get url
@@ -114,33 +99,59 @@
         GM.setValue('url', url) // save url
         GM.setValue('title', title) // save title
         GM.setValue('year', year) // save year
-        MU.log('data setted')
+        MU.log('data is set')
         MU.log(`url fanart is "${fanart}"`)
         MU.log(`url is "${url}"`)
         MU.log(`title is "${title}"`)
         MU.log(`year is "${year}"`)
-        MU.alert('Profile image setted!')
+        MU.alert('Profile picture is set!')
       }
     })
     $(selector).parent().css('cursor', 'pointer') // add pointer
   }
 
+  /**
+   * Set profile image
+   * @param {Object} selector
+   */
+  const setProfileImage = async (selector) => {
+    const fanart = await GM.getValue('fanart')
+    if (fanart !== undefined) {
+      $(selector).css('background-image', `url('${fanart}.webp')`)
+      MU.log('background is set')
+    }
+  }
+
+  /**
+   * Set profile image info
+   * @param {Object} selector
+   */
+  const setProfileImageInfo = async (selector) => {
+    const url = await GM.getValue('url')
+    const title = await GM.getValue('title')
+    const year = await GM.getValue('year')
+    if (url !== undefined && title !== undefined && year !== undefined) {
+      $(selector).parent().append(`<div class="hidden-xs" id="backdrop-info"><a href="${url}">${title} <span class="year">${year}</span></a></div>`)
+      MU.log('info is set')
+    }
+  }
+
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-profile-image')
-  NodeCreationObserver.onCreation('a[href$="/vip/cover"]', function () {
-    getData(this)
+  NodeCreationObserver.onCreation('a[href$="/vip/cover"]', (i) => {
+    getData(i)
   })
-  NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', function () {
-    $(this).parent().find('.shadow.hidden-xs').remove()
-    $(this).after('<div class="shade"></div>')
-    setProfileImage(this)
-    setProfileImageInfo(this)
+  NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', (i) => {
+    $(i).parent().find('.shadow.hidden-xs').remove()
+    $(i).after('<div class="shade"></div>')
+    setProfileImage(i)
+    setProfileImageInfo(i)
   })
-  NodeCreationObserver.onCreation('#results-top-wrapper:not(.watching-now) .poster-bg', function () {
-    $(this).css('background-position', 'center 25%')
-    $(this).css('background-size', 'cover')
-    $(this).css('opacity', '.5')
-    $(this).css('filter', 'blur(0px)')
-    setProfileImage(this)
+  NodeCreationObserver.onCreation('#results-top-wrapper:not(.watching-now) .poster-bg', (i) => {
+    $(i).css('background-position', 'center 25%')
+    $(i).css('background-size', 'cover')
+    $(i).css('opacity', '.5')
+    $(i).css('filter', 'blur(0px)')
+    setProfileImage(i)
   })
 })()
