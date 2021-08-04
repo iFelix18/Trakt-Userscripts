@@ -22,7 +22,7 @@
   "devDependencies": {
     "standard": "^16.0.3",
     "updates": "^12.1.0",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.11"
   },
   "standard": {
     "globals": [
