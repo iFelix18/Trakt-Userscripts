@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.6.3
+// @version         2.6.4
 //
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -125,7 +125,7 @@
    * Add style
    */
   const addStyle = () => {
-    const css = '<style>#summary-ratings-wrapper ul li{margin-right:20px}#summary-ratings-wrapper ul.stats{margin-left:20px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}</style>'
+    const css = '<style>#summary-ratings-wrapper ul li{margin-right:15px}#summary-ratings-wrapper ul.stats{margin-left:15px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}</style>'
     $('head').append(css)
     MU.log('style added')
   }
