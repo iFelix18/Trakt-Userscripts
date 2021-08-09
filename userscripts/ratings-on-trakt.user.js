@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.6.1
+// @version         2.6.2
 //
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -125,20 +125,7 @@
    * Add style
    */
   const addStyle = () => {
-    const css = `
-      #summary-ratings-wrapper ul li {
-        margin-right: 25px;
-      }
-      #summary-ratings-wrapper ul.stats {
-        margin-left: 25px;
-      }
-      #summary-ratings-wrapper ul li .icon img {
-        margin-right: 0;
-      }
-      #summary-ratings-wrapper .summary-user-rating.popover-on {
-        min-width: 0;
-      }
-    `
+    const css = '<style>#summary-ratings-wrapper ul li{margin-right:20px}#summary-ratings-wrapper ul.stats{margin-left:20px}#summary-ratings-wrapper ul li .icon img{margin-right:0}#summary-ratings-wrapper .summary-user-rating.popover-on{min-width:0}</style>'
     $('head').append(css)
     MU.log('style added')
   }
@@ -151,18 +138,7 @@
    * @param {string} votes  Votes
    */
   const addRating = (type, logo, rating, votes) => {
-    const html = `
-    <script id="${type}-rating-template" type="text/x-handlebars-template">
-      <div class="icon">
-        <img class="${type}-rating-logo" src="{{logo}}">
-      </div>
-      <div class="number">
-        <div class="rating">{{rating}}</div>
-        <div class="votes">{{votes}}</div>
-      </div>
-    </script>
-    <li class="${type}-rating"></li>
-    `
+    const html = `<li class=${type}-rating><script id=${type}-rating-template type=text/x-handlebars-template><div class=icon><img class=${type}-rating-logo src={{logo}}></div><div class=number><div class=rating>{{rating}}</div><div class=votes>{{votes}}</div></div></script>`
     $(html).appendTo($('#summary-ratings-wrapper .ratings'))
 
     const template = Handlebars.compile($(`#${type}-rating-template`).html())

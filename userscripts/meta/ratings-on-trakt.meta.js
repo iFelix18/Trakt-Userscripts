@@ -8,5 +8,5 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.6.1
+// @version         2.6.2
 // ==/UserScript==
