@@ -44,6 +44,7 @@ Lingue readme:
     - [Statistiche per Trakt](README.it.md#statistiche-per-trakt)
     - [Traduci Trakt](README.it.md#traduci-trakt)
     - [Immagine profilo su Trakt](README.it.md#immagine-profilo-su-trakt)
+    - [Ricerca Trakt](README.md#ricerca-trakt)
     - [Filtri Avanzati su Trakt](README.it.md#filtri-avanzati-su-trakt)
 2. [Come installare](README.it.md#come-installare)
 3. [Credits](README.it.md#credits)
@@ -96,7 +97,7 @@ Lingue readme:
     #### Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.tv](https://trakt.tv/) nella lingua scelta
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/translate-trakt.meta.js)](#)
-    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\translate-trakt.user.js)](#)
+    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)
 
     **Nota**: Dopo l'installazione, inserisci la tua [TMDb API Key](https://developers.themoviedb.org/3/), il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) e seleziona la tua [lingua](https://developers.themoviedb.org/3/configuration/get-primary-translations) nelle impostazioni dello script.
@@ -116,10 +117,28 @@ Lingue readme:
     #### Imposta il tuo film preferito, o serie TV come immagine del tuo profilo su [Trakt.tv](https://trakt.tv/)
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/profile-image-on-trakt.meta.js)](#)
-    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\profile-image-on-trakt.user.js)](#)
+    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)
 
     **Nota**: Dopo l'installazione, vai alla pagina del tuo film preferito o serie TV e fai clic su "SET PROFILE IMAGE" (fai di nuovo clic per eliminare l'immagine, fai clic su un altro film o serie TV per cambiarla).
+
+---
+
+*   ### Ricerca Trakt
+    #### Mostra i risultati di una ricerca su [Trakt.tv](https://trakt.tv/)
+
+    [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/trakt-search.meta.js)](#)
+    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)](#)
+    [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)
+
+    **Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) e la tua [TMDb API Key](https://developers.themoviedb.org/3/) nelle impostazioni dello script.
+
+    <details>
+    <summary>Screenshots</summary>
+
+    [![Search Results](https://i.imgur.com/l8nuTwO.png "Search Results")](#)
+
+    </details>
 
 ---
 
@@ -128,7 +147,7 @@ Lingue readme:
 
     [![Not working](https://flat.badgen.net/badge/%E2%9A%A0/NOT%20WORKING/red?labelColor=red)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/advanced-filtering-on-trakt.meta.js)](#)
-    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\advanced-filtering-on-trakt.user.js)](#)
+    [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js)](#)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js)
 
 ---
