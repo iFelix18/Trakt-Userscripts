@@ -60,6 +60,8 @@ Readme languages:
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/ratings-on-trakt.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/377523)](https://greasyfork.org/it/scripts/377523-ratings-on-trakt)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Ratings_on_Trakt)](https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)
 
     **Note**: After installation, enter your [OMDb APIKey](https://www.omdbapi.com/apikey.aspx) in the script settings.
@@ -67,8 +69,9 @@ Readme languages:
     <details>
     <summary>Screenshots</summary>
 
-    Before: [![Before](https://i.imgur.com/2cFZHL5.png "Before")](#)
-    After: [![After](https://i.imgur.com/cSiRt7P.png "After")](#)
+    Before:<br>[![Before](https://i.imgur.com/2cFZHL5.png "Before")](#)
+    
+    After:<br>[![After](https://i.imgur.com/cSiRt7P.png "After")](#)
 
     </details>
 
@@ -79,6 +82,8 @@ Readme languages:
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/stats-for-trakt.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/377524)](https://greasyfork.org/it/scripts/377524-stats-for-trakt)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Stats_for_Trakt)](https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)
 
     **Note**: After installation, enter your [Trakt Client ID](https://trakt.tv/oauth/applications/new) in the script settings.
@@ -86,8 +91,9 @@ Readme languages:
     <details>
     <summary>Screenshots</summary>
 
-    Episodes ratings stats: [![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Episodes Ratings Stats")](#)
-    People stats: [![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#)
+    Episodes ratings stats:<br>[![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Episodes Ratings Stats")](#)
+
+    People stats:<br>[![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#)
 
     </details>
 
@@ -98,6 +104,8 @@ Readme languages:
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/translate-trakt.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/377969)](https://greasyfork.org/it/scripts/377969-translate-trakt)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Translate_Trakt)](https://openuserjs.org/scripts/iFelix18/Translate_Trakt)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)
 
     **Note**: After installation, enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt Client ID](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
@@ -105,9 +113,9 @@ Readme languages:
     <details>
     <summary>Screenshots</summary>
 
-    Before: [![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#)
+    Before:<br>[![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#)
 
-    After: [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#)
+    After:<br>[![After](https://i.imgur.com/KuKI4Pt.gif "After")](#)
 
     </details>
 
@@ -118,6 +126,8 @@ Readme languages:
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/profile-image-on-trakt.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/381892)](https://greasyfork.org/it/scripts/381892-profile-image-on-trakt)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Profile_image_on_Trakt)](https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)
 
     **Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
@@ -129,6 +139,8 @@ Readme languages:
 
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/trakt-search.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/430549)](https://greasyfork.org/it/scripts/430549-trakt-search)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Trakt_Search)](https://openuserjs.org/scripts/iFelix18/Trakt_Search)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)
 
     **Note**: After installation, enter your [Trakt Client ID](https://trakt.tv/oauth/applications/new) and your [TMDb API Key](https://developers.themoviedb.org/3/) in the script settings.
@@ -146,8 +158,11 @@ Readme languages:
     #### Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
 
     [![Not working](https://flat.badgen.net/badge/%E2%9A%A0/NOT%20WORKING/red?labelColor=red)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
+
     [![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/advanced-filtering-on-trakt.meta.js)](#)
     [![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js)](#)
+    [![Greasy Fork Installs](https://flat.badgen.net/runkit/iFelix18/greasyfork/383595)](https://greasyfork.org/it/scripts/383595-advanced-filtering-on-trakt)
+    [![OpenUserJS Installs](https://flat.badgen.net/runkit/iFelix18/openuserjs/iFelix18/Advanced_Filtering_on_Trakt)](https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt)
     [![Install](https://flat.badgen.net/badge/install%20directly%20from/GitHub/00ADAD "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js)
 
 ---
