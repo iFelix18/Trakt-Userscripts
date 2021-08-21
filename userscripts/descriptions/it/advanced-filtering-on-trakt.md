@@ -2,9 +2,9 @@
 
 ### Mostra i Filtri Avanzati su [Trakt.tv](https://trakt.tv/)
 
-[![Not working](https://flat.badgen.net/badge/%E2%9A%A0/NOT%20WORKING/red?labelColor=red)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
-[![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/advanced-filtering-on-trakt.meta.js)](#)
-[![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\advanced-filtering-on-trakt.user.js)](#)
+[![Not working](https://img.shields.io/badge/%E2%9A%A0-NOT%20WORKING-red?labelColor=red&style=for-the-badge)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
+[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/advanced-filtering-on-trakt.meta.js&style=flat-square)](#)
+[![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts\advanced-filtering-on-trakt.user.js?style=flat-square)](#)
 
 ---
 

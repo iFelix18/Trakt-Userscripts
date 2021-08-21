@@ -2,8 +2,8 @@
 
 ### Set your favorite movie, or TV series as your profile picture on [Trakt.tv](https://trakt.tv/)
 
-[![Version](https://flat.badgen.net/runkit/iFelix18/userscript-version/Trakt-Userscripts/userscripts/meta/profile-image-on-trakt.meta.js)](#)
-[![Size](https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts\profile-image-on-trakt.user.js)](#)
+[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/profile-image-on-trakt.meta.js&style=flat-square)](#)
+[![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts\profile-image-on-trakt.user.js?style=flat-square)](#)
 
 ---
 
