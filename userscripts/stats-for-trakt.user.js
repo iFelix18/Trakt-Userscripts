@@ -8,7 +8,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.3
+// @version         3.1.0
 //
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -17,13 +17,13 @@
 //
 // @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@73a5f7bffb3009c77beee5ef541d3a12928b4531/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@73a5f7bffb3009c77beee5ef541d3a12928b4531/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@edabdee1caaee6af701333a527a0afd95240aa3b/release/node-creation-observer-latest.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js#sha256-HGSZhocOCEHviq7s3a917LyjMaqXB75C7kLVDqlMfdc=
 // @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js#sha256-jLFv9iIrIbqKULHpqp/jmePDqi989pKXOcOht3zgRcw=
-// @require         https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js#sha256-GMN9UIJeUeOsn/Uq4xDheGItEeSpI5Hcfp/63GclDZk=
+// @require         https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js#sha256-bC3LCZCwKeehY6T4fFi9VfOU0gztUa+S4cnkIhVPZ5E=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js#sha256-c83qPqBpH5rEFQvgyTfcLufqoQIFFoqE5B71yeBXhLc=
 //
 // @match           *://trakt.tv/*
@@ -31,10 +31,14 @@
 //
 // @grant           GM.info
 // @grant           GM_info
+// @grant           GM.listValues
+// @grant           GM_listValues
 // @grant           GM.getValue
 // @grant           GM_getValue
 // @grant           GM.setValue
 // @grant           GM_setValue
+// @grant           GM.deleteValue
+// @grant           GM_deleteValue
 // @grant           GM.registerMenuCommand
 // @grant           GM_registerMenuCommand
 // @grant           GM.xmlHttpRequest
@@ -62,6 +66,21 @@
         size: 70,
         default: ''
       },
+      cache: {
+        label: 'Remove',
+        section: ['Remove old data from the cache'],
+        type: 'button',
+        click: async () => {
+          const values = await GM.listValues()
+
+          values.forEach(async (value) => {
+            const cache = await GM.getValue(value) // get cache
+            if ((Date.now() - cache.time) > cachePeriod) { GM.deleteValue(value) } // delete old cache
+          })
+
+          GM_config.close()
+        }
+      },
       logging: {
         label: 'Logging',
         section: ['Develop'],
@@ -76,7 +95,7 @@
         default: false
       }
     },
-    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config #trakt-config_field_cache{margin:0 auto;display:block}#trakt-config .reset{color:#fff}',
     events: {
       init: () => {
         if (!GM_config.isOpen && GM_config.get('traktClientID') === '') {
@@ -113,6 +132,7 @@
   })
 
   //* Constants
+  const cachePeriod = 3600000 // 1 hours
   const loading = $('<div>', {
     css: {
       'font-family': 'varela round,helvetica neue,Helvetica,Arial,sans-serif',
@@ -169,7 +189,7 @@
    * Returns Trakt ID
    * @returns {number}
    */
-  const id = () => {
+  const getID = () => {
     const type = $('.btn-list[data-type]').data('type')
     const id = $(`.btn-list[data-${type}-id]`).data(`${type}-id`)
     return id
@@ -180,36 +200,44 @@
    * @param {number} id Trakt ID
    * @returns {Promise}
    */
-  const episodesRatings = (id) => {
+  const getEpisodesRatings = async (id) => {
+    const cache = await GM.getValue(id) // get cache
     let data = []
     let episodesProcessed = 0
     return new Promise((resolve, reject) => {
-      trakt.showSummary(id).then((response) => { // gets details for a show from Trakt
-        const episodesAired = response.aired_episodes
-        trakt.seasonSummary(id).then((response) => { // gets all seasons for a show from Trakt
-          response.map((season) => season).filter((season) => season.number !== 0).forEach((season) => { // for each season
-            trakt.seasonsSeason(id, season.number).then((response) => { // gets all episodes for a specific season of a show from Trakt
-              response.map((episode) => episode).forEach((episode) => { // for each episode
-                trakt.episodeSummary(id, episode.season, episode.number).then((response) => { // gets rating for an episode from Trakt
-                  data.push({
-                    season: response.season,
-                    episode: response.number,
-                    first_aired: response.first_aired,
-                    title: response.title,
-                    rating: response.rating,
-                    votes: response.votes
-                  })
-                  episodesProcessed++
-                  if (episodesProcessed === episodesAired) { // got all ratings for all aired episodes
-                    data = data.sort((a, b) => new Date(a.first_aired) - new Date(b.first_aired))
-                    resolve(data)
-                  }
-                }).catch((error) => MU.error(error))
-              })
-            }).catch((error) => MU.error(error))
-          })
+      if (cache !== undefined && ((Date.now() - cache.time) < cachePeriod)) { // cache valid
+        resolve((cache.data))
+        MU.log('data from cache')
+      } else { // cache not valid
+        trakt.showSummary(id).then((response) => { // gets details for a show from Trakt
+          const episodesAired = response.aired_episodes
+          trakt.seasonSummary(id).then((response) => { // gets all seasons for a show from Trakt
+            response.map((season) => season).filter((season) => season.number !== 0).forEach((season) => { // for each season
+              trakt.seasonsSeason(id, season.number).then((response) => { // gets all episodes for a specific season of a show from Trakt
+                response.map((episode) => episode).forEach((episode) => { // for each episode
+                  trakt.episodeSummary(id, episode.season, episode.number).then((response) => { // gets rating for an episode from Trakt
+                    data.push({
+                      season: response.season,
+                      episode: response.number,
+                      first_aired: response.first_aired,
+                      title: response.title,
+                      rating: response.rating,
+                      votes: response.votes
+                    })
+                    episodesProcessed++
+                    if (episodesProcessed === episodesAired) { // got all ratings for all aired episodes
+                      data = data.sort((a, b) => new Date(a.first_aired) - new Date(b.first_aired))
+                      GM.setValue(id, { data, time: Date.now() }) // set cache
+                      resolve(data)
+                      MU.log('data from Trakt')
+                    }
+                  }).catch((error) => MU.error(error))
+                })
+              }).catch((error) => MU.error(error))
+            })
+          }).catch((error) => MU.error(error))
         }).catch((error) => MU.error(error))
-      }).catch((error) => MU.error(error))
+      }
     })
   }
 
@@ -217,7 +245,7 @@
    * Returns your people progress
    * @returns {Promise}
    */
-  const peopleProgress = () => {
+  const getPeopleProgress = () => {
     const data = []
     return new Promise((resolve, reject) => {
       $('.tab-links a').each((index, element) => {
@@ -265,22 +293,7 @@
    * Add scatter chart html structure to the page
    */
   const addChartStructure = () => {
-    const html = `
-      <div id="stats">
-        <div class="row">
-          <div class="col-md-12">
-            <h2>
-              <span><strong>Stats</strong></span>
-            </h2>
-            <div style="clear:both;"></div>
-            <div class="statsContainer col-md-12">
-              <canvas id="episodesRatingsChart"></canvas>
-            </div>
-            <div style="clear:both;"></div>
-          </div>
-        </div>
-      </div>
-    `
+    const html = '<div id=stats><div class=row><div class=col-md-12><h2><span><strong>Stats</strong></span></h2><div style=clear:both></div><div class="col-md-12 statsContainer"><canvas id=episodesRatingsChart></canvas></div><div style=clear:both></div></div></div></div>'
     $(html).insertBefore($('#recent-episodes'))
   }
 
@@ -288,22 +301,7 @@
    * Add progress bar html structure to the page
    */
   const addProgressBarStructure = () => {
-    const html = `
-      <div id="stats">
-        <div class="row">
-          <div>
-            <h2>
-              <span><strong>Stats</strong></span>
-            </h2>
-            <div style="clear:both;"></div>
-            <div class="statsContainer col-lg-8 col-md-7">
-              <div id="peopleProgressBar"></div>
-            </div>
-            <div style="clear:both;"></div>
-          </div>
-        </div>
-      </div>
-    `
+    const html = '<div id=stats><div class=row><div><h2><span><strong>Stats</strong></span></h2><div style=clear:both></div><div class="col-lg-8 col-md-7 statsContainer"><div id=peopleProgressBar></div></div><div style=clear:both></div></div></div></div>'
     $(html).insertBefore($('#credits'))
   }
 
@@ -420,14 +418,15 @@
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-stats')
   NodeCreationObserver.onCreation('.shows.show', () => { // show page
-    const traktID = id() // Trakt ID
+    const id = getID() // Trakt ID
+    if (!id) return
     addChartStructure() // add chart structure
     addToMenu(2) // add stats to the menu
     $('.statsContainer').LoadingOverlay('show', { // show loading
       image: '',
       custom: loading
     })
-    episodesRatings(traktID).then((response) => { // get episodes ratings
+    getEpisodesRatings(id).then((response) => { // get episodes ratings
       $('.statsContainer').LoadingOverlay('hide', true) // hide loading
       addScatterChart(response) // add chart
     }).catch((error) => MU.error(error))
@@ -439,7 +438,7 @@
       image: '',
       custom: loading
     })
-    peopleProgress().then((response) => { // get people progress
+    getPeopleProgress().then((response) => { // get people progress
       $('.statsContainer').LoadingOverlay('hide', true) // hide loading
       addProgressBar(response) // add progress bar
     }).catch((error) => MU.error(error))
@@ -450,7 +449,7 @@
       custom: loading
     })
     removeProgressBar()
-    peopleProgress().then((response) => { // get people progress
+    getPeopleProgress().then((response) => { // get people progress
       $('.statsContainer').LoadingOverlay('hide', true) // hide loading
       addProgressBar(response) // add progress bar
     }).catch((error) => MU.error(error))

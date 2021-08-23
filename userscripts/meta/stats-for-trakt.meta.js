@@ -8,5 +8,5 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.3
+// @version         3.1.0
 // ==/UserScript==
