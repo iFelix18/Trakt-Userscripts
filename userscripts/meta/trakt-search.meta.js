@@ -8,5 +8,5 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.1
+// @version         1.0.2
 // ==/UserScript==
