@@ -8,5 +8,5 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.2
+// @version         1.2.3
 // ==/UserScript==
