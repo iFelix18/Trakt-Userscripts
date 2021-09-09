@@ -1,6 +1,7 @@
 {
   "recommendations": [
-    "editorconfig.editorconfig",
-    "standard.vscode-standard"
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig"
   ]
 }

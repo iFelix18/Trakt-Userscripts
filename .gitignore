@@ -1,12 +1,18 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,test,notepadpp,node,macos,linux,git
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,test,notepadpp,node,macos,linux,git
+# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,test,notepadpp,node,macos,linux,git,backup
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,test,notepadpp,node,macos,linux,git,backup
+
+### Backup ###
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
-*.orig
 
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
@@ -183,7 +189,6 @@ dist
 
 ### NotepadPP ###
 # Notepad++ backups #
-*.bak
 
 ### Test ###
 ### Ignore all files that could be used to test your code and
@@ -307,7 +312,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,test,notepadpp,node,macos,linux,git
+# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,test,notepadpp,node,macos,linux,git,backup
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 

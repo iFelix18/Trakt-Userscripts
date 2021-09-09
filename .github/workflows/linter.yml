@@ -1,0 +1,25 @@
+name: Lint
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint code
+        run: yarn lint
+      - name: Lint markdown
+        run: yarn lint:md

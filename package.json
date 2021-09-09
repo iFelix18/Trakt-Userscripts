@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Userscripts for Trakt.tv",
   "scripts": {
+    "lint": "eslint . --ext .json,.js",
+    "lint:md": "markdownlint-cli2 **/*.md !**/node_modules/** !LICENSE.md",
     "update": "updates -u & yarn install"
   },
   "homepage": "https://github.com/iFelix18/Trakt-Userscripts#readme",
@@ -20,13 +22,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "standard": "^16.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-greasemonkey": "^1.0.1",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-userscripts": "^0.0.2",
+    "markdownlint": "^0.24.0",
+    "markdownlint-cli2": "^0.3.0",
     "updates": "^12.1.0",
     "yarn": "^1.22.11"
-  },
-  "standard": {
-    "globals": [
-      "GM"
-    ]
   }
 }

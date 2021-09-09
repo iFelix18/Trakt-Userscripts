@@ -1,13 +1,20 @@
 {
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
   "[javascript]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": false
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.markdownlint": true
   },
   "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript"
+  ],
   "files.insertFinalNewline": true,
-  "javascript.validate.enable": false,
   "search.exclude": {
     "**/node_modules": true
-  },
-  "standard.autoFixOnSave": true,
-  "standard.enable": true
+  }
 }
