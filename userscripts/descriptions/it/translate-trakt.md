@@ -2,7 +2,7 @@
 
 ### Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.tv](https://trakt.tv/) nella lingua scelta
 
-[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#)
+[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#)
 [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts\translate-trakt.user.js?style=flat-square)](#)
 
 ---

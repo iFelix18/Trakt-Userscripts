@@ -2,7 +2,7 @@
 
 ### Adds stats on [Trakt.tv](https://trakt.tv/)
 
-[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#)
+[![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#)
 [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/stats-for-trakt.user.js?style=flat-square)](#)
 
 ---

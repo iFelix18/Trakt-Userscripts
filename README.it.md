@@ -55,7 +55,7 @@ Lingue readme:
 *   ### Valutazioni su Trakt
     #### Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a [Trakt.tv](https://trakt.tv/)
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/ratings-on-trakt.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/ratings-on-trakt.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377523&style=flat-square)](https://greasyfork.org/it/scripts/377523-ratings-on-trakt)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Ratings_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt)
@@ -77,7 +77,7 @@ Lingue readme:
 *   ### Statistiche per Trakt
     #### Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/stats-for-trakt.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377524&style=flat-square)](https://greasyfork.org/it/scripts/377524-stats-for-trakt)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Stats_for_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt)
@@ -99,7 +99,7 @@ Lingue readme:
 *   ### Traduci Trakt
     #### Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.tv](https://trakt.tv/) nella lingua scelta
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/translate-trakt.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377969&style=flat-square)](https://greasyfork.org/it/scripts/377969-translate-trakt)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Translate_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Translate_Trakt)
@@ -121,7 +121,7 @@ Lingue readme:
 *   ### Immagine profilo su Trakt
     #### Imposta il tuo film preferito, o serie TV come immagine del tuo profilo su [Trakt.tv](https://trakt.tv/)
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/profile-image-on-trakt.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/profile-image-on-trakt.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/381892&style=flat-square)](https://greasyfork.org/it/scripts/381892-profile-image-on-trakt)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Profile_image_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt)
@@ -134,7 +134,7 @@ Lingue readme:
 *   ### Ricerca Trakt
     #### Mostra i risultati di una ricerca su [Trakt.tv](https://trakt.tv/)
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/trakt-search.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/trakt-search.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/430549&style=flat-square)](https://greasyfork.org/it/scripts/430549-trakt-search)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Trakt_Search&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Trakt_Search)
@@ -156,7 +156,7 @@ Lingue readme:
 
     [![Not working](https://img.shields.io/badge/%E2%9A%A0-NOT%20WORKING-red?labelColor=red&style=for-the-badge)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
 
-    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/Trakt-Userscripts/userscripts/meta/advanced-filtering-on-trakt.meta.js&style=flat-square)](#)
+    [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/advanced-filtering-on-trakt.meta.js&style=flat-square)](#)
     [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/advanced-filtering-on-trakt.user.js?style=flat-square)](#)
     [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/383595&style=flat-square)](https://greasyfork.org/it/scripts/383595-advanced-filtering-on-trakt)
     [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Advanced_Filtering_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt)
