@@ -8,37 +8,36 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.2
-//
+// @version         1.0.3
+// @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js
-//
-// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@2a8d621376678f748acb81102f6c07c9d5129e81/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@8c5a008457b859c22300b94b416767b8d2605bb2/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js#sha256-ZSnrWNaPzGe8v25yP0S6YaMaDLMTDHC+4mHTw0xydEk=
-//
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
 // @connect         api.themoviedb.org
-//
-// @grant           GM.info
-// @grant           GM_info
+// @compatible      chrome
+// @compatible      edge
+// @compatible      firefox
 // @grant           GM.getValue
-// @grant           GM_getValue
-// @grant           GM.setValue
-// @grant           GM_setValue
+// @grant           GM.info
 // @grant           GM.registerMenuCommand
-// @grant           GM_registerMenuCommand
+// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
+// @grant           GM_getValue
+// @grant           GM_info
+// @grant           GM_registerMenuCommand
+// @grant           GM_setValue
 // @grant           GM_xmlhttpRequest
-//
 // @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
@@ -53,17 +52,19 @@
     id: 'trakt-config',
     title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
-      traktClientID: {
+      TraktClientID: {
         label: 'Trakt Client ID',
         section: ['Enter your Trakt Client ID', 'Get one at: https://trakt.tv/oauth/applications/new'],
+        labelPos: 'left',
         type: 'text',
         title: 'Your Trakt Client ID',
         size: 70,
         default: ''
       },
-      tmdbApiKey: {
+      TMDbApiKey: {
         label: 'TMDb API Key',
         section: ['Enter your TMDb API Key', 'Get one at: https://developers.themoviedb.org/3/'],
+        labelPos: 'left',
         type: 'text',
         title: 'Your TMDb API Key',
         size: 70,
@@ -72,26 +73,27 @@
       logging: {
         label: 'Logging',
         section: ['Develop'],
-        labelPos: 'above',
+        labelPos: 'right',
         type: 'checkbox',
         default: false
       },
       debugging: {
         label: 'Debugging',
-        labelPos: 'above',
+        labelPos: 'right',
         type: 'checkbox',
         default: false
       }
     },
+    /* cSpell: disable-next-line */
     css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       init: () => {
-        if (!GM_config.isOpen && (GM_config.get('traktClientID') === '' | GM_config.get('tmdbApiKey') === '')) {
+        if (!GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
           window.onload = () => GM_config.open()
         }
       },
       save: () => {
-        if (GM_config.isOpen && (GM_config.get('traktClientID') === '' | GM_config.get('tmdbApiKey') === '')) {
+        if (GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
           window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
           window.alert(`${GM.info.script.name}: settings saved`)
@@ -115,13 +117,13 @@
 
   //* Trakt API
   const trakt = new Trakt({
-    clientID: GM_config.get('traktClientID'),
+    clientID: GM_config.get('TraktClientID'),
     debug: GM_config.get('debugging')
   })
 
   //* TMDb API
   const tmdb = new TMDb({
-    apikey: GM_config.get('tmdbApiKey'),
+    apikey: GM_config.get('TMDbApiKey'),
     language: ' ',
     debug: GM_config.get('debugging')
   })
