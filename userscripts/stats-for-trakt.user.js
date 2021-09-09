@@ -8,13 +8,12 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.1.0
-//
+// @version         3.1.1
+// @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
-//
 // @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
@@ -25,25 +24,25 @@
 // @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js#sha256-jLFv9iIrIbqKULHpqp/jmePDqi989pKXOcOht3zgRcw=
 // @require         https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js#sha256-bC3LCZCwKeehY6T4fFi9VfOU0gztUa+S4cnkIhVPZ5E=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js#sha256-c83qPqBpH5rEFQvgyTfcLufqoQIFFoqE5B71yeBXhLc=
-//
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
-//
-// @grant           GM.info
-// @grant           GM_info
-// @grant           GM.listValues
-// @grant           GM_listValues
-// @grant           GM.getValue
-// @grant           GM_getValue
-// @grant           GM.setValue
-// @grant           GM_setValue
+// @compatible      chrome
+// @compatible      edge
+// @compatible      firefox
 // @grant           GM.deleteValue
-// @grant           GM_deleteValue
+// @grant           GM.getValue
+// @grant           GM.info
+// @grant           GM.listValues
 // @grant           GM.registerMenuCommand
-// @grant           GM_registerMenuCommand
+// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
+// @grant           GM_deleteValue
+// @grant           GM_getValue
+// @grant           GM_info
+// @grant           GM_listValues
+// @grant           GM_registerMenuCommand
+// @grant           GM_setValue
 // @grant           GM_xmlhttpRequest
-//
 // @run-at          document-idle
 // @inject-into     page
 // ==/UserScript==
@@ -58,52 +57,54 @@
     id: 'trakt-config',
     title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
-      traktClientID: {
+      TraktClientID: {
         label: 'Trakt Client ID',
         section: ['Enter your Trakt Client ID', 'Get one at: https://trakt.tv/oauth/applications/new'],
+        labelPos: 'left',
         type: 'text',
         title: 'Your Trakt Client ID',
         size: 70,
         default: ''
       },
-      cache: {
-        label: 'Remove',
-        section: ['Remove old data from the cache'],
+      logging: {
+        label: 'Logging',
+        section: ['Develop'],
+        labelPos: 'right',
+        type: 'checkbox',
+        default: false
+      },
+      debugging: {
+        label: 'Debugging',
+        labelPos: 'right',
+        type: 'checkbox',
+        default: false
+      },
+      clearCache: {
+        label: 'Clear the cache',
         type: 'button',
         click: async () => {
           const values = await GM.listValues()
 
           values.forEach(async (value) => {
             const cache = await GM.getValue(value) // get cache
-            if ((Date.now() - cache.time) > cachePeriod) { GM.deleteValue(value) } // delete old cache
+            if (cache.time) { GM.deleteValue(value) } // delete cache
           })
 
+          MU.log('cache cleared')
           GM_config.close()
         }
-      },
-      logging: {
-        label: 'Logging',
-        section: ['Develop'],
-        labelPos: 'above',
-        type: 'checkbox',
-        default: false
-      },
-      debugging: {
-        label: 'Debugging',
-        labelPos: 'above',
-        type: 'checkbox',
-        default: false
       }
     },
-    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config #trakt-config_field_cache{margin:0 auto;display:block}#trakt-config .reset{color:#fff}',
+    /* cSpell: disable-next-line */
+    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       init: () => {
-        if (!GM_config.isOpen && GM_config.get('traktClientID') === '') {
+        if (!GM_config.isOpen && GM_config.get('TraktClientID') === '') {
           window.onload = () => GM_config.open()
         }
       },
       save: () => {
-        if (GM_config.isOpen && GM_config.get('traktClientID') === '') {
+        if (GM_config.isOpen && GM_config.get('TraktClientID') === '') {
           window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
           window.alert(`${GM.info.script.name}: settings saved`)
@@ -127,14 +128,14 @@
 
   //* Trakt API
   const trakt = new Trakt({
-    clientID: GM_config.get('traktClientID'),
+    clientID: GM_config.get('TraktClientID'),
     debug: GM_config.get('debugging')
   })
 
   //* Constants
   const cachePeriod = 3600000 // 1 hours
   const loading = $('<div>', {
-    css: {
+    css: { /* cSpell: disable-next-line */
       'font-family': 'varela round,helvetica neue,Helvetica,Arial,sans-serif',
       'font-size': '14px',
       'text-align': 'center',
@@ -339,7 +340,7 @@
             title: {
               display: true,
               text: 'Episode',
-              font: {
+              font: { /* cSpell: disable-next-line */
                 family: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
                 size: 14,
                 weight: 'normal',
@@ -352,7 +353,7 @@
             title: {
               display: true,
               text: 'Rating',
-              font: {
+              font: { /* cSpell: disable-next-line */
                 family: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
                 size: 14,
                 weight: 'normal',
@@ -365,7 +366,7 @@
           title: {
             display: false,
             position: 'top',
-            fontSize: 14,
+            fontSize: 14, /* cSpell: disable-next-line */
             fontFamily: 'varela round, helvetica neue, Helvetica, Arial, sans-serif',
             fontStyle: 'normal',
             padding: 5,
@@ -398,7 +399,7 @@
         text: {
           style: {
             color: 'inherit',
-            margin: '1px 0 5px',
+            margin: '1px 0 5px', /* cSpell: disable-next-line */
             font: '14px varela round, helvetica neue, Helvetica, Arial, sans-serif'
           }
         }
