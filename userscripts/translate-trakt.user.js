@@ -3,44 +3,41 @@
 // @name:it         Traduci Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://avatars.githubusercontent.com/u/19800006?v=4?s=64
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=trakt.tv
 // @description     Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.3
-//
-// @homepageURL     https://git.io/Trakt-Userscripts
-// @homepageURL     https://greasyfork.org/scripts/377969-translate-trakt
-// @homepageURL     https://openuserjs.org/scripts/iFelix18/Translate_Trakt
+// @version         3.0.4
+// @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
+// @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
-//
-// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@master/gm4-polyfill.min.js
-// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@master/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@master/lib/api/tmdb.min.js
-// @require         https://cdn.jsdelivr.net/gh/soufianesakhi/node-creation-observer-js@master/release/node-creation-observer-1.2.min.js
+// @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@6a6beccf06c63b180fc2e251f024bb25feac3eb0/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@2a8d621376678f748acb81102f6c07c9d5129e81/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@8c5a008457b859c22300b94b416767b8d2605bb2/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
+// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/jquery-visible@1.2.0/jquery.visible.min.js#sha256-VzXcD0HmV1s8RGdJ/yIf7YkZiOZrcxPphaDpwM++pSs=
-//
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
 // @connect         api.themoviedb.org
-//
-// @grant           GM.info
-// @grant           GM_info
+// @compatible      chrome
+// @compatible      edge
+// @compatible      firefox
 // @grant           GM.getValue
-// @grant           GM_getValue
-// @grant           GM.setValue
-// @grant           GM_setValue
+// @grant           GM.info
 // @grant           GM.registerMenuCommand
-// @grant           GM_registerMenuCommand
+// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
+// @grant           GM_getValue
+// @grant           GM_info
+// @grant           GM_registerMenuCommand
+// @grant           GM_setValue
 // @grant           GM_xmlhttpRequest
-//
 // @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
@@ -55,17 +52,19 @@
     id: 'trakt-config',
     title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
-      tmdbApiKey: {
+      TMDbApiKey: {
         label: 'TMDb API Key',
         section: ['Enter your TMDb API Key', 'Get one at: https://developers.themoviedb.org/3/'],
+        labelPos: 'left',
         type: 'text',
         title: 'Your TMDb API Key',
         size: 70,
         default: ''
       },
-      traktClientID: {
+      TraktClientID: {
         label: 'Trakt Client ID',
         section: ['Enter your Trakt Client ID', 'Get one at: https://trakt.tv/oauth/applications/new'],
+        labelPos: 'left',
         type: 'text',
         title: 'Your Trakt Client ID',
         size: 70,
@@ -74,6 +73,7 @@
       language: {
         label: 'Language',
         section: ['Select the code of your language', 'More info at: https://developers.themoviedb.org/3/configuration/get-primary-translations'],
+        labelPos: 'left',
         type: 'select',
         title: 'Your language',
         options: ['ar-AE', 'ar-SA', 'be-BY', 'bg-BG', 'bn-BD', 'ca-ES', 'ch-GU', 'cn-CN', 'cs-CZ', 'da-DK', 'de-AT', 'de-CH', 'de-DE', 'el-GR', 'en-AU', 'en-CA', 'en-GB', 'en-IE', 'en-NZ', 'en-US', 'eo-EO', 'es-ES', 'es-MX', 'et-EE', 'eu-ES', 'fa-IR', 'fi-FI', 'fr-CA', 'fr-FR', 'gl-ES', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ka-GE', 'kk-KZ', 'kn-IN', 'ko-KR', 'lt-LT', 'lv-LV', 'ml-IN', 'ms-MY', 'ms-SG', 'nb-NO', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'si-LK', 'sk-SK', 'sl-SI', 'sq-AL', 'sr-RS', 'sv-SE', 'ta-IN', 'te-IN', 'th-TH', 'tl-PH', 'tr-TR', 'uk-UA', 'vi-VN', 'zh-CN', 'zh-HK', 'zh-TW', 'zu-ZA'],
@@ -82,26 +82,27 @@
       logging: {
         label: 'Logging',
         section: ['Develop'],
-        labelPos: 'above',
+        labelPos: 'right',
         type: 'checkbox',
         default: false
       },
       debugging: {
         label: 'Debugging',
-        labelPos: 'above',
+        labelPos: 'right',
         type: 'checkbox',
         default: false
       }
     },
+    /* cSpell: disable-next-line */
     css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
     events: {
       init: () => {
-        if (!GM_config.isOpen && (GM_config.get('tmdbApiKey') === '' | GM_config.get('traktClientID') === '')) {
+        if (!GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
           window.onload = () => GM_config.open()
         }
       },
       save: () => {
-        if (GM_config.isOpen && (GM_config.get('tmdbApiKey') === '' | GM_config.get('traktClientID') === '')) {
+        if (GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
           window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
           window.alert(`${GM.info.script.name}: settings saved`)
@@ -117,7 +118,7 @@
   const MU = new MonkeyUtils({
     name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -125,13 +126,13 @@
 
   //* Trakt API
   const trakt = new Trakt({
-    clientID: GM_config.get('traktClientID'),
+    clientID: GM_config.get('TraktClientID'),
     debug: GM_config.get('debugging')
   })
 
   //* TMDb API
   const tmdb = new TMDb({
-    apikey: GM_config.get('tmdbApiKey'),
+    apikey: GM_config.get('TMDbApiKey'),
     language: GM_config.get('language'),
     debug: GM_config.get('debugging')
   })
