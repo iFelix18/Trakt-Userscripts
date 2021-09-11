@@ -5,5 +5,5 @@
 // @description  Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language
 // @copyright    2019, Davide (https://github.com/iFelix18)
 // @license      MIT
-// @version      3.0.4
+// @version      3.0.5
 // ==/UserScript==
