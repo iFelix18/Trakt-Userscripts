@@ -8,7 +8,7 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.3
+// @version         1.0.4
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -84,8 +84,7 @@
         default: false
       }
     },
-    /* cSpell: disable-next-line */
-    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
+    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}#trakt-config{background-color:var(--mainBackground);color:var(--text)}#trakt-config .section_header{background-color:var(--background);border-bottom:none;border:1px solid var(--background);color:var(--text)}#trakt-config .section_desc{background-color:var(--background);border-top:none;border:1px solid var(--background);color:var(--text)}#trakt-config .reset{color:var(--text)}',
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
@@ -141,7 +140,7 @@
    * Add template
    */
   const addTemplate = () => {
-    const template = '<div class=search-results></div><script id=results-template type=text/x-handlebars-template>{{#each results}}<a class=search-result target=_self href={{link}}><img class=search-result-poster alt=poster src={{poster}}><div class=search-result-text><span class=search-result-type>{{this.type}}</span><span class=search-result-title>{{this.title}}</span><span class=search-result-year>{{this.year}}</span></div></a>{{/each}}</script>'
+    const template = '<div class=search-results></div><script id=results-template type=text/x-handlebars-template>{{#each results}} <a class=search-result href={{link}} target=_self><img alt=poster class=search-result-poster src={{poster}}><div class=search-result-text><span class=search-result-type>{{this.type}} </span><span class=search-result-title>{{this.title}} </span><span class=search-result-year>{{this.year}}</span></div></a>{{/each}}</script>'
     $('#header-search').append(template)
   }
 
