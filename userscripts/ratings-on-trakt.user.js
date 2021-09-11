@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.1
+// @version         3.0.2
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -92,8 +92,7 @@
         }
       }
     },
-    /* cSpell: disable-next-line */
-    css: '#trakt-config{background-color:#343434;color:#fff}#trakt-config *{font-family:varela round,helvetica neue,Helvetica,Arial,sans-serif}#trakt-config .section_header{background-color:#282828;border:1px solid #282828;border-bottom:none;color:#fff;font-size:10pt}#trakt-config .section_desc{background-color:#282828;border:1px solid #282828;border-top:none;color:#fff;font-size:10pt}#trakt-config .reset{color:#fff}',
+    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}#trakt-config{background-color:var(--mainBackground);color:var(--text)}#trakt-config .section_header{background-color:var(--background);border-bottom:none;border:1px solid var(--background);color:var(--text)}#trakt-config .section_desc{background-color:var(--background);border-top:none;border:1px solid var(--background);color:var(--text)}#trakt-config .reset{color:var(--text)}',
     events: {
       init: () => {
         if (!GM_config.isOpen && GM_config.get('OMDbApiKey') === '') {
@@ -183,25 +182,54 @@
    * @returns {Object}
    */
   const elaborateResponse = (response) => {
-    return ([
-      {
-        logo: logos.imdb,
-        rating: response.imdbRating,
-        source: 'imdb',
-        votes: response.imdbVotes !== 'N/A' ? parseFloat(response.imdbVotes.replace(/,/g, '')) >= 1000 ? `${Math.round(parseFloat(response.imdbVotes.replace(/,/g, '')) / 1000, 1)}k votes` : `${parseFloat(response.imdbVotes.replace(/,/g, ''))} votes` : 'N/A'
-      },
-      {
-        logo: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? parseFloat(response.Ratings[1].Value) < 60 ? logos.rotten : logos.fresh : logos.fresh,
-        rating: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? response.Ratings[1].Value : 'N/A',
-        source: 'tomatoes',
-        votes: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? parseFloat(response.Ratings[1].Value) < 60 ? 'Rotten' : 'Fresh' : 'N/A'
-      },
-      {
-        logo: logos.metacritic,
-        rating: response.Metascore,
-        source: 'metascore',
-        votes: response.Metascore !== 'N/A' ? response.Metascore < 40 ? '#ff0000' : response.Metascore >= 40 && response.Metascore <= 60 ? '#ffcc33' : '#66cc33' : 'N/A'
-      }
+    return ([{
+      logo: logos.imdb,
+      rating: `${response.imdbRating}/10`,
+      source: 'imdb',
+      votes: (
+        response.imdbVotes !== 'N/A'
+          ? parseFloat(response.imdbVotes.replace(/,/g, '')) >= 1000
+            ? `${Math.round(parseFloat(response.imdbVotes.replace(/,/g, '')) / 1000, 1)}k`
+            : `${parseFloat(response.imdbVotes.replace(/,/g, ''))}`
+          : 'N/A'
+      )
+    },
+    {
+      logo: (
+        response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes'
+          ? parseFloat(response.Ratings[1].Value) < 60
+            ? logos.rotten
+            : logos.fresh
+          : logos.fresh
+      ),
+      rating: (
+        response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes'
+          ? response.Ratings[1].Value
+          : 'N/A'
+      ),
+      source: 'tomatoes',
+      votes: (
+        response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes'
+          ? parseFloat(response.Ratings[1].Value) < 60
+            ? 'Rotten'
+            : 'Fresh'
+          : 'N/A'
+      )
+    },
+    {
+      logo: logos.metacritic,
+      rating: response.Metascore,
+      source: 'metascore',
+      votes: (
+        response.Metascore !== 'N/A'
+          ? response.Metascore < 40
+            ? '#ff0000'
+            : response.Metascore >= 40 && response.Metascore <= 60
+              ? '#ffcc33'
+              : '#66cc33'
+          : 'N/A'
+      )
+    }
     ])
   }
 
@@ -209,7 +237,7 @@
    * Add template
    */
   const addTemplate = () => {
-    const template = '<ul class=external-ratings style=margin-left:9px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}}<li class="{{this.source}}-rating"> <div class="icon"><img class="logo" src="{{this.logo}}" alt="logo"></div><div class="number"> <div class="rating">{{this.rating}}</div>{{#ifEqual this.votes "N/A"}}<div class="votes"><span></span></div>{{else}}{{#ifEqual this.source "metascore"}}<div class="votes" style="background-color:{{this.votes}}; height: 8px; width: 100%; margin-top: 2px;"></div>{{else}}<div class="votes"><span>{{this.votes}}</span></div>{{/ifEqual}}{{/ifEqual}}</div></li>{{/each}}</script>'
+    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><div class=icon style=margin-right:0><img alt="{{this.source}} logo" class=logo src={{this.logo}}></div><div class=number><div class=rating>{{this.rating}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></li>{{/ifEqual}} {{/each}}</script>'
     const target = '#summary-ratings-wrapper .ratings'
 
     $(template).insertAfter(target)
@@ -219,7 +247,8 @@
    * Add style
    */
   const addStyle = () => {
-    const css = '<style>#summary-ratings-wrapper ul li{margin-right:9px}#summary-ratings-wrapper ul.stats{margin-left:9px}</style>'
+    const css = '<style>#summary-ratings-wrapper ul li{margin-right:12px!important}#summary-ratings-wrapper ul.external-ratings,#summary-ratings-wrapper ul.stats{margin-left:12px!important}</style>'
+
     $('head').append(css)
   }
 
@@ -241,6 +270,8 @@
     clearOldCache()
 
     const id = getID()
+
+    if (!id) return
 
     MU.log(`ID is '${id}'`)
 
