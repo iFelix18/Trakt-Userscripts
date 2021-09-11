@@ -39,8 +39,6 @@ Readme languages:
   |  [![After](https://i.imgur.com/cSiRt7P.png "After")](#ratings-on-trakt)  |
   |                                 *After*                                  |
 
----
-
 * ### Stats for Trakt
 
   Adds stats on [Trakt.tv](https://trakt.tv/)
@@ -60,8 +58,6 @@ Readme languages:
   |           [![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#stats-for-trakt)           |
   |                                             *People stats*                                              |
 
----
-
 * ### Trakt Search
 
   Shows the results of a search on [Trakt.tv](https://trakt.tv/)
@@ -78,8 +74,6 @@ Readme languages:
  | :----------------------------------------------------------------------------------: |
  | [![Search Results](https://i.imgur.com/l8nuTwO.png "Search Results")](#trakt-search) |
  |                                   *Search Results*                                   |
-
----
 
 * ### Translate Trakt
 
@@ -100,8 +94,6 @@ Readme languages:
   |  [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#translate-trakt)  |
   |                 *After, examples in various languages*                  |
 
----
-
 * ### Profile image on Trakt
 
   Set your favorite movie, or TV series as your profile picture on [Trakt.tv](https://trakt.tv/)
@@ -113,20 +105,6 @@ Readme languages:
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)
 
   >**Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
-
-<!-- ---
-
-* ### Advanced Filtering on Trakt
-
-  Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
-
-  [![Deprecated](https://img.shields.io/badge/DEPRECATED-red?labelColor=red&style=for-the-badge)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/advanced-filtering-on-trakt.meta.js&style=flat-square)](#advanced-filtering-on-trakt)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/advanced-filtering-on-trakt.user.js?style=flat-square)](#advanced-filtering-on-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/383595&style=flat-square)](https://greasyfork.org/it/scripts/383595-advanced-filtering-on-trakt)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Advanced_Filtering_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js) -->
 
 ---
 
