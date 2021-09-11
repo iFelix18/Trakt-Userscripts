@@ -4,7 +4,7 @@ Userscripts to improve and add features to [Trakt.tv](https://trakt.tv/)
 
 [![Stars](https://img.shields.io/github/stars/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/watchers)
-[![Scripts](https://img.shields.io/badge/scripts-6-orange?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/tree/master/userscripts)
+[![Scripts](https://img.shields.io/badge/scripts-5-orange?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/tree/master/userscripts)
 [![Open Issues](https://img.shields.io/github/issues-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed)
 [![Last Commit](https://img.shields.io/github/last-commit/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/commits/master)
@@ -114,19 +114,19 @@ Readme languages:
 
   >**Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
 
----
+<!-- ---
 
 * ### Advanced Filtering on Trakt
 
   Show the Advanced Filtering on [Trakt.tv](https://trakt.tv/)
 
-  [![Not working](https://img.shields.io/badge/%E2%9A%A0-NOT%20WORKING-red?labelColor=red&style=for-the-badge)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
+  [![Deprecated](https://img.shields.io/badge/DEPRECATED-red?labelColor=red&style=for-the-badge)](https://github.com/iFelix18/Trakt-Userscripts/issues/40)
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/advanced-filtering-on-trakt.meta.js&style=flat-square)](#advanced-filtering-on-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/advanced-filtering-on-trakt.user.js?style=flat-square)](#advanced-filtering-on-trakt)
   [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/383595&style=flat-square)](https://greasyfork.org/it/scripts/383595-advanced-filtering-on-trakt)
   [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Advanced_Filtering_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Advanced_Filtering_on_Trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js)
+  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/advanced-filtering-on-trakt.user.js) -->
 
 ---
 
