@@ -1087,10 +1087,10 @@ eslint-plugin-promise@^5.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-5.1.0.tgz#fb2188fb734e4557993733b41aa1a688f46c6f24"
   integrity sha512-NGmI6BH5L12pl7ScQHbg7tvtk4wPxxj8yPHH47NvSmMtFneC077PSeY3huFj06ZWZvtbfxSPt3RuOQD5XcR4ng==
 
-eslint-plugin-userscripts@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-userscripts/-/eslint-plugin-userscripts-0.0.2.tgz#46a1fec930f44032e26cdb276edd0e3d92ccd3f1"
-  integrity sha512-SB3bPZJdVCP2UzfRgnOVafcRhIvlo6nUqUKkCkJ9k3s9N3GLlK0Ra5hzjAywFV3tMaVwjZa4K3OLTewXZOJclA==
+eslint-plugin-userscripts@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-userscripts/-/eslint-plugin-userscripts-0.0.4.tgz#eff38f659b706d79535ddf0683bd040aee739c74"
+  integrity sha512-5LSgOV/94LCnCEA7JJOFJKZwZHWWidKEXUwWs05Hb8cdVpIhp5El+aaHRcZ+JiX+ZPHYKcymqqGyNiEq8Y62AA==
   dependencies:
     requireindex "~1.2.0"
 

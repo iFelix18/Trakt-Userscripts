@@ -30,7 +30,7 @@
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-userscripts": "^0.0.2",
+    "eslint-plugin-userscripts": "^0.0.4",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-clean-css": "^4.3.0",
