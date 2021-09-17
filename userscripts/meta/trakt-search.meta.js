@@ -5,5 +5,5 @@
 // @description  Shows the results of a search on Trakt
 // @copyright    2021, Davide (https://github.com/iFelix18)
 // @license      MIT
-// @version      1.0.4
+// @version      1.1.0
 // ==/UserScript==

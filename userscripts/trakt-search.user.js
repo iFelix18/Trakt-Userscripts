@@ -8,7 +8,7 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.4
+// @version         1.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -133,6 +133,7 @@
    */
   const addStyle = () => {
     const css = '<style>#header-search .search-results{background:#333;display:none;max-width:427px}#header-search.open .search-results{display:block}.search-result{border-top:none;border:1px solid #666;display:flex;overflow:hidden;text-decoration:none!important}.search-result:hover{background-color:#222}.search-result-poster{float:left;height:auto;width:37.83333px}.search-result-text{align-items:center;display:flex;min-width:0;padding-left:12px;padding-right:12px}.search-result-type{background-color:#ed1c24;color:#fff;display:inline-block;flex-shrink:0;font-family:proxima nova semibold;font-size:11px;height:auto;margin-right:6px;text-align:center;text-transform:capitalize;width:6ch}.search-result-title{color:#fff;font-family:proxima nova;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.search-result-year{color:#999;flex-shrink:0;font-family:proxima nova;font-size:11px;margin-left:6px}</style>'
+
     $('head').append(css)
   }
 
@@ -141,20 +142,22 @@
    */
   const addTemplate = () => {
     const template = '<div class=search-results></div><script id=results-template type=text/x-handlebars-template>{{#each results}} <a class=search-result href={{link}} target=_self><img alt=poster class=search-result-poster src={{poster}}><div class=search-result-text><span class=search-result-type>{{this.type}} </span><span class=search-result-title>{{this.title}} </span><span class=search-result-year>{{this.year}}</span></div></a>{{/each}}</script>'
+
     $('#header-search').append(template)
   }
 
   /**
    * Returns all search results
+   * @param {string} type   Search type
    * @param {string} query  Text query to search
    * @returns {Promise}
    */
-  const search = (query) => {
+  const search = (type, query) => {
     let data = []
     let resultsProcessed = 0
 
     return new Promise((resolve, reject) => {
-      trakt.search('movie,show', query, 'title').then((response) => {
+      trakt.search(type, query, 'title').then((response) => {
         response = response.slice(0, 6)
 
         const length = response.length
@@ -206,12 +209,15 @@
     $('#header-search-query').attr('autocomplete', 'off').on('input', () => {
       $('.search-results').empty()
 
+      const type = $('#header-search-type.shown .title').text().toLowerCase().replace(/(s)\b/g, '').replace(/\s&\s/g, ',').replace(/people/g, 'person').replace(/\s/g, '')
       const query = $('#header-search-query.open').val()
 
+      if (['episode', 'person', 'list', 'user'].includes(type)) return // TODO: implement episodes, persons and lists
       if (query === '') return
 
-      search(query).then((response) => {
+      search(type, query).then((response) => {
         MU.log(response)
+
         const template = Handlebars.compile($('#results-template').html())
         const context = { results: response }
         const compile = template(context)
