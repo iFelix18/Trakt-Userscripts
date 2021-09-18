@@ -8,7 +8,7 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.0
+// @version         1.2.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -132,7 +132,7 @@
    * Add style
    */
   const addStyle = () => {
-    const css = '<style>#header-search .search-results{background:#333;display:none;max-width:427px}#header-search.open .search-results{display:block}.search-result{border-top:none;border:1px solid #666;display:flex;overflow:hidden;text-decoration:none!important}.search-result:hover{background-color:#222}.search-result-poster{float:left;height:auto;width:37.83333px}.search-result-text{align-items:center;display:flex;min-width:0;padding-left:12px;padding-right:12px}.search-result-type{background-color:#ed1c24;color:#fff;display:inline-block;flex-shrink:0;font-family:proxima nova semibold;font-size:11px;height:auto;margin-right:6px;text-align:center;text-transform:capitalize;width:6ch}.search-result-title{color:#fff;font-family:proxima nova;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.search-result-year{color:#999;flex-shrink:0;font-family:proxima nova;font-size:11px;margin-left:6px}</style>'
+    const css = '<style>#header-search .search-results{background:#333;display:none;max-width:427px}#header-search.open .search-results{display:block}.search-result{border-top:none;border:1px solid #666;display:flex;overflow:hidden;text-decoration:none!important}.search-result:hover{background-color:#222}.search-result-poster{float:left;height:auto;width:37.83333px}.search-result-text{align-items:center;display:flex;min-width:0;padding-left:12px;padding-right:12px}.search-result-type{background-color:#ed1c24;color:#fff;display:inline-block;flex-shrink:0;font-family:proxima nova semibold;font-size:11px;height:auto;margin-right:6px;text-align:center;text-transform:capitalize;width:7ch}.search-result-title{color:#fff;font-family:proxima nova;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.search-result-year{color:#999;flex-shrink:0;font-family:proxima nova;font-size:11px;margin-left:6px}</style>'
 
     $('head').append(css)
   }
@@ -167,16 +167,42 @@
         response.map((element) => element).forEach((element, index) => {
           const type = element.type
           const score = element.score
-          const id = element[type].ids.tmdb
-          const title = element[type].title
-          const year = element[type].year
-          const link = `/${type}s/${element[type].ids.slug}`
+          const id = (
+            type === 'episode'
+              ? element.show.ids.tmdb
+              : element[type].ids.tmdb
+          )
+          const title = (
+            type === 'episode'
+              ? `${element.show.title} ${element[type].season}x${element[type].number} "${element[type].title}"`
+              : type === 'person' || type === 'list'
+                ? element[type].name
+                : element[type].title
+          )
+          const year = (
+            type === 'episode'
+              ? element.show.year
+              : type === 'list'
+                ? `${element[type].item_count} items`
+                : element[type].year
+          )
+          const link = (
+            type === 'episode'
+              ? `/shows/${element.show.ids.slug}/seasons/${element[type].season}/episodes/${element[type].number}`
+              : type === 'person'
+                ? `/people/${element[type].ids.slug}`
+                : type === 'list'
+                  ? `/lists/${element[type].ids.trakt}`
+                  : `/${type}s/${element[type].ids.slug}`
+          )
 
-          tmdb.images((type === 'show') ? 'tv' : type, id).then((response) => {
+          tmdb.images((type === 'show' || type === 'episode') ? 'tv' : type, id).then((response) => {
             const poster = (
-              (response.posters !== undefined && response.posters.length > 0)
+              response.posters !== undefined && response.posters.length > 0
                 ? `https://image.tmdb.org/t/p/w92${response.posters[0].file_path}`
-                : 'https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png'
+                : response.profiles !== undefined && response.profiles.length > 0
+                  ? `https://image.tmdb.org/t/p/w92${response.profiles[0].file_path}`
+                  : 'https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png'
             )
 
             data.push({
@@ -212,7 +238,7 @@
       const type = $('#header-search-type.shown .title').text().toLowerCase().replace(/(s)\b/g, '').replace(/\s&\s/g, ',').replace(/people/g, 'person').replace(/\s/g, '')
       const query = $('#header-search-query.open').val()
 
-      if (['episode', 'person', 'list', 'user'].includes(type)) return // TODO: implement episodes, persons and lists
+      if (type === 'user') return
       if (query === '') return
 
       search(type, query).then((response) => {
