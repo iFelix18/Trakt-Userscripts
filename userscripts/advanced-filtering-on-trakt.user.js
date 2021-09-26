@@ -23,7 +23,5 @@
 // ==/UserScript==
 
 (() => {
-  'use strict'
-
   console.log(`%c${GM.info.script.name}: Deprecated script, remove it!`, 'background:red; color:black; font-size: 18px; font-weight: bold; text-transform: uppercase;')
 })()
