@@ -1,13 +1,10 @@
-'use strict'
-
-const { dest, parallel, series, src, watch } = require('gulp')
-const bump = require('gulp-bump')
-const cleanCSS = require('gulp-clean-css')
-const flatmap = require('gulp-flatmap')
-const fs = require('fs')
-const htmlmin = require('gulp-html-minifier-terser')
-const replace = require('gulp-replace')
-const userscript = require('userscript-meta')
+import { dest, parallel, series, src, watch } from 'gulp'
+import { parse, stringify } from 'userscript-meta'
+import { readFileSync, existsSync, writeFile } from 'node:fs'
+import cleanCSS from 'gulp-clean-css'
+import flatmap from 'gulp-flatmap'
+import htmlMinifier from 'gulp-html-minifier-terser'
+import replace from 'gulp-replace'
 
 // paths
 const paths = {
@@ -38,7 +35,7 @@ const minifyCSS = () => {
 
 const minifyHandlebars = () => {
   return src(paths.handlebars.src)
-    .pipe(htmlmin({
+    .pipe(htmlMinifier({
       collapseBooleanAttributes: true,
       collapseWhitespace: true,
       minifyCSS: true,
@@ -58,7 +55,7 @@ const replaceCSS = () => {
   return src(paths.userscripts.src)
     .pipe(flatmap((stream, file) => {
       return src(file.path)
-        .pipe(replace(/(?<=(css: )')(.*?)(?=')/g, fs.readFileSync('template/config.css', 'utf8')))
+        .pipe(replace(/(?<=(css: )')(.*?)(?=')/g, readFileSync('template/config.css', 'utf8')))
         .pipe(dest('userscripts/'))
     }))
 }
@@ -68,27 +65,26 @@ const replaceHandlebars = () => {
     .pipe(flatmap((stream, file) => {
       const fileName = file.stem.replace('.user', '')
 
-      if (fs.existsSync(`template/${fileName}.hbs`)) {
-        return src(file.path)
-          .pipe(replace(/(?<=(const template = )')(.*?)(?=')/g, fs.readFileSync(`template/${fileName}.hbs`, 'utf8')))
+      return existsSync(`template/${fileName}.hbs`)
+        ? src(file.path)
+          .pipe(replace(/(?<=(const template = )')(.*?)(?=')/g, readFileSync(`template/${fileName}.hbs`, 'utf8')))
           .pipe(dest('userscripts/'))
-      } else {
-        return stream
-      }
+        : stream
     }))
 }
 
-// bump meta version
-const bumpMeta = () => {
+// bump meta
+const bumpMeta = (callback) => {
   return src(paths.userscripts.src)
     .pipe(flatmap((stream, file) => {
       const fileName = file.basename.replace('.user', '.meta')
       const contents = file.contents.toString('utf8')
-      const { version } = userscript.parse(contents)
+      const { name, author, namespace, description, copyright, license, version } = parse(contents)
+      const meta = stringify({ name, author, namespace, description, copyright, license, version })
 
-      return src(`${paths.meta.src}${fileName}`)
-        .pipe(bump({ version: version }))
-        .pipe(dest(paths.meta.dest))
+      writeFile(`${paths.meta.src}${fileName}`, meta, callback)
+
+      return stream
     }))
 }
 
@@ -111,5 +107,6 @@ const watchHandlebars = () => {
   }, series(minifyHandlebars, replaceHandlebars))
 }
 
-// exports
-exports.default = parallel(watchUserscripts, watchCSS, watchHandlebars)
+// export
+const _default = parallel(watchUserscripts, watchCSS, watchHandlebars)
+export { _default as default }

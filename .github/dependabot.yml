@@ -8,3 +8,12 @@ updates:
       time: "12:00"
       timezone: Europe/Rome
     open-pull-requests-limit: 10
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+      time: "12:00"
+      timezone: Europe/Rome
+    open-pull-requests-limit: 10
