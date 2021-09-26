@@ -8,16 +8,16 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.0
+// @version         1.2.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@2a8d621376678f748acb81102f6c07c9d5129e81/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@8c5a008457b859c22300b94b416767b8d2605bb2/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@4ad842f0cfa0e9abdfdf090ed566f696cddd56c6/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@5d7b61ed59c1dca1a186d7bb67e40706d70a1b26/lib/api/tmdb.min.js
 // @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
@@ -45,8 +45,6 @@
 /* global $, GM_config, Handlebars, MonkeyUtils, NodeCreationObserver, TMDb, Trakt */
 
 (() => {
-  'use strict'
-
   //* GM_config
   GM_config.init({
     id: 'trakt-config',
@@ -88,7 +86,7 @@
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
-          window.onload = () => GM_config.open()
+          window.addEventListener('load', () => GM_config.open())
         }
       },
       save: () => {
@@ -147,6 +145,102 @@
   }
 
   /**
+   * Returns id
+   * @param {object} element
+   * @param {string} type
+   * @returns {string}
+   */
+  const id = (element, type) => {
+    switch (type) {
+      case 'episode': {
+        return element.show.ids.tmdb
+      }
+      default: {
+        return element[type].ids.tmdb
+      }
+    }
+  }
+
+  /**
+   * Returns title
+   * @param {object} element
+   * @param {string} type
+   * @returns {string}
+   */
+  const title = (element, type) => {
+    switch (type) {
+      case 'episode': {
+        return `${element.show.title} ${element[type].season}x${element[type].number} "${element[type].title}"`
+      }
+      case 'person':
+      case 'list': {
+        return element[type].name
+      }
+      default: {
+        return element[type].title
+      }
+    }
+  }
+
+  /**
+   * Returns year
+   * @param {object} element
+   * @param {string} type
+   * @returns {string}
+   */
+  const year = (element, type) => {
+    switch (type) {
+      case 'episode': {
+        return element.show.year
+      }
+      case 'list': {
+        return `${element[type].item_count} items`
+      }
+      default: {
+        return element[type].year
+      }
+    }
+  }
+
+  /**
+   * Returns link
+   * @param {object} element
+   * @param {string} type
+   * @returns {string}
+   */
+  const link = (element, type) => {
+    switch (type) {
+      case 'episode': {
+        return `/shows/${element.show.ids.slug}/seasons/${element[type].season}/episodes/${element[type].number}`
+      }
+      case 'person': {
+        return `/people/${element[type].ids.slug}`
+      }
+      case 'list': {
+        return `/lists/${element[type].ids.trakt}`
+      }
+      default: {
+        return `/${type}s/${element[type].ids.slug}`
+      }
+    }
+  }
+
+  /**
+   * Returns poster link
+   * @param {object} response
+   * @returns {string}
+   */
+  const poster = (response) => {
+    if (response.posters !== undefined && response.posters.length > 0) {
+      return `https://image.tmdb.org/t/p/w92${response.posters[0].file_path}`
+    } else if (response.profiles !== undefined && response.profiles.length > 0) {
+      return `https://image.tmdb.org/t/p/w92${response.profiles[0].file_path}`
+    } else {
+      return 'https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png'
+    }
+  }
+
+  /**
    * Returns all search results
    * @param {string} type   Search type
    * @param {string} query  Text query to search
@@ -162,57 +256,22 @@
 
         const length = response.length
 
-        if (length === 0) resolve(null)
+        if (length === 0) resolve()
 
-        response.map((element) => element).forEach((element, index) => {
+        for (const [index, element] of response.map((element) => element).entries()) {
           const type = element.type
           const score = element.score
-          const id = (
-            type === 'episode'
-              ? element.show.ids.tmdb
-              : element[type].ids.tmdb
-          )
-          const title = (
-            type === 'episode'
-              ? `${element.show.title} ${element[type].season}x${element[type].number} "${element[type].title}"`
-              : type === 'person' || type === 'list'
-                ? element[type].name
-                : element[type].title
-          )
-          const year = (
-            type === 'episode'
-              ? element.show.year
-              : type === 'list'
-                ? `${element[type].item_count} items`
-                : element[type].year
-          )
-          const link = (
-            type === 'episode'
-              ? `/shows/${element.show.ids.slug}/seasons/${element[type].season}/episodes/${element[type].number}`
-              : type === 'person'
-                ? `/people/${element[type].ids.slug}`
-                : type === 'list'
-                  ? `/lists/${element[type].ids.trakt}`
-                  : `/${type}s/${element[type].ids.slug}`
-          )
+          const tmdbID = id(element, type)
 
-          tmdb.images((type === 'show' || type === 'episode') ? 'tv' : type, id).then((response) => {
-            const poster = (
-              response.posters !== undefined && response.posters.length > 0
-                ? `https://image.tmdb.org/t/p/w92${response.posters[0].file_path}`
-                : response.profiles !== undefined && response.profiles.length > 0
-                  ? `https://image.tmdb.org/t/p/w92${response.profiles[0].file_path}`
-                  : 'https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png'
-            )
-
+          tmdb.images((type === 'show' || type === 'episode') ? 'tv' : type, tmdbID).then((response) => {
             data.push({
               type: type,
               score: score,
-              id: id,
-              title: title,
-              year: year,
-              link: link,
-              poster: poster,
+              id: tmdbID,
+              title: title(element, type),
+              year: year(element, type),
+              link: link(element, type),
+              poster: poster(response),
               index: index
             })
 
@@ -223,7 +282,7 @@
               resolve(data)
             }
           }).catch((error) => MU.error(error))
-        })
+        }
       }).catch((error) => MU.error(error))
     })
   }
