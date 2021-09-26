@@ -8,14 +8,14 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.5
+// @version         1.2.6
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
@@ -40,8 +40,6 @@
 /* global $, GM_config, MonkeyUtils, NodeCreationObserver */
 
 (() => {
-  'use strict'
-
   //* GM_config
   GM_config.init({
     id: 'trakt-config',
@@ -84,7 +82,7 @@
     $(selector).removeAttr('href').click(async () => {
       const fanart = $('#summary-wrapper').data('fanart') // get fanart
       const url = $('meta[property="og:url"]').attr('content') // get url
-      const title = ($('#info-wrapper .info .action-buttons>.btn-checkin').length) ? $('#info-wrapper .info .action-buttons>.btn-checkin').data('top-title') : $('meta[property="og:title"]').attr('content') // get title
+      const title = ($('#info-wrapper .info .action-buttons>.btn-checkin').length > 0) ? $('#info-wrapper .info .action-buttons>.btn-checkin').data('top-title') : $('meta[property="og:title"]').attr('content') // get title
       const year = $('#summary-wrapper .summary .container h1 .year').html() // get year
       if (fanart === await GM.getValue('fanart')) {
         GM.deleteValue('fanart') // remove fanart url
@@ -137,20 +135,20 @@
 
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-profile-image')
-  NodeCreationObserver.onCreation('a[href$="/vip/cover"]', (i) => {
-    getData(i)
+  NodeCreationObserver.onCreation('a[href$="/vip/cover"]', (element) => {
+    getData(element)
   })
-  NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', (i) => {
-    $(i).parent().find('.shadow.hidden-xs').remove()
-    $(i).after('<div class="shade"></div>')
-    setProfileImage(i)
-    setProfileImageInfo(i)
+  NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', (element) => {
+    $(element).parent().find('.shadow.hidden-xs').remove()
+    $(element).after('<div class="shade"></div>')
+    setProfileImage(element)
+    setProfileImageInfo(element)
   })
-  NodeCreationObserver.onCreation('#results-top-wrapper:not(.watching-now) .poster-bg', (i) => {
-    $(i).css('background-position', 'center 25%')
-    $(i).css('background-size', 'cover')
-    $(i).css('opacity', '.5')
-    $(i).css('filter', 'blur(0px)')
-    setProfileImage(i)
+  NodeCreationObserver.onCreation('#results-top-wrapper:not(.watching-now) .poster-bg', (element) => {
+    $(element).css('background-position', 'center 25%')
+    $(element).css('background-size', 'cover')
+    $(element).css('opacity', '.5')
+    $(element).css('filter', 'blur(0px)')
+    setProfileImage(element)
   })
 })()
