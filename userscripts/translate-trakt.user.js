@@ -8,16 +8,16 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.0.0
+// @version         4.0.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@6a6beccf06c63b180fc2e251f024bb25feac3eb0/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@2a8d621376678f748acb81102f6c07c9d5129e81/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@8c5a008457b859c22300b94b416767b8d2605bb2/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@4ad842f0cfa0e9abdfdf090ed566f696cddd56c6/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@5d7b61ed59c1dca1a186d7bb67e40706d70a1b26/lib/api/tmdb.min.js
 // @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
@@ -45,8 +45,6 @@
 /* global $, GM_config, MonkeyUtils, NodeCreationObserver, TMDb, Trakt */
 
 (() => {
-  'use strict'
-
   //* GM_config
   GM_config.init({
     id: 'trakt-config',
@@ -103,7 +101,7 @@
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
-          window.onload = () => GM_config.open()
+          window.addEventListener('load', () => GM_config.open())
         }
       },
       save: () => {
@@ -145,35 +143,36 @@
   //* Functions
   /**
    * Returns if translated
-   * @param {Object}    i Item to be translated
+   * @param {Object}    item Item to be translated
    * @returns {boolean}
    */
-  const isTranslated = (i) => $(i).is('.translate, .untranslatable, .translated')
+  const isTranslated = (item) => $(item).is('.translate, .untranslatable, .translated')
 
   /**
    * Returns infos from Trakt
-   * @param {Object}    i Item to be translated
+   * @param {Object}    item Item to be translated
    * @returns {Object}
    */
-  const getInfos = (i) => {
+  const getInfos = (item) => {
     const infos = {}
 
-    infos.type = $(i).data('type') // item type
-    infos.id = ( // Trakt ID
-      $(i).data('movie-id')
-        ? $(i).data('movie-id')
-        : $(i).data('episode-id')
-          ? $(i).data('episode-id')
-          : $(i).data('show-id')
-            ? $(i).data('show-id')
-            : null
-    )
+    infos.type = $(item).data('type') // item type
+
+    if ($(item).data('movie-id')) { // Trakt ID
+      infos.id = $(item).data('movie-id')
+    } else if ($(item).data('episode-id')) {
+      infos.id = $(item).data('episode-id')
+    } else if ($(item).data('show-id')) {
+      infos.id = $(item).data('show-id')
+    } else {
+      infos.id = undefined
+    }
 
     if (infos.type === 'season') { // season number
       infos.season = (
-        $(i).data('season-number')
-          ? $(i).data('season-number')
-          : null
+        $(item).data('season-number')
+          ? $(item).data('season-number')
+          : undefined
       )
     }
 
@@ -182,16 +181,16 @@
 
   /**
    * Translate poster
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {string}  path  Poster path
    * @param {string}  size  Poster size
    */
-  const translatePoster = (i, path, size) => {
+  const translatePoster = (item, path, size) => {
     const url = `https://image.tmdb.org/t/p/${size}${path}`
     const cases = {
-      a: $(i).find('.poster:not(.screenshot) .real'), // main
-      b: $(i).find('.sidebar .poster .real'), // details page
-      c: $(i).find('.mobile-poster .poster .real') // details page
+      a: $(item).find('.poster:not(.screenshot) .real'), // main
+      b: $(item).find('.sidebar .poster .real'), // details page
+      c: $(item).find('.mobile-poster .poster .real') // details page
     }
 
     $.each(cases, (key, value) => {
@@ -205,16 +204,16 @@
 
   /**
    * Translate backdrop
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {string}  path  Backdrop path
    * @param {string}  size  Backdrop size
    */
-  const translateBackdrop = (i, path, size) => {
+  const translateBackdrop = (item, path, size) => {
     const url = `https://image.tmdb.org/t/p/${size}${path}`
     const cases = {
-      a: $(i).find('#summary-wrapper .full-screenshot'),
-      b: $(i).find('.fanart .real'),
-      c: $(i).find('.screenshot .real')
+      a: $(item).find('#summary-wrapper .full-screenshot'),
+      b: $(item).find('.fanart .real'),
+      c: $(item).find('.screenshot .real')
     }
 
     $.each(cases, (key, value) => {
@@ -232,32 +231,45 @@
 
   /**
    * Translate main title
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {string}  title Main title
    * @returns
    */
-  const translateMainTitle = (i, title) => {
-    const target = (
-      $(i).find('#summary-wrapper .summary .container h1 .main-title').length // details page (episode)
-        ? $(i).find('#summary-wrapper .summary .container h1 .main-title')
-        : $(i).find('#summary-wrapper .summary .container h1').length // details page
-          ? $(i).find('#summary-wrapper .summary .container h1')
-          : $(i).parent().find('> .under-info > .titles .main-title').length // season page
-            ? $(i).parent().find('> .under-info > .titles .main-title')
-            : $(i).find('> .titles > a > h3 > .main-title').length // poster - episode on deck
-              ? $(i).find('> .titles > a > h3 > .main-title')
-              : $(i).find('> .titles-link > .titles > h3 > .main-title').length // poster/fanart - episode
-                ? $(i).find('> .titles-link > .titles > h3 > .main-title')
-                : $(i).find('> .titles-link > .titles > h3:not(:has(> .main-title))').length // poster - movie/show/season
-                  ? $(i).find('> .titles-link > .titles > h3:not(:has(> .main-title))')
-                  : $(i).find('> .titles > .titles-link > h3').length // poster - recommendations
-                    ? $(i).find('> .titles > .titles-link > h3')
-                    : $(i).find('> a > .fanart > .titles > h3 > .main-title').length // fanart - episode
-                      ? $(i).find('> a > .fanart > .titles > h3 > .main-title')
-                      : $(i).find('> a > .fanart > .titles > h3:not(:has(> .main-title))').length // fanart - movie
-                        ? $(i).find('> a > .fanart > .titles > h3:not(:has(> .main-title))')
-                        : null
-    )
+  const translateMainTitle = (item, title) => {
+    let target
+
+    switch (true) {
+      case $(item).find('#summary-wrapper .summary .container h1 .main-title').length > 0: // details page (episode)
+        target = $(item).find('#summary-wrapper .summary .container h1 .main-title')
+        break
+      case $(item).find('#summary-wrapper .summary .container h1').length > 0: // details page
+        target = $(item).find('#summary-wrapper .summary .container h1')
+        break
+      case $(item).parent().find('> .under-info > .titles .main-title').length > 0: // season page
+        target = $(item).parent().find('> .under-info > .titles .main-title')
+        break
+      case $(item).find('> .titles > a > h3 > .main-title').length > 0: // poster - episode on deck
+        target = $(item).find('> .titles > a > h3 > .main-title')
+        break
+      case $(item).find('> .titles-link > .titles > h3 > .main-title').length > 0: // poster/fanart - episode
+        target = $(item).find('> .titles-link > .titles > h3 > .main-title')
+        break
+      case $(item).find('> .titles-link > .titles > h3:not(:has(> .main-title))').length > 0: // poster - movie/show/season
+        target = $(item).find('> .titles-link > .titles > h3:not(:has(> .main-title))')
+        break
+      case $(item).find('> .titles > .titles-link > h3').length > 0: // poster - recommendations
+        target = $(item).find('> .titles > .titles-link > h3')
+        break
+      case $(item).find('> a > .fanart > .titles > h3 > .main-title').length > 0: // fanart - episode
+        target = $(item).find('> a > .fanart > .titles > h3 > .main-title')
+        break
+      case $(item).find('> a > .fanart > .titles > h3:not(:has(> .main-title))').length > 0: // fanart - movie
+        target = $(item).find('> a > .fanart > .titles > h3:not(:has(> .main-title))')
+        break
+      default: {
+        target = undefined
+      }
+    }
 
     if (!target) return
 
@@ -271,23 +283,31 @@
 
   /**
    * Translate title
-   * @param {Object}  i         Item to be translated
+   * @param {Object}  item      Item to be translated
    * @param {string}  title     Title
    * @param {string}  subTitle  Subtitle
    * @returns
    */
-  const translateTitle = (i, title, subTitle) => {
-    const target = (
-      $(i).find('#summary-wrapper .summary .container h2 a').length // details page
-        ? $(i).find('#summary-wrapper .summary .container h2 a')
-        : $(i).find('> .titles > h4 > .titles-link:last-child').length // poster - episode on deck
-          ? $(i).find('> .titles > h4 > .titles-link:last-child')
-          : $(i).find('> .titles-link > .titles > h4:first-of-type:not(:has(> .format-date)):not(:contains("\u00a0")):not(:contains("episode"))').length // poster - calendar
-            ? $(i).find('> .titles-link > .titles > h4:first-of-type:not(:has(> .format-date)):not(:contains("\u00a0")):not(:contains("episode"))')
-            : $(i).find('> a > .fanart > .titles > h5').length // fanart - episode
-              ? $(i).find('> a > .fanart > .titles > h5')
-              : null
-    )
+  const translateTitle = (item, title, subTitle) => {
+    let target
+
+    switch (true) {
+      case $(item).find('#summary-wrapper .summary .container h2 a').length > 0: // details page
+        target = $(item).find('#summary-wrapper .summary .container h2 a')
+        break
+      case $(item).find('> .titles > h4 > .titles-link:last-child').length > 0: // poster - episode on deck
+        target = $(item).find('> .titles > h4 > .titles-link:last-child')
+        break
+      case $(item).find('> .titles-link > .titles > h4:first-of-type:not(:has(> .format-date)):not(:contains("\u00A0")):not(:contains("episode"))').length > 0: // poster - calendar
+        target = $(item).find('> .titles-link > .titles > h4:first-of-type:not(:has(> .format-date)):not(:contains("\u00A0")):not(:contains("episode"))')
+        break
+      case $(item).find('> a > .fanart > .titles > h5').length > 0: // fanart - episode
+        target = $(item).find('> a > .fanart > .titles > h5')
+        break
+      default: {
+        target = undefined
+      }
+    }
 
     if (!target) return
 
@@ -296,27 +316,27 @@
     if (GM_config.get('visualDebugging')) target.css('color', '#50BFE6')
 
     if (subTitle) { // episode details page
-      $(i).find('#summary-wrapper .summary .container h2 a:first-child').text(title).append(': ')
-      $(i).find('#summary-wrapper .summary .container h2 a:last-child').text(subTitle)
+      $(item).find('#summary-wrapper .summary .container h2 a:first-child').text(title).append(': ')
+      $(item).find('#summary-wrapper .summary .container h2 a:last-child').text(subTitle)
 
       if (GM_config.get('visualDebugging')) {
-        $(i).find('#summary-wrapper .summary .container h2 a:first-child').css('color', '#50BFE6')
-        $(i).find('#summary-wrapper .summary .container h2 a:last-child').css('color', '#50BFE6')
+        $(item).find('#summary-wrapper .summary .container h2 a:first-child').css('color', '#50BFE6')
+        $(item).find('#summary-wrapper .summary .container h2 a:last-child').css('color', '#50BFE6')
       }
     }
   }
 
   /**
    * Translate tagline
-   * @param {Object}  i       Item to be translated
+   * @param {Object}  item    Item to be translated
    * @param {string}  tagline Tagline
    * @returns
    */
-  const translateTagline = (i, tagline) => {
+  const translateTagline = (item, tagline) => {
     const target = (
-      $(i).find('#info-wrapper .info #tagline').length
-        ? $(i).find('#info-wrapper .info #tagline')
-        : null
+      $(item).find('#info-wrapper .info #tagline').length > 0
+        ? $(item).find('#info-wrapper .info #tagline')
+        : undefined
     )
 
     if (!target) return
@@ -328,17 +348,17 @@
 
   /**
    * Translate overview
-   * @param {Object}  i         Item to be translated
+   * @param {Object}  item      Item to be translated
    * @param {string}  overview  Overview
    * @returns
    */
-  const translateOverview = (i, overview) => {
+  const translateOverview = (item, overview) => {
     const target = (
-      $(i).find('#info-wrapper .info #overview p').length // main
-        ? $(i).find('#info-wrapper .info #overview p')
-        : $(i).parent().find('> .under-info > .overview p').length // if grid season
-          ? $(i).parent().find('> .under-info > .overview p')
-          : null
+      $(item).find('#info-wrapper .info #overview p').length > 0 // main
+        ? $(item).find('#info-wrapper .info #overview p')
+        : ($(item).parent().find('> .under-info > .overview p').length > 0 // if grid season
+            ? $(item).parent().find('> .under-info > .overview p')
+            : undefined)
     )
 
     if (!target) return
@@ -350,16 +370,16 @@
 
   /**
    * Translate movie
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {Object}  infos Infos from Trakt
    * @param {Object}  data  Data from Trakt API
    * @returns
    */
-  const translateMovie = (i, infos, data) => {
+  const translateMovie = (item, infos, data) => {
     const id = data.movie.ids.tmdb // TMDb ID
 
     if (!id) { // untranslatable
-      $(i).addClass('untranslatable')
+      $(item).addClass('untranslatable')
       return
     }
 
@@ -370,31 +390,31 @@
       const tagline = data.tagline // movie tagline
       const overview = data.overview // movie overview
 
-      if (backdrop) translateBackdrop(i, backdrop, 'original') // translate movie backdrop
-      if (poster) translatePoster(i, poster, 'w300') // translate movie poster
-      if (mainTitle) translateMainTitle(i, mainTitle) // translate movie title
-      if (tagline) translateTagline(i, tagline) // translate movie tagline
-      if (overview) translateOverview(i, overview) // translate movie overview
+      if (backdrop) translateBackdrop(item, backdrop, 'original') // translate movie backdrop
+      if (poster) translatePoster(item, poster, 'w300') // translate movie poster
+      if (mainTitle) translateMainTitle(item, mainTitle) // translate movie title
+      if (tagline) translateTagline(item, tagline) // translate movie tagline
+      if (overview) translateOverview(item, overview) // translate movie overview
 
-      $(i).removeClass('translate')
-      $(i).addClass('translated') // is now translated
+      $(item).removeClass('translate')
+      $(item).addClass('translated') // is now translated
 
       MU.log(`the movie "${mainTitle}" is translated`)
-    }).catch((e) => MU.error(e))
+    }).catch((error) => MU.error(error))
   }
 
   /**
    * Translate show
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {Object}  infos Infos from Trakt
    * @param {Object}  data  Data from Trakt API
    * @returns
    */
-  const translateShow = (i, infos, data) => {
+  const translateShow = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
 
     if (!id) { // untranslatable
-      $(i).addClass('untranslatable')
+      $(item).addClass('untranslatable')
       return
     }
 
@@ -404,31 +424,31 @@
       const mainTitle = data.name // show title
       const overview = data.overview // show overview
 
-      if (backdrop) translateBackdrop(i, backdrop, 'original') // translate show backdrop
-      if (poster) translatePoster(i, poster, 'w300') // translate show poster
-      if (mainTitle) translateMainTitle(i, mainTitle) // translate show title
-      if (overview) translateOverview(i, overview) // translate show overview
+      if (backdrop) translateBackdrop(item, backdrop, 'original') // translate show backdrop
+      if (poster) translatePoster(item, poster, 'w300') // translate show poster
+      if (mainTitle) translateMainTitle(item, mainTitle) // translate show title
+      if (overview) translateOverview(item, overview) // translate show overview
 
-      $(i).removeClass('translate')
-      $(i).addClass('translated') // is now translated
+      $(item).removeClass('translate')
+      $(item).addClass('translated') // is now translated
 
       MU.log(`the show "${mainTitle}" is translated`)
-    }).catch((e) => MU.error(e))
+    }).catch((error) => MU.error(error))
   }
 
   /**
    * Translate season
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {Object}  infos Infos from Trakt
    * @param {Object}  data  Data from Trakt API
    * @returns
    */
-  const translateSeason = (i, infos, data) => {
+  const translateSeason = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
     const season = infos.season
 
     if (!id) { // untranslatable
-      $(i).addClass('untranslatable')
+      $(item).addClass('untranslatable')
       return
     }
 
@@ -441,85 +461,85 @@
         const mainTitle = data.name // season title
         const overview = data.overview // movie overview
 
-        if (backdrop) translateBackdrop(i, backdrop, 'original') // translate show backdrop
-        if (poster) translatePoster(i, poster, 'w300') // translate season poster
-        if (title) translateTitle(i, title) // translate show title
-        if (mainTitle) translateMainTitle(i, mainTitle) // translate season title
-        if (overview) translateOverview(i, overview) // translate season overview
+        if (backdrop) translateBackdrop(item, backdrop, 'original') // translate show backdrop
+        if (poster) translatePoster(item, poster, 'w300') // translate season poster
+        if (title) translateTitle(item, title) // translate show title
+        if (mainTitle) translateMainTitle(item, mainTitle) // translate season title
+        if (overview) translateOverview(item, overview) // translate season overview
 
-        $(i).removeClass('translate')
-        $(i).addClass('translated') // is now translated
+        $(item).removeClass('translate')
+        $(item).addClass('translated') // is now translated
 
         MU.log(`the season "${mainTitle} - ${season}" is translated`)
-      }).catch((e) => MU.error(e))
-    }).catch((e) => MU.error(e))
+      }).catch((error) => MU.error(error))
+    }).catch((error) => MU.error(error))
   }
 
   /**
    * Translate episode
-   * @param {Object}  i     Item to be translated
+   * @param {Object}  item  Item to be translated
    * @param {Object}  infos Infos from Trakt
    * @param {Object}  data  Data from Trakt API
    * @returns
    */
-  const translateEpisode = (i, infos, data) => {
+  const translateEpisode = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
     const episode = data.episode.number
     const season = data.episode.season
 
     if (!id) { // untranslatable
-      $(i).addClass('untranslatable')
+      $(item).addClass('untranslatable')
       return
     }
 
     tmdb.tvDetails(id).then((data) => { // get show details from TMDb API
-      const seasonData = data.seasons.map((s) => s).filter((s) => s.season_number === season) // season data
-      const poster = seasonData[0] ? seasonData[0].poster_path : data.poster_path // show/season poster
+      const seasonData = data.seasons.map((s) => s).find((s) => s.season_number === season) // season data
+      const poster = seasonData ? seasonData.poster_path : data.poster_path // show/season poster
       const title = data.name // show title
-      const subTitle = seasonData[0] ? seasonData[0].name : null// season title
+      const subTitle = seasonData ? seasonData.name : undefined// season title
 
       tmdb.episodeDetails(id, season, episode).then((data) => { // get episode details from TMDb API
         const backdrop = data.still_path // episode backdrop
         const mainTitle = data.name // episode title
         const overview = data.overview // episode overview
 
-        if (backdrop) translateBackdrop(i, backdrop, 'original') // translate episode backdrop
-        if (poster) translatePoster(i, poster, 'w300') // translate show/season poster
-        if (title) translateTitle(i, title, subTitle) // translate show/season title
-        if (mainTitle) translateMainTitle(i, mainTitle) // translate episode title
-        if (overview) translateOverview(i, overview) // translate episode overview
+        if (backdrop) translateBackdrop(item, backdrop, 'original') // translate episode backdrop
+        if (poster) translatePoster(item, poster, 'w300') // translate show/season poster
+        if (title) translateTitle(item, title, subTitle) // translate show/season title
+        if (mainTitle) translateMainTitle(item, mainTitle) // translate episode title
+        if (overview) translateOverview(item, overview) // translate episode overview
 
-        $(i).removeClass('translate')
-        $(i).addClass('translated') // is now translated
+        $(item).removeClass('translate')
+        $(item).addClass('translated') // is now translated
 
         MU.log(`the episode "${title} ${season}x${episode} - ${mainTitle}" is translated`)
-      }).catch((e) => MU.error(e))
-    }).catch((e) => MU.error(e))
+      }).catch((error) => MU.error(error))
+    }).catch((error) => MU.error(error))
   }
 
   /**
    * Translate grid items
-   * @param {Object}  i  Item to be translated
+   * @param {Object}  item  Item to be translated
    */
-  const translateGrid = (i) => {
+  const translateGrid = (item) => {
     const translateIfVisible = async () => { // translate visible grid items
-      if (!$(i).visible(true, true)) return
-      if (isTranslated(i)) return
+      if (!$(item).visible(true, true)) return
+      if (isTranslated(item)) return
 
-      $(i).addClass('translate')
+      $(item).addClass('translate')
 
-      const infos = getInfos(i) // get infos from Trakt webpage
+      const infos = getInfos(item) // get infos from Trakt webpage
 
       if (!infos) return
 
       const type = (infos.type === 'season') ? 'show' : infos.type // season ==> show
 
       trakt.searchID('trakt', infos.id, type).then((data) => { // get TMDb ID from Trakt API
-        if (infos.type === 'movie') translateMovie(i, infos, data[0]) // translate movie
-        if (infos.type === 'show') translateShow(i, infos, data[0]) // translate show
-        if (infos.type === 'season') translateSeason(i, infos, data[0]) // translate season
-        if (infos.type === 'episode') translateEpisode(i, infos, data[0]) // translate episode
-      }).catch((e) => MU.error(e))
+        if (infos.type === 'movie') translateMovie(item, infos, data[0]) // translate movie
+        if (infos.type === 'show') translateShow(item, infos, data[0]) // translate show
+        if (infos.type === 'season') translateSeason(item, infos, data[0]) // translate season
+        if (infos.type === 'episode') translateEpisode(item, infos, data[0]) // translate episode
+      }).catch((error) => MU.error(error))
     }
 
     $(document).scroll(translateIfVisible)
@@ -529,63 +549,63 @@
 
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-translate')
-  NodeCreationObserver.onCreation('.movies.show', (i) => { // movie
+  NodeCreationObserver.onCreation('.movies.show', (item) => { // movie
     $(document).ready(() => {
-      $(i).addClass('translate')
+      $(item).addClass('translate')
 
-      const infos = getInfos($(i).find('.btn-watch[data-movie-id]')) // get infos from Trakt webpage
+      const infos = getInfos($(item).find('.btn-watch[data-movie-id]')) // get infos from Trakt webpage
 
       if (!infos) return
 
       trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-        translateMovie(i, infos, data[0]) // translate movie
-      }).catch((e) => MU.error(e))
+        translateMovie(item, infos, data[0]) // translate movie
+      }).catch((error) => MU.error(error))
     })
   })
-  NodeCreationObserver.onCreation('.shows.show', (i) => { // show
+  NodeCreationObserver.onCreation('.shows.show', (item) => { // show
     $(document).ready(() => {
-      $(i).addClass('translate')
+      $(item).addClass('translate')
 
-      const infos = getInfos($(i).find('.btn-watch[data-show-id]')) // get infos from Trakt webpage
+      const infos = getInfos($(item).find('.btn-watch[data-show-id]')) // get infos from Trakt webpage
 
       if (!infos) return
 
       trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-        translateShow(i, infos, data[0]) // translate show
-      }).catch((e) => MU.error(e))
+        translateShow(item, infos, data[0]) // translate show
+      }).catch((error) => MU.error(error))
     })
   })
-  NodeCreationObserver.onCreation('.shows.season', (i) => { // season
+  NodeCreationObserver.onCreation('.shows.season', (item) => { // season
     $(document).ready(() => {
-      $(i).addClass('translate')
+      $(item).addClass('translate')
 
-      const infos = getInfos($(i).find('.btn-watch[data-season-id]')) // get infos from Trakt webpage
+      const infos = getInfos($(item).find('.btn-watch[data-season-id]')) // get infos from Trakt webpage
 
       if (!infos) return
 
       const type = (infos.type === 'season') ? 'show' : infos.type // season ==> show
 
       trakt.searchID('trakt', infos.id, type).then((data) => { // get TMDb ID from Trakt API
-        translateSeason(i, infos, data[0]) // translate season
-      }).catch((e) => MU.error(e))
+        translateSeason(item, infos, data[0]) // translate season
+      }).catch((error) => MU.error(error))
     })
   })
-  NodeCreationObserver.onCreation('.shows.episode', (i) => { // episode
+  NodeCreationObserver.onCreation('.shows.episode', (item) => { // episode
     $(document).ready(() => {
-      $(i).addClass('translate')
+      $(item).addClass('translate')
 
-      const infos = getInfos($(i).find('.btn-checkin[data-show-id]')) // get infos from Trakt webpage
+      const infos = getInfos($(item).find('.btn-checkin[data-show-id]')) // get infos from Trakt webpage
 
       if (!infos) return
 
       trakt.searchID('trakt', infos.id, infos.type).then((data) => { // get TMDb ID from Trakt API
-        translateEpisode(i, infos, data[0])
-      }).catch((e) => MU.error(e))
+        translateEpisode(item, infos, data[0])
+      }).catch((error) => MU.error(error))
     })
   })
-  NodeCreationObserver.onCreation('body:not(.people) .grid-item', (i) => { // grid
+  NodeCreationObserver.onCreation('body:not(.people) .grid-item', (item) => { // grid
     $(document).ready(() => {
-      translateGrid(i)
+      translateGrid(item)
     })
   })
   NodeCreationObserver.onCreation('.loaded', () => { // grid loaded items
