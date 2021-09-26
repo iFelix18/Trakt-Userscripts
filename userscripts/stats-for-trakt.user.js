@@ -8,7 +8,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.1.2
+// @version         3.1.3
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -16,8 +16,8 @@
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@abce8796cedbe28ac8e072d9824c4b9342985098/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@4ad842f0cfa0e9abdfdf090ed566f696cddd56c6/lib/api/trakt.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js#sha256-HGSZhocOCEHviq7s3a917LyjMaqXB75C7kLVDqlMfdc=
@@ -50,8 +50,6 @@
 /* global $, GM_config, MonkeyUtils, NodeCreationObserver, ProgressBar, Trakt */
 
 (() => {
-  'use strict'
-
   //* GM_config
   GM_config.init({
     id: 'trakt-config',
@@ -85,10 +83,10 @@
         click: async () => {
           const values = await GM.listValues()
 
-          values.forEach(async (value) => {
+          for (const value of values) {
             const cache = await GM.getValue(value) // get cache
             if (cache.time) { GM.deleteValue(value) } // delete cache
-          })
+          }
 
           MU.log('cache cleared')
           GM_config.close()
@@ -99,7 +97,7 @@
     events: {
       init: () => {
         if (!GM_config.isOpen && GM_config.get('TraktClientID') === '') {
-          window.onload = () => GM_config.open()
+          window.addEventListener('load', () => GM_config.open())
         }
       },
       save: () => {
@@ -132,7 +130,7 @@
   })
 
   //* Constants
-  const cachePeriod = 3600000 // 1 hours
+  const cachePeriod = 3_600_000 // 1 hours
   const loading = $('<div>', {
     css: { /* cSpell: disable-next-line */
       'font-family': 'varela round,helvetica neue,Helvetica,Arial,sans-serif',
@@ -212,9 +210,9 @@
         trakt.showSummary(id).then((response) => { // gets details for a show from Trakt
           const episodesAired = response.aired_episodes
           trakt.seasonSummary(id).then((response) => { // gets all seasons for a show from Trakt
-            response.map((season) => season).filter((season) => season.number !== 0).forEach((season) => { // for each season
+            for (const season of response.map((season) => season).filter((season) => season.number !== 0)) { // for each season
               trakt.seasonsSeason(id, season.number).then((response) => { // gets all episodes for a specific season of a show from Trakt
-                response.map((episode) => episode).forEach((episode) => { // for each episode
+                for (const episode of response.map((episode) => episode)) { // for each episode
                   trakt.episodeSummary(id, episode.season, episode.number).then((response) => { // gets rating for an episode from Trakt
                     data.push({
                       season: response.season,
@@ -232,9 +230,9 @@
                       MU.log('data from Trakt')
                     }
                   }).catch((error) => MU.error(error))
-                })
+                }
               }).catch((error) => MU.error(error))
-            })
+            }
           }).catch((error) => MU.error(error))
         }).catch((error) => MU.error(error))
       }
@@ -272,6 +270,8 @@
    */
   const scatterDatasets = (data) => {
     let datasets = []
+
+    // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-object-from-entries
     data = data.reduce((data, { season, episode, title, rating, votes }, key) => {
       (data[season - 1] = data[season - 1] || []).push({
         x: key,
@@ -279,13 +279,15 @@
       })
       return data
     }, {})
-    Object.keys(data).map((season) => season).forEach((key) => {
+
+    for (const key of Object.keys(data).map((season) => season)) {
       (datasets = datasets || []).push({
-        label: `Season ${parseFloat(key) + 1}`,
+        label: `Season ${Number.parseFloat(key) + 1}`,
         data: data[key],
         backgroundColor: color(datasets.length)
       })
-    })
+    }
+
     return datasets
   }
 
@@ -324,7 +326,8 @@
    * @param {Object} data Episodes ratings
    */
   const addScatterChart = (data) => {
-    const myChart = new Chart($('#episodesRatingsChart'), { // eslint-disable-line
+    // eslint-disable-next-line no-unused-vars, no-undef
+    const myChart = new Chart($('#episodesRatingsChart'), {
       type: 'scatter',
       data: {
         datasets: scatterDatasets(data)
@@ -390,7 +393,7 @@
    * @param {Object} data People progress
    */
   const addProgressBar = (data) => {
-    data.forEach((role) => {
+    for (const role of data) {
       const progressbar = new ProgressBar.Line('#peopleProgressBar', {
         color: '#ed1c24',
         strokeWidth: 2,
@@ -405,7 +408,7 @@
       })
       progressbar.set(role.progress / 100)
       progressbar.setText(`${role.role}: watched ${role.watched} (${role.progress}%) out of a total of ${role.items} released items.`)
-    })
+    }
   }
 
   /**
