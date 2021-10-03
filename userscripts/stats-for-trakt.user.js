@@ -8,7 +8,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.1.3
+// @version         3.1.4
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -43,7 +43,7 @@
 // @grant           GM_registerMenuCommand
 // @grant           GM_setValue
 // @grant           GM_xmlhttpRequest
-// @run-at          document-idle
+// @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
 
@@ -421,40 +421,46 @@
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-stats')
   NodeCreationObserver.onCreation('.shows.show', () => { // show page
-    const id = getID() // Trakt ID
-    if (!id) return
-    addChartStructure() // add chart structure
-    addToMenu(2) // add stats to the menu
-    $('.statsContainer').LoadingOverlay('show', { // show loading
-      image: '',
-      custom: loading
+    $(document).ready(() => {
+      const id = getID() // Trakt ID
+      if (!id) return
+      addChartStructure() // add chart structure
+      addToMenu(2) // add stats to the menu
+      $('.statsContainer').LoadingOverlay('show', { // show loading
+        image: '',
+        custom: loading
+      })
+      getEpisodesRatings(id).then((response) => { // get episodes ratings
+        $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+        addScatterChart(response) // add chart
+      }).catch((error) => MU.error(error))
     })
-    getEpisodesRatings(id).then((response) => { // get episodes ratings
-      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
-      addScatterChart(response) // add chart
-    }).catch((error) => MU.error(error))
   })
   NodeCreationObserver.onCreation('.people.show', () => { // people page
-    addProgressBarStructure() // add progress bar structure
-    addToMenu(1) // add stats to the menu
-    $('.statsContainer').LoadingOverlay('show', { // show loading
-      image: '',
-      custom: loading
+    $(document).ready(() => {
+      addProgressBarStructure() // add progress bar structure
+      addToMenu(1) // add stats to the menu
+      $('.statsContainer').LoadingOverlay('show', { // show loading
+        image: '',
+        custom: loading
+      })
+      getPeopleProgress().then((response) => { // get people progress
+        $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+        addProgressBar(response) // add progress bar
+      }).catch((error) => MU.error(error))
     })
-    getPeopleProgress().then((response) => { // get people progress
-      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
-      addProgressBar(response) // add progress bar
-    }).catch((error) => MU.error(error))
   })
   NodeCreationObserver.onCreation('.people.show #toast-container .toast.toast-success', () => { // people page
-    $('.statsContainer').LoadingOverlay('show', { // show loading
-      image: '',
-      custom: loading
+    $(document).ready(() => {
+      $('.statsContainer').LoadingOverlay('show', { // show loading
+        image: '',
+        custom: loading
+      })
+      removeProgressBar()
+      getPeopleProgress().then((response) => { // get people progress
+        $('.statsContainer').LoadingOverlay('hide', true) // hide loading
+        addProgressBar(response) // add progress bar
+      }).catch((error) => MU.error(error))
     })
-    removeProgressBar()
-    getPeopleProgress().then((response) => { // get people progress
-      $('.statsContainer').LoadingOverlay('hide', true) // hide loading
-      addProgressBar(response) // add progress bar
-    }).catch((error) => MU.error(error))
   })
 })()
