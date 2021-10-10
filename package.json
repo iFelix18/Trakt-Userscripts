@@ -43,6 +43,6 @@
     "markdownlint": "^0.24.0",
     "markdownlint-cli2": "^0.3.1",
     "userscript-meta": "^1.0.1",
-    "yarn": "^1.22.11"
+    "yarn": "^1.22.15"
   }
 }
