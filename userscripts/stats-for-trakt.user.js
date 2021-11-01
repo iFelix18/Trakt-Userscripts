@@ -8,7 +8,7 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.1.4
+// @version         3.2.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -22,7 +22,8 @@
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js#sha256-HGSZhocOCEHviq7s3a917LyjMaqXB75C7kLVDqlMfdc=
 // @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js#sha256-jLFv9iIrIbqKULHpqp/jmePDqi989pKXOcOht3zgRcw=
-// @require         https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js#sha256-bC3LCZCwKeehY6T4fFi9VfOU0gztUa+S4cnkIhVPZ5E=
+// @require         https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js#sha256-wkfHADWHH09UG8GShuNFDT8rVBiaj2rEYkZuch9eRg8=
+// @require         https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline@1.0.0/dist/chartjs-plugin-trendline.min.js#sha256-BsEcRlL6Xhw7pL2HLf/60nO9rt5eg9qyS1ID2XWPVGw=
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js#sha256-c83qPqBpH5rEFQvgyTfcLufqoQIFFoqE5B71yeBXhLc=
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
@@ -284,7 +285,12 @@
       (datasets = datasets || []).push({
         label: `Season ${Number.parseFloat(key) + 1}`,
         data: data[key],
-        backgroundColor: color(datasets.length)
+        backgroundColor: color(datasets.length),
+        trendlineLinear: {
+          style: color(datasets.length),
+          lineStyle: 'solid',
+          width: 2
+        }
       })
     }
 
