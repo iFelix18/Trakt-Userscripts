@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.0.3
+// @version         3.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -17,10 +17,10 @@
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@a028a624f673e5a45dd6c8173f47cb1a675578d3/lib/api/omdb.min.js
-// @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js#sha256-qmLl2Ly0/+2K+HHP76Ul+Wpy1Z41iKtzptPD1Nt8gSk=
-// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
-// @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js#sha256-ZSnrWNaPzGe8v25yP0S6YaMaDLMTDHC+4mHTw0xydEk=
+// @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js
+// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.min.js
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
+// @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
 // @match           *://trakt.tv/*
 // @connect         omdbapi.com
 // @compatible      chrome
@@ -180,7 +180,15 @@
    * @returns {string}
    */
   const imdbVotes = (votes) => {
-    return Number.parseFloat(votes.replace(/,/g, '')) >= 1000 ? `${Math.round(Number.parseFloat(votes.replace(/,/g, '')) / 1000, 1)}k` : `${Number.parseFloat(votes.replace(/,/g, ''))}`
+    votes = Number.parseFloat(votes.replace(/,/g, ''))
+
+    if (votes >= 1000 && votes < 1_000_000) {
+      return `${(votes / 1000).toFixed(1)}k`
+    } else if (votes > 1_000_000) {
+      return `${(votes / 1_000_000).toFixed(1)}m`
+    } else if (votes < 1000) {
+      return votes
+    }
   }
 
   /**
@@ -215,20 +223,23 @@
     return ([
       {
         logo: logos.imdb,
-        rating: `${response.imdbRating}/10`,
+        rating: response.imdbRating,
         source: 'imdb',
+        url: `https://www.imdb.com/title/${response.imdbID}/`,
         votes: response.imdbVotes !== 'N/A' ? imdbVotes(response.imdbVotes) : 'N/A'
       },
       {
         logo: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(response.Ratings[1].Value).logo : logos.fresh,
         rating: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? response.Ratings[1].Value : 'N/A',
         source: 'tomatoes',
+        url: response.tomatoURL,
         votes: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(response.Ratings[1].Value).rating : 'N/A'
       },
       {
         logo: logos.metacritic,
         rating: response.Metascore,
         source: 'metascore',
+        url: `https://www.imdb.com/title/${response.imdbID}/criticreviews`,
         votes: response.Metascore !== 'N/A' ? MetascoreColor(response.Metascore) : 'N/A'
       }
     ])
@@ -238,7 +249,7 @@
    * Add template
    */
   const addTemplate = () => {
-    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><div class=icon style=margin-right:0><img alt="{{this.source}} logo" class=logo src={{this.logo}}></div><div class=number><div class=rating>{{this.rating}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></li>{{/ifEqual}} {{/each}}</script>'
+    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><a href={{this.url}} target=_blank><img alt="{{this.source}} logo" class=logo src={{this.logo}}><div class=number><div class=rating>{{this.rating}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></a></li>{{/ifEqual}} {{/each}}</script>'
     const target = '#summary-ratings-wrapper .ratings'
 
     $(template).insertAfter(target)

@@ -5,32 +5,32 @@
 
     {{else}}
       <li class="{{this.source}}-rating">
-        <div class="icon" style="margin-right: 0px;">
+        <a target="_blank" href="{{this.url}}">
           <img class="logo" src="{{this.logo}}" alt="{{this.source}} logo" />
-        </div>
-        <div class="number">
-          <div class="rating">
-            {{this.rating}}
-          </div>
-          {{#ifEqual this.source "metascore"}}
-            <div
-              class="votes"
-              style="width:100%; color:transparent; background: linear-gradient(to top, transparent 0, transparent 25%,
-                {{this.votes}}
-                 25%,
-                {{this.votes}}
-                 75%, transparent 75%, transparent 100%);"
-            >
+          <div class="number">
+            <div class="rating">
               {{this.rating}}
             </div>
-          {{else}}
-            <div class="votes">
-              <span>
-                {{this.votes}}
-              </span>
-            </div>
-          {{/ifEqual}}
-        </div>
+            {{#ifEqual this.source "metascore"}}
+              <div
+                class="votes"
+                style="width:100%; color:transparent; background: linear-gradient(to top, transparent 0, transparent 25%,
+                  {{this.votes}}
+                   25%,
+                  {{this.votes}}
+                   75%, transparent 75%, transparent 100%);"
+              >
+                {{this.rating}}
+              </div>
+            {{else}}
+              <div class="votes">
+                <span>
+                  {{this.votes}}
+                </span>
+              </div>
+            {{/ifEqual}}
+          </div>
+        </a>
       </li>
     {{/ifEqual}}
   {{/each}}
