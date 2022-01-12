@@ -885,10 +885,10 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/register@^7.16.5":
-  version "7.16.5"
-  resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.16.5.tgz#657d28b7ca68190de8f6159245b5ed1cfa181640"
-  integrity sha512-NpluD+cToBiZiDsG3y9rtIcqDyivsahpaM9csfyfiq1qQWduSmihUZ+ruIqqSDGjZKZMJfgAElo9x2YWlOQuRw==
+"@babel/register@^7.16.9":
+  version "7.16.9"
+  resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.16.9.tgz#fcfb23cfdd9ad95c9771e58183de83b513857806"
+  integrity sha512-jJ72wcghdRIlENfvALcyODhNoGE5j75cYHdC+aQMh6cU/P86tiiXTp9XYZct1UxUMo/4+BgQRyNZEGx0KWGS+g==
   dependencies:
     clone-deep "^4.0.1"
     find-cache-dir "^2.0.0"
