@@ -8,23 +8,22 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.2.0
+// @version         3.2.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
-// @require         https://cdn.jsdelivr.net/gh/greasemonkey/gm4-polyfill@a834d46afcc7d6f6297829876423f58bb14a0d97/gm4-polyfill.min.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@4ad842f0cfa0e9abdfdf090ed566f696cddd56c6/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js#sha256-OlRWIaZ5LD4UKqMHzIJ8Sc0ctSV2pTIgIvgppQRdNUU=
-// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js#sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=
-// @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js#sha256-HGSZhocOCEHviq7s3a917LyjMaqXB75C7kLVDqlMfdc=
-// @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js#sha256-jLFv9iIrIbqKULHpqp/jmePDqi989pKXOcOht3zgRcw=
-// @require         https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js#sha256-wkfHADWHH09UG8GShuNFDT8rVBiaj2rEYkZuch9eRg8=
-// @require         https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline@1.0.0/dist/chartjs-plugin-trendline.min.js#sha256-BsEcRlL6Xhw7pL2HLf/60nO9rt5eg9qyS1ID2XWPVGw=
-// @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js#sha256-c83qPqBpH5rEFQvgyTfcLufqoQIFFoqE5B71yeBXhLc=
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.0/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
+// @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
+// @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js
+// @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js
+// @require         https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js
+// @require         https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline@1.0.0/dist/chartjs-plugin-trendline.min.js
+// @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
 // @compatible      chrome
@@ -37,13 +36,6 @@
 // @grant           GM.registerMenuCommand
 // @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
-// @grant           GM_deleteValue
-// @grant           GM_getValue
-// @grant           GM_info
-// @grant           GM_listValues
-// @grant           GM_registerMenuCommand
-// @grant           GM_setValue
-// @grant           GM_xmlhttpRequest
 // @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
