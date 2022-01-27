@@ -10,9 +10,9 @@ Translates titles, plots, taglines and posters of movies, TV series and episodes
 |                               Screenshots                               |
 | :---------------------------------------------------------------------: |
 | [![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#translate-trakt) |
-|                                *Before*                                 |
+|                                _Before_                                 |
 |  [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#translate-trakt)  |
-|                 *After, examples in various languages*                  |
+|                 _After, examples in various languages_                  |
 
 ---
 

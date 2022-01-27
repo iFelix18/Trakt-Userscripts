@@ -10,9 +10,9 @@ Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a [Trakt.tv](https://
 |                                 Screenshots                                 |
 | :-------------------------------------------------------------------------: |
 | [![Before](https://i.imgur.com/2cFZHL5.png "Prima")](#valutazioni-su-trakt) |
-|                                   *Prima*                                   |
+|                                   _Prima_                                   |
 |  [![After](https://i.imgur.com/cSiRt7P.png "Dopo")](#valutazioni-su-trakt)  |
-|                                   *Dopo*                                    |
+|                                   _Dopo_                                    |
 
 ---
 

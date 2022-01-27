@@ -10,9 +10,9 @@ Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.t
 |                             Screenshots                              |
 | :------------------------------------------------------------------: |
 | [![Before](https://i.imgur.com/ZWn3VJe.png "Prima")](#traduci-trakt) |
-|                               *Prima*                                |
+|                               _Prima_                                |
 |  [![After](https://i.imgur.com/KuKI4Pt.gif "Dopo")](#traduci-trakt)  |
-|                    *Dopo, esempi in varie lingue*                    |
+|                    _Dopo, esempi in varie lingue_                    |
 
 ---
 

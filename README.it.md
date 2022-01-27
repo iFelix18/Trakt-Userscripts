@@ -8,7 +8,6 @@ Userscripts per migliorare e aggiungere funzionalità a [Trakt.tv](https://trakt
 [![Open Issues](https://img.shields.io/github/issues-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed)
 [![Last Commit](https://img.shields.io/github/last-commit/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/commits/master)
-[![devDependencies](https://img.shields.io/david/dev/iFelix18/Trakt-Userscripts?style=flat-square)](https://david-dm.org/iFelix18/Trakt-Userscripts?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen?style=flat-square)](https://standardjs.com)
 [![License](https://img.shields.io/github/license/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/blob/master/LICENSE.md)
 
@@ -26,8 +25,6 @@ Lingue readme:
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js&style=flat-square)](#valutazioni-su-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/ratings-on-trakt.user.js?style=flat-square)](#valutazioni-su-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377523&style=flat-square)](https://greasyfork.org/it/scripts/377523-ratings-on-trakt)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Ratings_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Ratings_on_Trakt)
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Clicca qui!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)
 
   >**Nota**: Dopo l'installazione, inserisci la tua [OMDb API Key](https://www.omdbapi.com/apikey.aspx) nelle impostazioni dello script.
@@ -35,9 +32,9 @@ Lingue readme:
   |                                 Screenshots                                 |
   | :-------------------------------------------------------------------------: |
   | [![Before](https://i.imgur.com/2cFZHL5.png "Prima")](#valutazioni-su-trakt) |
-  |                                   *Prima*                                   |
+  |                                   _Prima_                                   |
   |  [![After](https://i.imgur.com/cSiRt7P.png "Dopo")](#valutazioni-su-trakt)  |
-  |                                   *Dopo*                                    |
+  |                                   _Dopo_                                    |
 
 * ### Statistiche per Trakt
 
@@ -45,8 +42,6 @@ Lingue readme:
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#statistiche-per-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/stats-for-trakt.user.js?style=flat-square)](#statistiche-per-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377524&style=flat-square)](https://greasyfork.org/it/scripts/377524-stats-for-trakt)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Stats_for_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Stats_for_Trakt)
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Clicca qui!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)
 
   >**Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) nelle impostazioni dello script.
@@ -54,9 +49,9 @@ Lingue readme:
   |                                                      Screenshots                                                       |
   | :--------------------------------------------------------------------------------------------------------------------: |
   | [![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Statistiche valutazioni episodi")](#statistiche-per-trakt) |
-  |                                           *Statistiche valutazioni episodi*                                            |
+  |                                           _Statistiche valutazioni episodi_                                            |
   |            [![People Stats](https://i.imgur.com/DSXu3Ge.png "Statistiche persone")](#statistiche-per-trakt)            |
-  |                                                 *Statistiche persone*                                                  |
+  |                                                 _Statistiche persone_                                                  |
 
 * ### Ricerca Trakt
 
@@ -64,8 +59,6 @@ Lingue readme:
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js&style=flat-square)](#ricerca-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/trakt-search.user.js?style=flat-square)](#ricerca-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/430549&style=flat-square)](https://greasyfork.org/it/scripts/430549-trakt-search)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Trakt_Search&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Trakt_Search)
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Clicca qui!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)
 
   >**Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) e la tua [TMDb API Key](https://developers.themoviedb.org/3/) nelle impostazioni dello script.
@@ -73,7 +66,7 @@ Lingue readme:
   |                                       Screenshots                                        |
   | :--------------------------------------------------------------------------------------: |
   | [![Search Results](https://i.imgur.com/l8nuTwO.png "Risultati ricerca")](#ricerca-trakt) |
-  |                                   *Risultati ricerca*                                    |
+  |                                   _Risultati ricerca_                                    |
 
 * ### Traduci Trakt
 
@@ -81,8 +74,6 @@ Lingue readme:
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#traduci-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/translate-trakt.user.js?style=flat-square)](#traduci-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/377969&style=flat-square)](https://greasyfork.org/it/scripts/377969-translate-trakt)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Translate_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Translate_Trakt)
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Clicca qui!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)
 
   >**Nota**: Dopo l'installazione, inserisci la tua [TMDb API Key](https://developers.themoviedb.org/3/), il tuo [Trakt Client ID](https://trakt.tv/oauth/applications/new) e seleziona la tua [lingua](https://developers.themoviedb.org/3/configuration/get-primary-translations) nelle impostazioni dello script.
@@ -90,9 +81,9 @@ Lingue readme:
   |                             Screenshots                              |
   | :------------------------------------------------------------------: |
   | [![Before](https://i.imgur.com/ZWn3VJe.png "Prima")](#traduci-trakt) |
-  |                               *Prima*                                |
+  |                               _Prima_                                |
   |  [![After](https://i.imgur.com/KuKI4Pt.gif "Dopo")](#traduci-trakt)  |
-  |                    *Dopo, esempi in varie lingue*                    |
+  |                    _Dopo, esempi in varie lingue_                    |
 
 * ### Immagine profilo su Trakt
 
@@ -100,8 +91,6 @@ Lingue readme:
 
   [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js&style=flat-square)](#immagine-profilo-su-trakt)
   [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/profile-image-on-trakt.user.js?style=flat-square)](#immagine-profilo-su-trakt)
-  [![Greasy Fork Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/greasyfork/branches/master/381892&style=flat-square)](https://greasyfork.org/it/scripts/381892-profile-image-on-trakt)
-  [![OpenUserJS Installs](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/openuserjs/branches/master/iFelix18/Profile_image_on_Trakt&style=flat-square)](https://openuserjs.org/scripts/iFelix18/Profile_image_on_Trakt)
   [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Clicca qui!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)
 
   >**Nota**: Dopo l'installazione, vai alla pagina del tuo film preferito o serie TV e fai clic su "SET PROFILE IMAGE" (fai di nuovo clic per eliminare l'immagine, fai clic su un altro film o serie TV per cambiarla).

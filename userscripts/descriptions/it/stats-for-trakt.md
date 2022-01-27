@@ -10,9 +10,9 @@ Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 |                                                      Screenshots                                                       |
 | :--------------------------------------------------------------------------------------------------------------------: |
 | [![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Statistiche valutazioni episodi")](#statistiche-per-trakt) |
-|                                           *Statistiche valutazioni episodi*                                            |
+|                                           _Statistiche valutazioni episodi_                                            |
 |            [![People Stats](https://i.imgur.com/DSXu3Ge.png "Statistiche persone")](#statistiche-per-trakt)            |
-|                                                 *Statistiche persone*                                                  |
+|                                                 _Statistiche persone_                                                  |
 
 ---
 

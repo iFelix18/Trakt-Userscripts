@@ -10,7 +10,7 @@ Mostra i risultati di una ricerca su [Trakt.tv](https://trakt.tv/)
 |                                       Screenshots                                        |
 | :--------------------------------------------------------------------------------------: |
 | [![Search Results](https://i.imgur.com/l8nuTwO.png "Risultati ricerca")](#ricerca-trakt) |
-|                                   *Risultati ricerca*                                    |
+|                                   _Risultati ricerca_                                    |
 
 ---
 

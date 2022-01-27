@@ -10,9 +10,9 @@ Adds ratings from IMDb, Rotten Tomatoes, Metacritic to [Trakt.tv](https://trakt.
 |                               Screenshots                                |
 | :----------------------------------------------------------------------: |
 | [![Before](https://i.imgur.com/2cFZHL5.png "Before")](#ratings-on-trakt) |
-|                                 *Before*                                 |
+|                                 _Before_                                 |
 |  [![After](https://i.imgur.com/cSiRt7P.png "After")](#ratings-on-trakt)  |
-|                                 *After*                                  |
+|                                 _After_                                  |
 
 ---
 
