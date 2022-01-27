@@ -8,8 +8,18 @@
         <a target="_blank" href="{{this.url}}">
           <img class="logo" src="{{this.logo}}" alt="{{this.source}} logo" />
           <div class="number">
-            <div class="rating">
+            <div
+              class="rating"
+              style="display: flex; align-items: center; align-content: center; justify-content: center;"
+            >
               {{this.rating}}
+              {{#ifEqual this.rating "N/A"}}
+
+              {{else}}
+                <span style="font-weight: 400; font-size: 80%; opacity: 0.8;">
+                  {{this.symbol}}
+                </span>
+              {{/ifEqual}}
             </div>
             {{#ifEqual this.source "metascore"}}
               <div

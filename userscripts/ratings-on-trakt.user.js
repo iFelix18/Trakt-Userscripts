@@ -8,16 +8,16 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.1.0
+// @version         3.2.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@7abdd3baa19d3ec6c216587a226171d71a922469/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@a028a624f673e5a45dd6c8173f47cb1a675578d3/lib/api/omdb.min.js
-// @require         https://cdn.jsdelivr.net/npm/gm4-polyfill@1.0.1/gm4-polyfill.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.0/lib/api/omdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.0/lib/api/rottentomatoes.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
@@ -33,18 +33,11 @@
 // @grant           GM.registerMenuCommand
 // @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
-// @grant           GM_deleteValue
-// @grant           GM_getValue
-// @grant           GM_info
-// @grant           GM_listValues
-// @grant           GM_registerMenuCommand
-// @grant           GM_setValue
-// @grant           GM_xmlhttpRequest
 // @run-at          document-start
 // @inject-into     page
 // ==/UserScript==
 
-/* global $, GM_config, Handlebars, MonkeyUtils, NodeCreationObserver, OMDb */
+/* global $, GM_config, Handlebars, MonkeyUtils, NodeCreationObserver, OMDb, RottenTomatoes */
 
 (() => {
   //* GM_config
@@ -126,6 +119,11 @@
     debug: GM_config.get('debugging')
   })
 
+  //* Rotten Tomatoes API
+  const tomato = new RottenTomatoes({
+    debug: GM_config.get('debugging')
+  })
+
   //* Handlebars
   Handlebars.registerHelper('ifEqual', function (a, b, options) {
     if (a === b) return options.fn(this)
@@ -147,11 +145,11 @@
    * @returns {string}
    */
   const getID = () => {
-    return $('#info-wrapper .sidebar .external a[href*="imdb"]').attr('href').match(/tt\d+/)[0]
+    return $('#info-wrapper .sidebar .external li a#external-link-imdb').attr('href').match(/tt\d+/)[0]
   }
 
   /**
-   * Returns ratings from OMDb
+   * Returns ratings from APIs
    * @param {*} id IMDb ID
    * @returns {Promise}
    */
@@ -159,16 +157,33 @@
     const cache = await GM.getValue(id) // get cache
 
     return new Promise((resolve, reject) => {
-      if (cache !== undefined && ((Date.now() - cache.time) < cachePeriod)) { // cache valid
-        MU.log('data from cache')
-        resolve(elaborateResponse(cache.response))
+      if (cache !== undefined && ((Date.now() - cache.time) < cachePeriod) && !GM_config.get('debugging')) { // cache valid
+        const data = { omdb: cache.data.omdb, tomato: cache.data.tomato }
+
+        MU.log(`${id} data from cache`)
+        resolve(elaborateData(data)) // resolve cached data
       } else { // cache not valid
         omdb.get({
           id: id
         }).then((response) => {
-          GM.setValue(id, { response, time: Date.now() }) // set cache
-          MU.log('data from OMDb')
-          resolve(elaborateResponse(response))
+          const omdbData = response
+          const title = omdbData.Title
+          const year = Number.parseInt(/\d{4}/.exec(omdbData.Year)[0])
+          const type = omdbData.Type
+          const url = omdbData.tomatoURL
+
+          tomato.search({
+            query: title,
+            type: type
+          }).then((response) => {
+            const tomatoData = response.map((item) => item).find((item) => (new RegExp(item.url).test(url)) || (item.title === title && (item.year ? item.year : item.startYear) === year))
+            const data = { omdb: omdbData, tomato: tomatoData }
+
+            if (!GM_config.get('debugging')) GM.setValue(id, { data, time: Date.now() }) // set cache
+            MU.log(`${id} data from APIs`)
+            MU.log(data)
+            resolve(elaborateData(data)) // resolve data
+          }).catch((error) => MU.error(error))
         })
       }
     }).catch((error) => MU.error(error))
@@ -215,32 +230,35 @@
   }
 
   /**
-   * Returns elaborated response
-   * @param {Object} response
+   * Returns elaborated data
+   * @param {Object} data
    * @returns {Object}
    */
-  const elaborateResponse = (response) => {
+  const elaborateData = (data) => {
     return ([
       {
         logo: logos.imdb,
-        rating: response.imdbRating,
+        rating: data.omdb.imdbRating,
         source: 'imdb',
-        url: `https://www.imdb.com/title/${response.imdbID}/`,
-        votes: response.imdbVotes !== 'N/A' ? imdbVotes(response.imdbVotes) : 'N/A'
+        symbol: '/10',
+        url: `https://www.imdb.com/title/${data.omdb.imdbID}/`,
+        votes: data.omdb.imdbVotes !== 'N/A' ? imdbVotes(data.omdb.imdbVotes) : 'N/A'
       },
       {
-        logo: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(response.Ratings[1].Value).logo : logos.fresh,
-        rating: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? response.Ratings[1].Value : 'N/A',
+        logo: data.tomato && data.tomato.meterScore ? RottenTomatoesRating(data.tomato.meterScore).logo : (data.omdb.Ratings[1] !== undefined && data.omdb.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(data.omdb.Ratings[1].Value).logo : logos.fresh),
+        rating: data.tomato && data.tomato.meterScore ? data.tomato.meterScore : (data.omdb.Ratings[1] !== undefined && data.omdb.Ratings[1].Source === 'Rotten Tomatoes' ? data.omdb.Ratings[1].Value.replace(/%/g, '') : 'N/A'),
         source: 'tomatoes',
-        url: response.tomatoURL,
-        votes: response.Ratings[1] !== undefined && response.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(response.Ratings[1].Value).rating : 'N/A'
+        symbol: '%',
+        url: data.tomato && data.tomato.meterClass ? `https://www.rottentomatoes.com${data.tomato.url}/` : (data.omdb.tomatoURL ? data.omdb.tomatoURL : 'N/A'),
+        votes: data.tomato && data.tomato.meterClass ? RottenTomatoesRating(data.tomato.meterScore).rating : (data.omdb.Ratings[1] !== undefined && data.omdb.Ratings[1].Source === 'Rotten Tomatoes' ? RottenTomatoesRating(data.omdb.Ratings[1].Value).rating : 'N/A')
       },
       {
         logo: logos.metacritic,
-        rating: response.Metascore,
+        rating: data.omdb.Metascore,
         source: 'metascore',
-        url: `https://www.imdb.com/title/${response.imdbID}/criticreviews`,
-        votes: response.Metascore !== 'N/A' ? MetascoreColor(response.Metascore) : 'N/A'
+        symbol: '',
+        url: `https://www.metacritic.com/search/${data.omdb.Type === 'series' ? 'tv' : data.omdb.Type}/${encodeURIComponent(data.omdb.Title)}/results`,
+        votes: data.omdb.Metascore !== 'N/A' ? MetascoreColor(data.omdb.Metascore) : 'N/A'
       }
     ])
   }
@@ -249,7 +267,7 @@
    * Add template
    */
   const addTemplate = () => {
-    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><a href={{this.url}} target=_blank><img alt="{{this.source}} logo" class=logo src={{this.logo}}><div class=number><div class=rating>{{this.rating}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></a></li>{{/ifEqual}} {{/each}}</script>'
+    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><a href={{this.url}} target=_blank><img alt="{{this.source}} logo" class=logo src={{this.logo}}><div class=number><div class=rating style=display:flex;align-items:center;align-content:center;justify-content:center>{{this.rating}} {{#ifEqual this.rating "N/A"}} {{else}} <span style=font-weight:400;font-size:80%;opacity:.8>{{this.symbol}} </span>{{/ifEqual}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></a></li>{{/ifEqual}} {{/each}}</script>'
     const target = '#summary-ratings-wrapper .ratings'
 
     $(template).insertAfter(target)
@@ -279,23 +297,25 @@
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-ratings')
   NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => {
-    clearOldCache()
+    $(document).ready(() => {
+      clearOldCache()
 
-    const id = getID()
+      const id = getID()
 
-    if (!id) return
+      if (!id) return
 
-    MU.log(`ID is '${id}'`)
+      MU.log(`ID is '${id}'`)
 
-    addStyle()
-    addTemplate()
-    getRatings(id).then((response) => {
-      MU.log(response)
+      addStyle()
+      addTemplate()
+      getRatings(id).then((response) => {
+        MU.log(response)
 
-      const template = Handlebars.compile($('#external-ratings-template').html())
-      const context = { ratings: response }
-      const compile = template(context)
-      $('.external-ratings').html(compile)
-    }).catch((error) => MU.error(error))
+        const template = Handlebars.compile($('#external-ratings-template').html())
+        const context = { ratings: response }
+        const compile = template(context)
+        $('.external-ratings').html(compile)
+      }).catch((error) => MU.error(error))
+    })
   })
 })()
