@@ -6,6 +6,7 @@
     "standard",
     "greasemonkey",
     "plugin:json/recommended",
+    "plugin:regexp/recommended",
     "plugin:unicorn/recommended"
   ],
   "parserOptions": {
