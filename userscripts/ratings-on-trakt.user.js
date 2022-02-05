@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.2.2
+// @version         3.2.3
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -23,6 +23,7 @@
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
 // @match           *://trakt.tv/*
 // @connect         omdbapi.com
+// @connect         rottentomatoes.com
 // @compatible      chrome
 // @compatible      edge
 // @compatible      firefox
