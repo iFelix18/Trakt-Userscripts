@@ -3,25 +3,25 @@
 // @name:it         Statistiche per Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=trakt.tv
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
 // @description     Adds stats on Trakt
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.2.1
+// @version         3.2.2
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.0/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.3/lib/api/trakt.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js
 // @require         https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js
-// @require         https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js
+// @require         https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js
 // @require         https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline@1.0.0/dist/chartjs-plugin-trendline.min.js
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js
 // @match           *://trakt.tv/*
@@ -29,9 +29,11 @@
 // @compatible      chrome
 // @compatible      edge
 // @compatible      firefox
+// @compatible      safari
+// @grant           GM_getValue
+// @grant           GM_setValue
 // @grant           GM.deleteValue
 // @grant           GM.getValue
-// @grant           GM.info
 // @grant           GM.listValues
 // @grant           GM.registerMenuCommand
 // @grant           GM.setValue
