@@ -3,28 +3,30 @@
 // @name:it         Immagine profilo su Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=trakt.tv
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
 // @description     Set your favorite movie, or TV series as your profile picture
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.7
+// @version         1.2.8
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @match           *://trakt.tv/*
 // @compatible      chrome
 // @compatible      edge
 // @compatible      firefox
+// @compatible      safari
+// @grant           GM_getValue
+// @grant           GM_setValue
 // @grant           GM.deleteValue
 // @grant           GM.getValue
-// @grant           GM.info
 // @grant           GM.registerMenuCommand
 // @grant           GM.setValue
 // @run-at          document-idle
