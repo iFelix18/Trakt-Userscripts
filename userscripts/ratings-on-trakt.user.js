@@ -8,16 +8,16 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.2.0
+// @version         3.2.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.0/lib/api/omdb.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.0/lib/api/rottentomatoes.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.4/lib/api/omdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.3/lib/api/rottentomatoes.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
@@ -26,9 +26,11 @@
 // @compatible      chrome
 // @compatible      edge
 // @compatible      firefox
+// @compatible      safari
+// @grant           GM_getValue
+// @grant           GM_setValue
 // @grant           GM.deleteValue
 // @grant           GM.getValue
-// @grant           GM.info
 // @grant           GM.listValues
 // @grant           GM.registerMenuCommand
 // @grant           GM.setValue
