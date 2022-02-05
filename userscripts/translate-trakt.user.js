@@ -3,21 +3,21 @@
 // @name:it         Traduci Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=trakt.tv
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
 // @description     Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.0.2
+// @version         4.0.3
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.0/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.0/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.0/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.3/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.3/lib/api/tmdb.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery-visible@1.2.0/jquery.visible.min.js
@@ -27,10 +27,10 @@
 // @compatible      chrome
 // @compatible      edge
 // @compatible      firefox
-// @grant           GM.getValue
-// @grant           GM.info
+// @compatible      safari
+// @grant           GM_getValue
+// @grant           GM_setValue
 // @grant           GM.registerMenuCommand
-// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
 // @run-at          document-start
 // @inject-into     page
