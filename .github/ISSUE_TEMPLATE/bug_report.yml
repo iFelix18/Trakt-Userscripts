@@ -1,19 +1,15 @@
 name: Bug Report
-description: Create a report to help us improve
+description: Create a report to help me improve
 title: "[BUG]: "
 labels: ["bug"]
 assignees:
   - iFelix18
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
   - type: dropdown
-    id: userscript
+    id: userscripts
     attributes:
-      label: Userscript
-      description: Which userscript are you having issues with?
+      label: Userscripts
+      description: Which userscripts are you having issues with?
       multiple: true
       options:
         - Profile image on Trakt
@@ -43,23 +39,29 @@ body:
     id: reproduction-steps
     attributes:
       label: Reproduction steps
-      description: Steps to reproduce the behavior.
-      value: |
+      description: "Steps to reproduce the issue:"
+      placeholder: |
         1. Go to '...'
         2. Click on '...'
         3. Scroll down to '...'
         4. '...'
-      render: bash
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
       label: Console logs
-      description: Enable `Logging` and `Debugging` in the script settings, open your browser's console, and reports what is shown relative to the script.
+      description: "Enable `Logging` and `Debugging` in the script settings, open your browser's console, and reports what is shown relative to the script:"
       render: shell
     validations:
       required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
@@ -69,4 +71,5 @@ body:
           required: true
   - type: markdown
     attributes:
-      value: Thanks for completing our form!
+      value: |
+        Thanks for taking the time to fill out this bug report!
