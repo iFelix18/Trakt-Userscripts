@@ -1,0 +1,72 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[BUG]: "
+labels: ["bug"]
+assignees:
+  - iFelix18
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: userscript
+    attributes:
+      label: Userscript
+      description: Which userscript are you having issues with?
+      multiple: true
+      options:
+        - Profile image on Trakt
+        - Ratings on Trakt
+        - Stats for Trakt
+        - Trakt Search
+        - Translate Trakt
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      placeholder: "Example: Google Chrome"
+    validations:
+      required: true
+  - type: input
+    id: userscript-manager
+    attributes:
+      label: Userscript manager
+      description: Which userscript manager are you using?
+      placeholder: "Example: Violentmonkey"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction steps
+      description: Steps to reproduce the behavior.
+      value: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. '...'
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs
+      description: Enable `Logging` and `Debugging` in the script settings, open your browser's console, and reports what is shown relative to the script.
+      render: shell
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: markdown
+    attributes:
+      value: Thanks for completing our form!
