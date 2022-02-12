@@ -13,14 +13,3 @@ Aggiunge statistiche a [Trakt.tv](https://trakt.tv/)
 |                                           _Statistiche valutazioni episodi_                                            |
 |            [![People Stats](https://i.imgur.com/DSXu3Ge.png "Statistiche persone")](#statistiche-per-trakt)            |
 |                                                 _Statistiche persone_                                                  |
-
----
-
-## Come installare
-
-1. Scarica uno di questi add-on per il browser:
-    * [Violentmonkey](https://violentmonkey.github.io/)
-    * [Tampermonkey](https://www.tampermonkey.net/)
-2. Installa l'userscript direttamente da GitHub facendo clic sul relativo badge di installazione.
-3. Nel caso, configura lo script come riportato nella sua descrizione.
-4. Fatto!

@@ -11,14 +11,3 @@ Shows the results of a search on [Trakt.tv](https://trakt.tv/)
 | :----------------------------------------------------------------------------------: |
 | [![Search Results](https://i.imgur.com/l8nuTwO.png "Search Results")](#trakt-search) |
 |                                   _Search Results_                                   |
-
----
-
-## How to install
-
-1. Download one of these add-ons for your browser:
-    * [Violentmonkey](https://violentmonkey.github.io/)
-    * [Tampermonkey](https://www.tampermonkey.net/)
-2. Install the userscript directly from GitHub by clicking on the related installation badge.
-3. In case, configure the script as as reported in its description.
-4. Done!

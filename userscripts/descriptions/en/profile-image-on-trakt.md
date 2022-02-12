@@ -6,14 +6,3 @@ Set your favorite movie, or TV series as your profile picture on [Trakt.tv](http
 [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/profile-image-on-trakt.user.js?style=flat-square)](#profile-image-on-trakt)
 
 >**Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
-
----
-
-## How to install
-
-1. Download one of these add-ons for your browser:
-    * [Violentmonkey](https://violentmonkey.github.io/)
-    * [Tampermonkey](https://www.tampermonkey.net/)
-2. Install the userscript directly from GitHub by clicking on the related installation badge.
-3. In case, configure the script as as reported in its description.
-4. Done!

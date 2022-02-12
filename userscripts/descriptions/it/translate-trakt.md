@@ -13,14 +13,3 @@ Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.t
 |                               _Prima_                                |
 |  [![After](https://i.imgur.com/KuKI4Pt.gif "Dopo")](#traduci-trakt)  |
 |                    _Dopo, esempi in varie lingue_                    |
-
----
-
-## Come installare
-
-1. Scarica uno di questi add-on per il browser:
-    * [Violentmonkey](https://violentmonkey.github.io/)
-    * [Tampermonkey](https://www.tampermonkey.net/)
-2. Installa l'userscript direttamente da GitHub facendo clic sul relativo badge di installazione.
-3. Nel caso, configura lo script come riportato nella sua descrizione.
-4. Fatto!
