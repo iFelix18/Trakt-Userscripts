@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes e Metacritic a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.0.0
+// @version         4.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -53,6 +53,13 @@
         title: 'Your OMDb API Key',
         size: 70,
         default: ''
+      },
+      hideDefaultRatings: {
+        label: 'Prefer the ratings offered by this script to those offered by Trakt',
+        section: ['Features'],
+        labelPos: 'right',
+        type: 'checkbox',
+        default: true
       },
       logging: {
         label: 'Logging',
@@ -128,6 +135,14 @@
 
   //* Functions
   /**
+   * Returns IMDb ID
+   * @returns {string}
+   */
+  const getID = () => {
+    return $('#info-wrapper .sidebar .external li a#external-link-imdb').attr('href').match(/tt\d+/)[0]
+  }
+
+  /**
    * Add template
    */
   const addTemplate = () => {
@@ -149,6 +164,13 @@
     }
   }
 
+  /**
+   * Hide default ratings offered by Trakt
+   */
+  const hideDefaultRatings = () => {
+    $('#summary-ratings-wrapper ul li.imdb, #summary-ratings-wrapper ul li.rt, #summary-ratings-wrapper ul li.metacritic').hide()
+  }
+
   //* NodeCreationObserver
   NodeCreationObserver.init('observed-ratings')
   NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => {
@@ -157,7 +179,7 @@
 
       if ($('#summary-ratings-wrapper .ratings').length === 0) return // check if it is on the main page
 
-      const id = $('#info-wrapper .sidebar .external li a#external-link-imdb').attr('href').match(/tt\d+/)[0] // IMDb ID
+      const id = getID() // IMDb ID
 
       if (!id) return // check if an ID exists
 
@@ -167,6 +189,8 @@
 
       rating.get(id).then((data) => {
         rating.elaborate(data).then((data) => {
+          if (GM_config.get('hideDefaultRatings')) hideDefaultRatings()
+
           const template = Handlebars.compile($('#external-ratings-template').html())
           const context = { ratings: data }
           const compile = template(context)
