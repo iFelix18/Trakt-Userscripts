@@ -5,5 +5,5 @@
 // @description Adds ratings from IMDb, Rotten Tomatoes and Metacritic to Trakt
 // @copyright 2019, Davide (https://github.com/iFelix18)
 // @license MIT
-// @version 3.2.3
+// @version 4.0.0
 // ==/UserScript==
