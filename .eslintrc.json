@@ -5,6 +5,7 @@
   "extends": [
     "standard",
     "greasemonkey",
+    "plugin:jsdoc/recommended",
     "plugin:json/recommended",
     "plugin:regexp/recommended",
     "plugin:unicorn/recommended"
@@ -14,7 +15,9 @@
     "sourceType": "module"
   },
   "plugins": [
+    "jsdoc",
     "json",
+    "regexp",
     "unicorn"
   ],
   "rules": {},
