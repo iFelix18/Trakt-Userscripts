@@ -60,7 +60,7 @@ body:
       label: Console logs
       description: "Enable `Logging` and `Debugging` in the script settings, open your browser's console, and reports what is shown relative to the script:"
       placeholder: "Copy and paste logs here."
-      render: shell
+      render: Shell
     validations:
       required: true
   - type: textarea
