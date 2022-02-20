@@ -20,13 +20,14 @@ Readme languages:
 
 ## Scripts
 
-|                       _Script_                        |                         _Version_                          |                          _Install_                           |
-| :---------------------------------------------------: | :--------------------------------------------------------: | :----------------------------------------------------------: |
-|       [Ratings on Trakt][ratings-on-trakt-link]       |    [![Version][ratings-on-trakt-version]][scripts-link]    |    [![Install][install-badge]][ratings-on-trakt-download]    |
-|           [Trakt Search][trakt-search-link]           |      [![Version][trakt-search-version]][scripts-link]      |      [![Install][install-badge]][trakt-search-download]      |
-|        [Stats for Trakt][stats-for-trakt-link]        |    [![Version][stats-for-trakt-version]][scripts-link]     |    [![Install][install-badge]][stats-for-trakt-download]     |
-|        [Translate Trakt][translate-trakt-link]        |    [![Version][translate-trakt-version]][scripts-link]     |    [![Install][install-badge]][translate-trakt-download]     |
-| [Profile image on Trakt][profile-image-on-trakt-link] | [![Version][profile-image-on-trakt-version]][scripts-link] | [![Install][install-badge]][profile-image-on-trakt-download] |
+|                        _Script_                         |                          _Version_                          |                           _Install_                           |
+| :-----------------------------------------------------: | :---------------------------------------------------------: | :-----------------------------------------------------------: |
+|        [Ratings on Trakt][ratings-on-trakt-link]        |    [![Version][ratings-on-trakt-version]][scripts-link]     |    [![Install][install-badge]][ratings-on-trakt-download]     |
+| [External links on Trakt][external-links-on-trakt-link] | [![Version][external-links-on-trakt-version]][scripts-link] | [![Install][install-badge]][external-links-on-trakt-download] |
+|            [Trakt Search][trakt-search-link]            |      [![Version][trakt-search-version]][scripts-link]       |      [![Install][install-badge]][trakt-search-download]       |
+|         [Stats for Trakt][stats-for-trakt-link]         |     [![Version][stats-for-trakt-version]][scripts-link]     |     [![Install][install-badge]][stats-for-trakt-download]     |
+|         [Translate Trakt][translate-trakt-link]         |     [![Version][translate-trakt-version]][scripts-link]     |     [![Install][install-badge]][translate-trakt-download]     |
+|  [Profile image on Trakt][profile-image-on-trakt-link]  | [![Version][profile-image-on-trakt-version]][scripts-link]  | [![Install][install-badge]][profile-image-on-trakt-download]  |
 
 ---
 
@@ -56,7 +57,7 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 [stars-link]: https://github.com/iFelix18/Trakt-Userscripts/stargazers
 [watchers-badge]: https://flat.badgen.net/github/watchers/iFelix18/Trakt-Userscripts
 [watchers-link]: https://github.com/iFelix18/Trakt-Userscripts/watchers
-[userscripts-badge]: https://flat.badgen.net/badge/scripts/5/orange
+[userscripts-badge]: https://flat.badgen.net/badge/scripts/6/orange
 [userscripts-link]: https://github.com/iFelix18/Trakt-Userscripts/tree/master/userscripts
 [open-issues-badge]: https://flat.badgen.net/github/open-issues/iFelix18/Trakt-Userscripts
 [open-issues-link]: https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -81,6 +82,10 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 [ratings-on-trakt-link]: /docs/ratings-on-trakt.md "More info"
 [ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 [ratings-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Click here!"
+
+[external-links-on-trakt-link]: /docs/external-links-on-trakt.md "More info"
+[external-links-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/external-links-on-trakt.meta.js
+[external-links-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/external-links-on-trakt.user.js "Click here!"
 
 [trakt-search-link]: /docs/trakt-search.md "More info"
 [trakt-search-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
