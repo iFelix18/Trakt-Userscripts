@@ -1,108 +1,41 @@
 # Trakt Userscripts
 
-Userscripts to improve and add features to [Trakt.tv](https://trakt.tv/)
+Userscripts to improve and add features to [Trakt.tv][trakt-link]
 
-[![Stars](https://img.shields.io/github/stars/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/stargazers)
-[![Watchers](https://img.shields.io/github/watchers/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/watchers)
-[![Scripts](https://img.shields.io/badge/scripts-5-orange?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/tree/master/userscripts)
-[![Open Issues](https://img.shields.io/github/issues-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues)
-[![Closed Issues](https://img.shields.io/github/issues-closed-raw/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed)
-[![Last Commit](https://img.shields.io/github/last-commit/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/commits/master)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen?style=flat-square)](https://standardjs.com)
-[![License](https://img.shields.io/github/license/iFelix18/Trakt-Userscripts?style=flat-square)](https://github.com/iFelix18/Trakt-Userscripts/blob/master/LICENSE.md)
+[![Stars][stars-badge]][stars-link]
+[![Watchers][watchers-badge]][watchers-link]
+[![Scripts][userscripts-badge]][userscripts-link]
+[![Open Issues][open-issues-badge]][open-issues-link]
+[![Closed Issues][closed-issues-badge]][closed-issues-link]
+[![Last Commit][last-commit-badge]][last-commit-link]
+[![jsDelivr Hits][jsdelivr-hits-badge]][jsdelivr-hits-link]
+[![JavaScript Style Guide][style-guide-badge]][style-guide-link]
+[![License][license-badge]][license-link]
 
 Readme languages:
-•[_en_](README.md "English")
-•[_it_](README.it.md "Italiano")
+•[_en_][readme-en]
+•[_it_][readme-it]
 
 ---
 
 ## Scripts
 
-* ### Ratings on Trakt
-
-  Adds ratings from IMDb, Rotten Tomatoes, Metacritic to [Trakt.tv](https://trakt.tv/)
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js&style=flat-square)](#ratings-on-trakt)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/ratings-on-trakt.user.js?style=flat-square)](#ratings-on-trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js)
-
-  >**Note**: After installation, enter your [OMDb API Key](https://www.omdbapi.com/apikey.aspx) in the script settings.
-
-  |                               Screenshots                                |
-  | :----------------------------------------------------------------------: |
-  | [![Before](https://i.imgur.com/2cFZHL5.png "Before")](#ratings-on-trakt) |
-  |                                 _Before_                                 |
-  |  [![After](https://i.imgur.com/cSiRt7P.png "After")](#ratings-on-trakt)  |
-  |                                 _After_                                  |
-
-* ### Stats for Trakt
-
-  Adds stats on [Trakt.tv](https://trakt.tv/)
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js&style=flat-square)](#stats-for-trakt)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/stats-for-trakt.user.js?style=flat-square)](#stats-for-trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js)
-
-  >**Note**: After installation, enter your [Trakt Client ID](https://trakt.tv/oauth/applications/new) in the script settings.
-
-  |                                               Screenshots                                               |
-  | :-----------------------------------------------------------------------------------------------------: |
-  | [![Episodes Ratings Stats](https://i.imgur.com/06S2SDt.png "Episodes Ratings Stats")](#stats-for-trakt) |
-  |                                        _Episodes ratings stats_                                         |
-  |           [![People Stats](https://i.imgur.com/DSXu3Ge.png "People Stats")](#stats-for-trakt)           |
-  |                                             _People stats_                                              |
-
-* ### Trakt Search
-
-  Shows the results of a search on [Trakt.tv](https://trakt.tv/)
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js&style=flat-square)](#trakt-search)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/trakt-search.user.js?style=flat-square)](#trakt-search)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js)
-
-  >**Note**: After installation, enter your [Trakt Client ID](https://trakt.tv/oauth/applications/new) and your [TMDb API Key](https://developers.themoviedb.org/3/) in the script settings.
-
- |                                     Screenshots                                      |
- | :----------------------------------------------------------------------------------: |
- | [![Search Results](https://i.imgur.com/l8nuTwO.png "Search Results")](#trakt-search) |
- |                                   _Search Results_                                   |
-
-* ### Translate Trakt
-
-  Translates titles, plots, taglines and posters of movies, TV series and episodes on [Trakt.tv](https://trakt.tv/) in the choice language
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js&style=flat-square)](#translate-trakt)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/translate-trakt.user.js?style=flat-square)](#translate-trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js)
-
-  >**Note**: After installation, enter your [TMDb API Key](https://developers.themoviedb.org/3/), your [Trakt Client ID](https://trakt.tv/oauth/applications/new) and select your [language](https://developers.themoviedb.org/3/configuration/get-primary-translations) in the script settings.
-
-  |                               Screenshots                               |
-  | :---------------------------------------------------------------------: |
-  | [![Before](https://i.imgur.com/ZWn3VJe.png "Before")](#translate-trakt) |
-  |                                _Before_                                 |
-  |  [![After](https://i.imgur.com/KuKI4Pt.gif "After")](#translate-trakt)  |
-  |                 _After, examples in various languages_                  |
-
-* ### Profile image on Trakt
-
-  Set your favorite movie, or TV series as your profile picture on [Trakt.tv](https://trakt.tv/)
-
-  [![Version](https://img.shields.io/endpoint?url=https://runkit.io/ifelix18/userscript-version/branches/master/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js&style=flat-square)](#profile-image-on-trakt)
-  [![Size](https://img.shields.io/github/size/iFelix18/Trakt-Userscripts/userscripts/profile-image-on-trakt.user.js?style=flat-square)](#profile-image-on-trakt)
-  [![Install](https://img.shields.io/badge/install%20directly%20from-GitHub-blue?style=flat-square "Click here!")](https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js)
-
-  >**Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
+|                       _Script_                        |                         _Version_                          |                          _Install_                           |
+| :---------------------------------------------------: | :--------------------------------------------------------: | :----------------------------------------------------------: |
+|       [Ratings on Trakt][ratings-on-trakt-link]       |    [![Version][ratings-on-trakt-version]][scripts-link]    |    [![Install][install-badge]][ratings-on-trakt-download]    |
+|           [Trakt Search][trakt-search-link]           |      [![Version][trakt-search-version]][scripts-link]      |      [![Install][install-badge]][trakt-search-download]      |
+|        [Stats for Trakt][stats-for-trakt-link]        |    [![Version][stats-for-trakt-version]][scripts-link]     |    [![Install][install-badge]][stats-for-trakt-download]     |
+|        [Translate Trakt][translate-trakt-link]        |    [![Version][translate-trakt-version]][scripts-link]     |    [![Install][install-badge]][translate-trakt-download]     |
+| [Profile image on Trakt][profile-image-on-trakt-link] | [![Version][profile-image-on-trakt-version]][scripts-link] | [![Install][install-badge]][profile-image-on-trakt-download] |
 
 ---
 
 ## How to install scripts
 
 1. Download one of these add-ons for your browser:
-    * [Violentmonkey](https://violentmonkey.github.io/)
-    * [Userscripts](https://github.com/quoid/userscripts#readme)
-    * [Tampermonkey](https://www.tampermonkey.net/)
+    * [Violentmonkey][violentmonkey-link]
+    * [Userscripts][userscripts-link]
+    * [Tampermonkey][tampermonkey-link]
 2. Install the userscript directly from GitHub by clicking on the related installation badge.
 3. In case, configure the script as as reported in its description.
 4. Done!
@@ -111,7 +44,56 @@ Readme languages:
 
 ## Credits
 
-This product uses the TMDb API but is not endorsed or certified by TMDb.  
-This product uses the Trakt API but is not endorsed or certified by Trakt.  
 This product uses the OMDb API but is not endorsed or certified by OMDb.  
 This product uses the Rotten Tomatoes API but is not endorsed or certified by Rotten Tomatoes.  
+This product uses the TMDb API but is not endorsed or certified by TMDb.  
+This product uses the Trakt API but is not endorsed or certified by Trakt.  
+This product uses Wikidata data but is not endorsed or certified by Wikidata.  
+
+[trakt-link]: https://trakt.tv/
+
+[stars-badge]: https://flat.badgen.net/github/stars/iFelix18/Trakt-Userscripts
+[stars-link]: https://github.com/iFelix18/Trakt-Userscripts/stargazers
+[watchers-badge]: https://flat.badgen.net/github/watchers/iFelix18/Trakt-Userscripts
+[watchers-link]: https://github.com/iFelix18/Trakt-Userscripts/watchers
+[userscripts-badge]: https://flat.badgen.net/badge/scripts/5/orange
+[userscripts-link]: https://github.com/iFelix18/Trakt-Userscripts/tree/master/userscripts
+[open-issues-badge]: https://flat.badgen.net/github/open-issues/iFelix18/Trakt-Userscripts
+[open-issues-link]: https://github.com/iFelix18/Trakt-Userscripts/issues
+[closed-issues-badge]: https://flat.badgen.net/github/closed-issues/iFelix18/Trakt-Userscripts
+[closed-issues-link]: https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed
+[last-commit-badge]: https://flat.badgen.net/github/last-commit/iFelix18/Trakt-Userscripts
+[last-commit-link]: https://github.com/iFelix18/Trakt-Userscripts/commits/master
+[jsdelivr-hits-badge]: https://flat.badgen.net/jsdelivr/hits/gh/iFelix18/Trakt-Userscripts?color=FF5627
+[jsdelivr-hits-link]: https://www.jsdelivr.com/package/gh/iFelix18/Trakt-Userscripts
+[style-guide-badge]: https://flat.badgen.net/badge/code%20style/standard/44CC11
+[style-guide-link]: https://standardjs.com
+[license-badge]: https://flat.badgen.net/github/license/iFelix18/Trakt-Userscripts
+[license-link]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/LICENSE.md
+
+[readme-en]: /README.md "English"
+[readme-it]: /README.it.md "Italiano"
+
+[scripts-link]: #scripts
+
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
+
+[ratings-on-trakt-link]: /docs/ratings-on-trakt.md "More info"
+[ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
+[ratings-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Click here!"
+[trakt-search-link]: /docs/trakt-search.md "More info"
+[trakt-search-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
+[trakt-search-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/trakt-search.user.js "Click here!"
+[stats-for-trakt-link]: /docs/stats-for-trakt.md "More info"
+[stats-for-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
+[stats-for-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/stats-for-trakt.user.js "Click here!"
+[translate-trakt-link]: /docs/translate-trakt.md "More info"
+[translate-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
+[translate-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Click here!"
+[profile-image-on-trakt-link]: /docs/profile-image-on-trakt.md "More info"
+[profile-image-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
+[profile-image-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/profile-image-on-trakt.user.js "Click here!"
+
+[violentmonkey-link]: https://violentmonkey.github.io/
+[userscripts-link]: https://github.com/quoid/userscripts/#userscripts-safari
+[tampermonkey-link]: https://www.tampermonkey.net/
