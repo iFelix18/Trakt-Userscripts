@@ -3,20 +3,20 @@
 // @name:it         Statistiche per Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv
 // @description     Adds stats on Trakt
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.2.2
+// @version         3.3.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.3/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.4/lib/api/trakt.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js
@@ -26,10 +26,6 @@
 // @require         https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
-// @compatible      chrome
-// @compatible      edge
-// @compatible      firefox
-// @compatible      safari
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM.deleteValue
@@ -39,16 +35,18 @@
 // @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
 // @run-at          document-start
-// @inject-into     page
+// @inject-into     content
 // ==/UserScript==
 
-/* global $, GM_config, MonkeyUtils, NodeCreationObserver, ProgressBar, Trakt */
+/* global migrateConfig $, GM_config, MyUtils, NodeCreationObserver, ProgressBar, Trakt */
 
 (() => {
+  migrateConfig('trakt-config', 'stats-for-trakt') // migrate to the new config ID
+
   //* GM_config
   GM_config.init({
-    id: 'trakt-config',
-    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
+    id: 'stats-for-trakt',
+    title: `Stats for Trakt v${GM.info.script.version} Settings`,
     fields: {
       TraktClientID: {
         label: 'Trakt Client ID',
@@ -88,7 +86,7 @@
         }
       }
     },
-    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}#trakt-config{background-color:var(--mainBackground);color:var(--text)}#trakt-config .section_header{background-color:var(--background);border-bottom:none;border:1px solid var(--background);color:var(--text)}#trakt-config .section_desc{background-color:var(--background);border-top:none;border:1px solid var(--background);color:var(--text)}#trakt-config .reset{color:var(--text)}',
+    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}body{background-color:var(--mainBackground)!important;color:var(--text)!important}body .section_header{background-color:var(--background)!important;border-bottom:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .section_desc{background-color:var(--background)!important;border-top:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .reset{color:var(--text)!important}',
     events: {
       init: () => {
         if (!GM_config.isOpen && GM_config.get('TraktClientID') === '') {
@@ -97,26 +95,26 @@
       },
       save: () => {
         if (GM_config.isOpen && GM_config.get('TraktClientID') === '') {
-          window.alert(`${GM.info.script.name}: check your settings and save`)
+          window.alert('Stats for Trakt: check your settings and save')
         } else {
-          window.alert(`${GM.info.script.name}: settings saved`)
+          window.alert('Stats for Trakt: settings saved')
           GM_config.close()
           window.location.reload(false)
         }
       }
     }
   })
-  GM.registerMenuCommand('Configure', () => GM_config.open())
+  if (GM.info.scriptHandler !== 'Userscripts') GM.registerMenuCommand('Configure', () => GM_config.open()) //! Userscripts Safari: GM.registerMenuCommand is missing
 
-  //* MonkeyUtils
-  const MU = new MonkeyUtils({
-    name: GM.info.script.name,
+  //* MyUtils
+  const MU = new MyUtils({
+    name: 'Stats for Trakt',
     version: GM.info.script.version,
-    author: GM.info.script.author,
+    author: 'Davide',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  MU.init('trakt-config')
+  MU.init('stats-for-trakt')
 
   //* Trakt API
   const trakt = new Trakt({
@@ -140,8 +138,9 @@
   //* Functions
   /**
    * Returns a normalized episodes and season numbers by adding a zero to individual numbers: 1 => 01
-   * @param {number} number Episode o season number
-   * @returns {number}
+   *
+   * @param {number} number Episode or season number
+   * @returns {number} Normalized episodes or season numbers
    */
   const normalize = (number) => {
     return (number < 10 ? '0' : '') + number
@@ -149,8 +148,9 @@
 
   /**
    * Capitalize first letter
-   * @param {string} string
-   * @returns {string}
+   *
+   * @param {string} string String
+   * @returns {string} Capitalized string
    */
   const capitalizeFirstLetter = (string) => {
     return (string.charAt(0).toUpperCase() + string.slice(1)).trim()
@@ -158,8 +158,9 @@
 
   /**
    * Returns a color
+   *
    * @param {number} index Datasets length
-   * @returns {string}
+   * @returns {string} Color
    */
   const color = (index) => {
     const colors = [
@@ -180,7 +181,8 @@
 
   /**
    * Returns Trakt ID
-   * @returns {number}
+   *
+   * @returns {number} Trakt ID
    */
   const getID = () => {
     const type = $('.btn-list[data-type]').data('type')
@@ -190,8 +192,9 @@
 
   /**
    * Returns all episodes ratings in a show
+   *
    * @param {number} id Trakt ID
-   * @returns {Promise}
+   * @returns {Promise} Episodes ratings
    */
   const getEpisodesRatings = async (id) => {
     const cache = await GM.getValue(id) // get cache
@@ -236,7 +239,8 @@
 
   /**
    * Returns your people progress
-   * @returns {Promise}
+   *
+   * @returns {Promise} People progress
    */
   const getPeopleProgress = () => {
     const data = []
@@ -260,8 +264,9 @@
 
   /**
    * Returns a datasets
-   * @param {Object} data Episodes ratings
-   * @returns {Array}
+   *
+   * @param {object} data Episodes ratings
+   * @returns {Array} Datasets
    */
   const scatterDatasets = (data) => {
     let datasets = []
@@ -309,7 +314,8 @@
 
   /**
    * Add stats to sidebar menu
-   * @param {number} child
+   *
+   * @param {number} child Child
    */
   const addToMenu = (child) => {
     $(`#info-wrapper .sidebar .sections li:nth-child(${child}) a`).parent().after('<li><a href="#stats">Stats</a></li>')
@@ -323,7 +329,8 @@
 
   /**
    * Add chart to the page
-   * @param {Object} data Episodes ratings
+   *
+   * @param {object} data Episodes ratings
    */
   const addScatterChart = (data) => {
     // eslint-disable-next-line no-unused-vars, no-undef
@@ -390,7 +397,8 @@
 
   /**
    * Add progress bar to the page
-   * @param {Object} data People progress
+   *
+   * @param {object} data People progress
    */
   const addProgressBar = (data) => {
     for (const role of data) {
