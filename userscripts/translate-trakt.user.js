@@ -3,46 +3,47 @@
 // @name:it         Traduci Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv
 // @description     Translates titles, plots, taglines and posters of movies, TV series and episodes in the choice language
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.0.3
+// @version         4.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.3/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.3/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.4/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.4/lib/api/tmdb.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery-visible@1.2.0/jquery.visible.min.js
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
 // @connect         api.themoviedb.org
-// @compatible      chrome
-// @compatible      edge
-// @compatible      firefox
-// @compatible      safari
 // @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM.deleteValue
+// @grant           GM.getValue
 // @grant           GM.registerMenuCommand
+// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
 // @run-at          document-start
-// @inject-into     page
+// @inject-into     content
 // ==/UserScript==
 
-/* global $, GM_config, MonkeyUtils, NodeCreationObserver, TMDb, Trakt */
+/* global $, GM_config, migrateConfig, MyUtils, NodeCreationObserver, TMDb, Trakt */
 
 (() => {
+  migrateConfig('trakt-config', 'translate-trakt') // migrate to the new config ID
+
   //* GM_config
   GM_config.init({
-    id: 'trakt-config',
-    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
+    id: 'translate-trakt',
+    title: `Translate Trakt v${GM.info.script.version} Settings`,
     fields: {
       TMDbApiKey: {
         label: 'TMDb API Key',
@@ -91,7 +92,7 @@
         default: false
       }
     },
-    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}#trakt-config{background-color:var(--mainBackground);color:var(--text)}#trakt-config .section_header{background-color:var(--background);border-bottom:none;border:1px solid var(--background);color:var(--text)}#trakt-config .section_desc{background-color:var(--background);border-top:none;border:1px solid var(--background);color:var(--text)}#trakt-config .reset{color:var(--text)}',
+    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}body{background-color:var(--mainBackground)!important;color:var(--text)!important}body .section_header{background-color:var(--background)!important;border-bottom:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .section_desc{background-color:var(--background)!important;border-top:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .reset{color:var(--text)!important}',
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
@@ -100,26 +101,26 @@
       },
       save: () => {
         if (GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
-          window.alert(`${GM.info.script.name}: check your settings and save`)
+          window.alert('Translate Trakt: check your settings and save')
         } else {
-          window.alert(`${GM.info.script.name}: settings saved`)
+          window.alert('Translate Trakt: settings saved')
           GM_config.close()
           window.location.reload(false)
         }
       }
     }
   })
-  GM.registerMenuCommand('Configure', () => GM_config.open())
+  if (GM.info.scriptHandler !== 'Userscripts') GM.registerMenuCommand('Configure', () => GM_config.open()) //! Userscripts Safari: GM.registerMenuCommand is missing
 
-  //* MonkeyUtils
-  const MU = new MonkeyUtils({
-    name: GM.info.script.name,
+  //* MyUtils
+  const MU = new MyUtils({
+    name: 'Translate Trakt',
     version: GM.info.script.version,
-    author: GM.info.script.author,
+    author: 'Davide',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  MU.init('trakt-config')
+  MU.init('translate-trakt')
 
   //* Trakt API
   const trakt = new Trakt({
@@ -137,15 +138,17 @@
   //* Functions
   /**
    * Returns if translated
-   * @param {Object}    item Item to be translated
-   * @returns {boolean}
+   *
+   * @param {object} item Item to be translated
+   * @returns {boolean} If translated
    */
   const isTranslated = (item) => $(item).is('.translate, .untranslatable, .translated')
 
   /**
    * Returns infos from Trakt
-   * @param {Object}    item Item to be translated
-   * @returns {Object}
+   *
+   * @param {object} item Item to be translated
+   * @returns {object} Infos
    */
   const getInfos = (item) => {
     const infos = {}
@@ -175,9 +178,10 @@
 
   /**
    * Translate poster
-   * @param {Object}  item  Item to be translated
-   * @param {string}  path  Poster path
-   * @param {string}  size  Poster size
+   *
+   * @param {object} item Item to be translated
+   * @param {string} path Poster path
+   * @param {string} size Poster size
    */
   const translatePoster = (item, path, size) => {
     const url = `https://image.tmdb.org/t/p/${size}${path}`
@@ -198,9 +202,10 @@
 
   /**
    * Translate backdrop
-   * @param {Object}  item  Item to be translated
-   * @param {string}  path  Backdrop path
-   * @param {string}  size  Backdrop size
+   *
+   * @param {object} item Item to be translated
+   * @param {string} path Backdrop path
+   * @param {string} size Backdrop size
    */
   const translateBackdrop = (item, path, size) => {
     const url = `https://image.tmdb.org/t/p/${size}${path}`
@@ -225,9 +230,9 @@
 
   /**
    * Translate main title
-   * @param {Object}  item  Item to be translated
-   * @param {string}  title Main title
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {string} title Main title
    */
   const translateMainTitle = (item, title) => {
     let target
@@ -277,10 +282,10 @@
 
   /**
    * Translate title
-   * @param {Object}  item      Item to be translated
-   * @param {string}  title     Title
-   * @param {string}  subTitle  Subtitle
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {string} title Title
+   * @param {string} subTitle Subtitle
    */
   const translateTitle = (item, title, subTitle) => {
     let target
@@ -322,9 +327,9 @@
 
   /**
    * Translate tagline
-   * @param {Object}  item    Item to be translated
-   * @param {string}  tagline Tagline
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {string} tagline Tagline
    */
   const translateTagline = (item, tagline) => {
     const target = (
@@ -342,9 +347,9 @@
 
   /**
    * Translate overview
-   * @param {Object}  item      Item to be translated
-   * @param {string}  overview  Overview
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {string} overview Overview
    */
   const translateOverview = (item, overview) => {
     const target = (
@@ -364,10 +369,10 @@
 
   /**
    * Translate movie
-   * @param {Object}  item  Item to be translated
-   * @param {Object}  infos Infos from Trakt
-   * @param {Object}  data  Data from Trakt API
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {object} infos Infos from Trakt
+   * @param {object} data Data from Trakt API
    */
   const translateMovie = (item, infos, data) => {
     const id = data.movie.ids.tmdb // TMDb ID
@@ -399,10 +404,10 @@
 
   /**
    * Translate show
-   * @param {Object}  item  Item to be translated
-   * @param {Object}  infos Infos from Trakt
-   * @param {Object}  data  Data from Trakt API
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {object} infos Infos from Trakt
+   * @param {object} data Data from Trakt API
    */
   const translateShow = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
@@ -432,10 +437,10 @@
 
   /**
    * Translate season
-   * @param {Object}  item  Item to be translated
-   * @param {Object}  infos Infos from Trakt
-   * @param {Object}  data  Data from Trakt API
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {object} infos Infos from Trakt
+   * @param {object} data Data from Trakt API
    */
   const translateSeason = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
@@ -471,10 +476,10 @@
 
   /**
    * Translate episode
-   * @param {Object}  item  Item to be translated
-   * @param {Object}  infos Infos from Trakt
-   * @param {Object}  data  Data from Trakt API
-   * @returns
+   *
+   * @param {object} item Item to be translated
+   * @param {object} infos Infos from Trakt
+   * @param {object} data Data from Trakt API
    */
   const translateEpisode = (item, infos, data) => {
     const id = data.show.ids.tmdb // TMDb ID
@@ -513,7 +518,8 @@
 
   /**
    * Translate grid items
-   * @param {Object}  item  Item to be translated
+   *
+   * @param {object} item Item to be translated
    */
   const translateGrid = (item) => {
     const translateIfVisible = async () => { // translate visible grid items
