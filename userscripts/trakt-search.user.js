@@ -3,46 +3,47 @@
 // @name:it         Ricerca Trakt
 // @author          Davide <iFelix18@protonmail.com>
 // @namespace       https://github.com/iFelix18
-// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv/
+// @icon            https://www.google.com/s2/favicons?sz=64&domain=https://trakt.tv
 // @description     Shows the results of a search on Trakt
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.3
+// @version         1.3.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-2.3.4/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.3/lib/api/trakt.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.3/lib/api/tmdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.4/lib/api/trakt.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@tmdb-1.5.4/lib/api/tmdb.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
 // @match           *://trakt.tv/*
 // @connect         api.trakt.tv
 // @connect         api.themoviedb.org
-// @compatible      chrome
-// @compatible      edge
-// @compatible      firefox
-// @compatible      safari
 // @grant           GM_getValue
 // @grant           GM_setValue
+// @grant           GM.deleteValue
+// @grant           GM.getValue
 // @grant           GM.registerMenuCommand
+// @grant           GM.setValue
 // @grant           GM.xmlHttpRequest
 // @run-at          document-start
-// @inject-into     page
+// @inject-into     content
 // ==/UserScript==
 
-/* global $, GM_config, Handlebars, MonkeyUtils, NodeCreationObserver, TMDb, Trakt */
+/* global $, GM_config, Handlebars, migrateConfig, MyUtils, NodeCreationObserver, TMDb, Trakt */
 
 (() => {
+  migrateConfig('trakt-config', 'trakt-search') // migrate to the new config ID
+
   //* GM_config
   GM_config.init({
-    id: 'trakt-config',
-    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
+    id: 'trakt-search',
+    title: `Trakt Search v${GM.info.script.version} Settings`,
     fields: {
       TraktClientID: {
         label: 'Trakt Client ID',
@@ -76,7 +77,7 @@
         default: false
       }
     },
-    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}#trakt-config{background-color:var(--mainBackground);color:var(--text)}#trakt-config .section_header{background-color:var(--background);border-bottom:none;border:1px solid var(--background);color:var(--text)}#trakt-config .section_desc{background-color:var(--background);border-top:none;border:1px solid var(--background);color:var(--text)}#trakt-config .reset{color:var(--text)}',
+    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}body{background-color:var(--mainBackground)!important;color:var(--text)!important}body .section_header{background-color:var(--background)!important;border-bottom:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .section_desc{background-color:var(--background)!important;border-top:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .reset{color:var(--text)!important}',
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
@@ -85,26 +86,26 @@
       },
       save: () => {
         if (GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
-          window.alert(`${GM.info.script.name}: check your settings and save`)
+          window.alert('Trakt Search: check your settings and save')
         } else {
-          window.alert(`${GM.info.script.name}: settings saved`)
+          window.alert('Trakt Search: settings saved')
           GM_config.close()
           window.location.reload(false)
         }
       }
     }
   })
-  GM.registerMenuCommand('Configure', () => GM_config.open())
+  if (GM.info.scriptHandler !== 'Userscripts') GM.registerMenuCommand('Configure', () => GM_config.open()) //! Userscripts Safari: GM.registerMenuCommand is missing
 
-  //* MonkeyUtils
-  const MU = new MonkeyUtils({
-    name: GM.info.script.name,
+  //* MyUtils
+  const MU = new MyUtils({
+    name: 'Trakt Search',
     version: GM.info.script.version,
-    author: GM.info.script.author,
+    author: 'Davide',
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
-  MU.init('trakt-config')
+  MU.init('trakt-search')
 
   //* Trakt API
   const trakt = new Trakt({
@@ -140,9 +141,10 @@
 
   /**
    * Returns id
-   * @param {object} element
-   * @param {string} type
-   * @returns {string}
+   *
+   * @param {object} element Search results element
+   * @param {string} type Element type
+   * @returns {string} ID
    */
   const id = (element, type) => {
     switch (type) {
@@ -157,9 +159,10 @@
 
   /**
    * Returns title
-   * @param {object} element
-   * @param {string} type
-   * @returns {string}
+   *
+   * @param {object} element Search results element
+   * @param {string} type Element type
+   * @returns {string} Title
    */
   const title = (element, type) => {
     switch (type) {
@@ -178,9 +181,10 @@
 
   /**
    * Returns year
-   * @param {object} element
-   * @param {string} type
-   * @returns {string}
+   *
+   * @param {object} element Search results element
+   * @param {string} type Element type
+   * @returns {string} Year
    */
   const year = (element, type) => {
     switch (type) {
@@ -198,9 +202,10 @@
 
   /**
    * Returns link
-   * @param {object} element
-   * @param {string} type
-   * @returns {string}
+   *
+   * @param {object} element Search results element
+   * @param {string} type Element type
+   * @returns {string} Link
    */
   const link = (element, type) => {
     switch (type) {
@@ -221,8 +226,9 @@
 
   /**
    * Returns poster link
-   * @param {object} response
-   * @returns {string}
+   *
+   * @param {object} response Response
+   * @returns {string} Poster link
    */
   const poster = (response) => {
     if (response.posters !== undefined && response.posters.length > 0) {
@@ -236,9 +242,10 @@
 
   /**
    * Returns all search results
-   * @param {string} type   Search type
-   * @param {string} query  Text query to search
-   * @returns {Promise}
+   *
+   * @param {string} type Search type
+   * @param {string} query Text query to search
+   * @returns {Promise} Search results
    */
   const search = (type, query) => {
     let data = []
