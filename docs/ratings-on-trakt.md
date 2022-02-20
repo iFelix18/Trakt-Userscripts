@@ -37,5 +37,5 @@ Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to [Trakt.tv
 [screenshot-2]: /docs/screenshots/ratings-on-trakt_movie-after.png?raw=true "After"
 [screenshot-3]: /docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Before"
 [screenshot-4]: /docs/screenshots/ratings-on-trakt_show-after.png?raw=true "After"
-[screenshot-5]: /docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Before"
+[screenshot-5]: /docs/screenshots/ratings-on-trakt_anime-before.png?raw=true "Before"
 [screenshot-6]: /docs/screenshots/ratings-on-trakt_anime-after.png?raw=true "After"

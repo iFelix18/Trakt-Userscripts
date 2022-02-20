@@ -37,5 +37,5 @@ Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a [Trakt
 [screenshot-2]: /docs/screenshots/ratings-on-trakt_movie-after.png?raw=true "Dopo"
 [screenshot-3]: /docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Prima"
 [screenshot-4]: /docs/screenshots/ratings-on-trakt_show-after.png?raw=true "Dopo"
-[screenshot-5]: /docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Prima"
+[screenshot-5]: /docs/screenshots/ratings-on-trakt_anime-before.png?raw=true "Prima"
 [screenshot-6]: /docs/screenshots/ratings-on-trakt_anime-after.png?raw=true "Dopo"
