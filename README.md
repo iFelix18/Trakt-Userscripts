@@ -81,15 +81,19 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 [ratings-on-trakt-link]: /docs/ratings-on-trakt.md "More info"
 [ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 [ratings-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Click here!"
+
 [trakt-search-link]: /docs/trakt-search.md "More info"
 [trakt-search-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
 [trakt-search-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/trakt-search.user.js "Click here!"
+
 [stats-for-trakt-link]: /docs/stats-for-trakt.md "More info"
 [stats-for-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 [stats-for-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/stats-for-trakt.user.js "Click here!"
+
 [translate-trakt-link]: /docs/translate-trakt.md "More info"
 [translate-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
 [translate-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Click here!"
+
 [profile-image-on-trakt-link]: /docs/profile-image-on-trakt.md "More info"
 [profile-image-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 [profile-image-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/profile-image-on-trakt.user.js "Click here!"
