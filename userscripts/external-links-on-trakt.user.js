@@ -8,7 +8,7 @@
 // @description:it  Aggiunge più link esterni su Trakt
 // @copyright       2022, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.0.0
+// @version         1.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -16,10 +16,11 @@
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/external-links-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@wikidata-1.0.0/lib/api/wikidata.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@wikidata-2.0.0/lib/api/wikidata.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @match           *://trakt.tv/*
+// @connect         query.wikidata.org
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @grant           GM.deleteValue
@@ -38,8 +39,15 @@
   //* GM_config
   GM_config.init({
     id: 'external-links-on-trakt',
-    title: `External links on Trakt v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
+      italy: {
+        label: 'Show Italian external sites',
+        section: ['Features'],
+        labelPos: 'right',
+        type: 'checkbox',
+        default: false
+      },
       logging: {
         label: 'Logging',
         section: ['Develop'],
@@ -82,9 +90,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'External links on Trakt',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -92,7 +100,6 @@
 
   //* Wikidata
   const wikidata = new Wikidata({
-    endpoint: 'https://query.wikidata.org',
     debug: GM_config.get('debugging')
   })
 
@@ -108,9 +115,9 @@
   }
 
   /**
-   * Returns ID type
+   * Returns item type
    *
-   * @returns {string} ID type
+   * @returns {string} Item type
    */
   const getType = () => {
     switch ($('meta[property="og:type"]').attr('content')) {
@@ -118,30 +125,6 @@
         return 'movie'
       case 'video.tv_show':
         return 'tv'
-      default:
-        break
-    }
-  }
-
-  /**
-   * Returns site URL
-   *
-   * @param {string} key Site
-   * @param {string} value ID
-   * @returns {string} Site URL
-   */
-  const getURL = (key, value) => {
-    switch (key) {
-      case 'Metacritic':
-        return `https://www.metacritic.com/${value}`
-      case 'Rotten Tomatoes':
-        return `https://www.rottentomatoes.com/${value}`
-      case 'MyAnimeList':
-        return `https://myanimelist.net/anime/${value}`
-      case 'AniDB':
-        return `https://anidb.net/anime/${value}`
-      case 'AniList':
-        return `https://anilist.co/anime/${value}`
       default:
         break
     }
@@ -162,12 +145,12 @@
   /**
    * Add external links
    *
-   * @param {object} data IDs
+   * @param {object} links Links data
    */
-  const addLinks = (data) => {
-    $.each(data[0].ids, (key, value) => {
-      if ($(`#info-wrapper .sidebar .external li a#external-link-${key.toLowerCase()}`).length === 0 && value !== undefined && key !== 'Trakt') {
-        const externalLink = `<a target="_blank" id="external-link-${key.toLowerCase()}" href="${getURL(key, value)}" data-original-title="" title="">${key}</a>`
+  const addLinks = (links) => {
+    $.each(links, (site, link) => {
+      if ($(`#info-wrapper .sidebar .external li a#external-link-${site.toLowerCase()}`).length === 0 && link !== undefined && site !== 'Trakt') {
+        const externalLink = `<a target="_blank" id="external-link-${site.toLowerCase().replace(/\s/g, '_')}" href="${link.value}" data-original-title="" title="">${site}</a>`
 
         $('#info-wrapper .sidebar .external li a:not(:has(i))').last().after(externalLink) // desktop
         $('#info-wrapper .info .additional-stats li:last-child a:not([data-site]):not([data-method]):not([data-id])').last().after(externalLink).after(', ') // mobile
@@ -186,13 +169,24 @@
 
       if (cache !== undefined && ((Date.now() - cache.time) < 3_600_000) && !GM_config.get('debugging')) { // cache valid
         MU.log(`${id} data from cache`)
-        addLinks(cache.data) // add external links
+
+        addLinks(cache.worldwide) // add external links
+        if (GM_config.get('italy')) addLinks(cache.italy) // add external links
+        MU.log(cache.item)
       } else { // cache not valid
-        wikidata.ids(id, 'IMDb', type).then((data) => {
-          MU.log(`${id} data from Wikidata`)
-          GM.setValue(id, { data, time: Date.now() }) // set cache
-          addLinks(data) // add external links
-        })
+        MU.log(`${id} data from Wikidata`)
+
+        const data = await wikidata.links(id, 'IMDb', type).then()
+        const item = data.item
+        const links = data.links
+        const worldwide = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'worldwide' : false))
+        const italy = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'italy' : false))
+
+        GM.setValue(id, { worldwide, italy, item, time: Date.now() }) // set cache
+
+        addLinks(worldwide) // add external links
+        if (GM_config.get('italy')) addLinks(italy) // add external links
+        MU.log(item)
       }
     })
   })

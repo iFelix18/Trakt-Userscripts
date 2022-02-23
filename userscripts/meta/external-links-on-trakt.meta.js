@@ -5,5 +5,5 @@
 // @description Add more external links on Trakt
 // @copyright 2022, Davide (https://github.com/iFelix18)
 // @license MIT
-// @version 1.0.0
+// @version 1.1.0
 // ==/UserScript==
