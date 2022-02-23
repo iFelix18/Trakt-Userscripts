@@ -19,11 +19,12 @@ body:
       description: Which userscripts are you having issues with?
       multiple: true
       options:
-        - Profile image on Trakt
         - Ratings on Trakt
-        - Stats for Trakt
+        - External links on Trakt
         - Trakt Search
+        - Stats for Trakt
         - Translate Trakt
+        - Profile image on Trakt
     validations:
       required: true
   - type: input
