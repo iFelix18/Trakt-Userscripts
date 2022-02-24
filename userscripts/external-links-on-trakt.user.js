@@ -8,7 +8,7 @@
 // @description:it  Aggiunge più link esterni su Trakt
 // @copyright       2022, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.1.0
+// @version         1.2.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -158,9 +158,20 @@
     })
   }
 
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   //* Script
-  NodeCreationObserver.onCreation('.movies.show #info-wrapper .sidebar .external, .shows.show #info-wrapper .sidebar .external', () => {
-    $(document).ready(async () => {
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('.movies.show #info-wrapper .sidebar .external, .shows.show #info-wrapper .sidebar .external', async () => {
       clearOldCache() // clear old cache
 
       const id = getID() // get IMDb ID
