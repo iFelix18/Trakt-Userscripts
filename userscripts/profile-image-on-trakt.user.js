@@ -8,14 +8,14 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.0.0
+// @version         2.1.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.2/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @match           *://trakt.tv/*
@@ -37,10 +37,11 @@
   //* GM_config
   GM_config.init({
     id: 'profile-image-on-trakt',
-    title: `Profile image on Trakt v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       logging: {
         label: 'Logging',
+        section: ['Develop'],
         labelPos: 'right',
         type: 'checkbox',
         default: false
@@ -49,7 +50,7 @@
     css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}body{background-color:var(--mainBackground)!important;color:var(--text)!important}body .section_header{background-color:var(--background)!important;border-bottom:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .section_desc{background-color:var(--background)!important;border-top:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .reset{color:var(--text)!important}',
     events: {
       save: () => {
-        window.alert('Profile image on Trakt: settings saved')
+        window.alert(`${GM.info.script.name}: settings saved`)
         GM_config.close()
         window.location.reload(false)
       }
@@ -59,9 +60,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'Profile image on Trakt',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -132,13 +133,23 @@
     }
   }
 
-  //* NodeCreationObserver
-  NodeCreationObserver.init('observed-profile-image')
-  NodeCreationObserver.onCreation('a[href$="/vip/cover"]', (element) => {
-    getData(element)
-  })
-  NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', (element) => {
-    setProfileImage(element)
-    setProfileImageInfo(element)
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
+  //* Script
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('a[href$="/vip/cover"]', (element) => getData(element))
+    NodeCreationObserver.onCreation('.is-self #cover-wrapper:not(.watching-now) .full-bg.enabled', (element) => {
+      setProfileImage(element)
+      setProfileImageInfo(element)
+    })
   })
 })()
