@@ -8,14 +8,14 @@
 // @description:it  Aggiunge più link esterni su Trakt
 // @copyright       2022, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.2.0
+// @version         1.3.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/external-links-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/external-links-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.2/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@wikidata-2.0.0/lib/api/wikidata.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
@@ -167,38 +167,43 @@
     $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
   }
 
+  /**
+   * Main function
+   */
+  const main = async () => {
+    clearOldCache() // clear old cache
+
+    const id = getID() // get IMDb ID
+    const type = getType() // get ID type
+    const cache = await GM.getValue(id) // get cache
+
+    if (cache !== undefined && ((Date.now() - cache.time) < 3_600_000) && !GM_config.get('debugging')) { // cache valid
+      MU.log(`${id} data from cache`)
+
+      addLinks(cache.worldwide) // add external links
+      if (GM_config.get('italy')) addLinks(cache.italy) // add external links
+      MU.log(cache.item)
+    } else { // cache not valid
+      MU.log(`${id} data from Wikidata`)
+
+      const data = await wikidata.links(id, 'IMDb', type).then()
+      const item = data.item
+      const links = data.links
+      const worldwide = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'worldwide' : false))
+      const italy = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'italy' : false))
+
+      GM.setValue(id, { worldwide, italy, item, time: Date.now() }) // set cache
+
+      addLinks(worldwide) // add external links
+      if (GM_config.get('italy')) addLinks(italy) // add external links
+      MU.log(item)
+    }
+  }
+
   //* Script
   $(document).ready(() => {
     NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
     NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
-    NodeCreationObserver.onCreation('.movies.show #info-wrapper .sidebar .external, .shows.show #info-wrapper .sidebar .external', async () => {
-      clearOldCache() // clear old cache
-
-      const id = getID() // get IMDb ID
-      const type = getType() // get ID type
-      const cache = await GM.getValue(id) // get cache
-
-      if (cache !== undefined && ((Date.now() - cache.time) < 3_600_000) && !GM_config.get('debugging')) { // cache valid
-        MU.log(`${id} data from cache`)
-
-        addLinks(cache.worldwide) // add external links
-        if (GM_config.get('italy')) addLinks(cache.italy) // add external links
-        MU.log(cache.item)
-      } else { // cache not valid
-        MU.log(`${id} data from Wikidata`)
-
-        const data = await wikidata.links(id, 'IMDb', type).then()
-        const item = data.item
-        const links = data.links
-        const worldwide = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'worldwide' : false))
-        const italy = Object.fromEntries(Object.entries(links).filter(([key, value]) => value ? value.country === 'italy' : false))
-
-        GM.setValue(id, { worldwide, italy, item, time: Date.now() }) // set cache
-
-        addLinks(worldwide) // add external links
-        if (GM_config.get('italy')) addLinks(italy) // add external links
-        MU.log(item)
-      }
-    })
+    NodeCreationObserver.onCreation('.movies.show #info-wrapper .sidebar .external, .shows.show #info-wrapper .sidebar .external', () => main())
   })
 })()
