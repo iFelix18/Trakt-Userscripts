@@ -8,18 +8,18 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.3.0
+// @version         4.4.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.5/lib/api/omdb.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.4/lib/api/rottentomatoes.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@jikan-1.0.1/lib/api/jikan.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@ratings-2.0.3/lib/utils/ratings.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.2/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.6/lib/api/omdb.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.6/lib/api/rottentomatoes.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@jikan-1.0.2/lib/api/jikan.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@ratings-2.0.4/lib/utils/ratings.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
@@ -47,7 +47,7 @@
   //* GM_config
   GM_config.init({
     id: 'ratings-on-trakt',
-    title: `Ratings on Trakt v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       OMDbApiKey: {
         label: 'OMDb API Key',
@@ -103,9 +103,9 @@
       },
       save: () => {
         if (!GM_config.isOpen && GM_config.get('OMDbApiKey') === '') {
-          window.alert('Ratings on Trakt: check your settings and save')
+          window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
-          window.alert('Ratings on Trakt: settings saved')
+          window.alert(`${GM.info.script.name}: settings saved`)
           GM_config.close()
           window.location.reload(false)
         }
@@ -116,9 +116,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'Ratings on Trakt',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -206,10 +206,19 @@
     }).catch((error) => console.error(error))
   }
 
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   //* Script
-  NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => {
-    $(document).ready(() => {
-      addRatings() // add ratings
-    })
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => addRatings()) // add ratings
   })
 })()

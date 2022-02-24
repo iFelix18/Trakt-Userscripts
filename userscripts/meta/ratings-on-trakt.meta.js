@@ -5,5 +5,5 @@
 // @description Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to Trakt
 // @copyright 2019, Davide (https://github.com/iFelix18)
 // @license MIT
-// @version 4.3.0
+// @version 4.4.0
 // ==/UserScript==
