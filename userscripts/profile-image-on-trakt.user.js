@@ -8,7 +8,7 @@
 // @description:it  Imposta il tuo film preferito, o serie TV come immagine del tuo profilo
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         2.1.0
+// @version         2.1.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -69,6 +69,15 @@
   MU.init('profile-image-on-trakt')
 
   //* Functions
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   /**
    * Get data
    *
@@ -131,15 +140,6 @@
       if ($('#cover-wrapper .shade').length === 0) $(selector).after('<div class="shade"></div>')
       MU.log('info is set')
     }
-  }
-
-  /**
-   * Adds a button for script configuration to the menu
-   */
-  const addMenu = () => {
-    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
-    $('#user-menu ul li.separator').last().after(menu)
-    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
   }
 
   //* Script
