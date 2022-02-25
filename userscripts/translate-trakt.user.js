@@ -8,7 +8,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.1.0
+// @version         4.2.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -43,7 +43,7 @@
   //* GM_config
   GM_config.init({
     id: 'translate-trakt',
-    title: `Translate Trakt v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       TMDbApiKey: {
         label: 'TMDb API Key',
@@ -101,9 +101,9 @@
       },
       save: () => {
         if (GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
-          window.alert('Translate Trakt: check your settings and save')
+          window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
-          window.alert('Translate Trakt: settings saved')
+          window.alert(`${GM.info.script.name}: settings saved`)
           GM_config.close()
           window.location.reload(false)
         }
@@ -114,9 +114,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'Translate Trakt',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -136,6 +136,15 @@
   })
 
   //* Functions
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   /**
    * Returns if translated
    *
@@ -547,10 +556,11 @@
     translateIfVisible()
   }
 
-  //* NodeCreationObserver
-  NodeCreationObserver.init('observed-translate')
-  NodeCreationObserver.onCreation('.movies.show', (item) => { // movie
-    $(document).ready(() => {
+  //* Script
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('.movies.show', (item) => { // movie
       $(item).addClass('translate')
 
       const infos = getInfos($(item).find('.btn-watch[data-movie-id]')) // get infos from Trakt webpage
@@ -561,9 +571,7 @@
         translateMovie(item, infos, data[0]) // translate movie
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('.shows.show', (item) => { // show
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('.shows.show', (item) => { // show
       $(item).addClass('translate')
 
       const infos = getInfos($(item).find('.btn-watch[data-show-id]')) // get infos from Trakt webpage
@@ -574,9 +582,7 @@
         translateShow(item, infos, data[0]) // translate show
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('.shows.season', (item) => { // season
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('.shows.season', (item) => { // season
       $(item).addClass('translate')
 
       const infos = getInfos($(item).find('.btn-watch[data-season-id]')) // get infos from Trakt webpage
@@ -589,9 +595,7 @@
         translateSeason(item, infos, data[0]) // translate season
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('.shows.episode', (item) => { // episode
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('.shows.episode', (item) => { // episode
       $(item).addClass('translate')
 
       const infos = getInfos($(item).find('.btn-checkin[data-show-id]')) // get infos from Trakt webpage
@@ -602,15 +606,13 @@
         translateEpisode(item, infos, data[0])
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('body:not(.people) .grid-item', (item) => { // grid
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('body:not(.people) .grid-item', (item) => { // grid
       translateGrid(item)
     })
-  })
-  NodeCreationObserver.onCreation('.loaded', () => { // grid loaded items
-    $('.loaded').ready(() => {
-      translateGrid()
+    NodeCreationObserver.onCreation('.loaded', () => { // grid loaded items
+      $('.loaded').ready(() => {
+        translateGrid()
+      })
     })
   })
 })()
