@@ -8,7 +8,7 @@
 // @description:it  Mostra i risultati di una ricerca su Trakt
 // @copyright       2021, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.3.0
+// @version         1.4.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -43,7 +43,7 @@
   //* GM_config
   GM_config.init({
     id: 'trakt-search',
-    title: `Trakt Search v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       TraktClientID: {
         label: 'Trakt Client ID',
@@ -86,9 +86,9 @@
       },
       save: () => {
         if (GM_config.isOpen && (GM_config.get('TraktClientID') === '' | GM_config.get('TMDbApiKey') === '')) {
-          window.alert('Trakt Search: check your settings and save')
+          window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
-          window.alert('Trakt Search: settings saved')
+          window.alert(`${GM.info.script.name}: settings saved`)
           GM_config.close()
           window.location.reload(false)
         }
@@ -99,9 +99,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'Trakt Search',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -121,6 +121,15 @@
   })
 
   //* Functions
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   /**
    * Add style
    */
@@ -312,11 +321,14 @@
     })
   }
 
-  //* NodeCreationObserver
-  NodeCreationObserver.init('observed-search')
-  NodeCreationObserver.onCreation('#header-search', () => {
-    addStyle()
-    addTemplate()
-    getInput()
+  //* Script
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('#header-search', () => {
+      addStyle()
+      addTemplate()
+      getInput()
+    })
   })
 })()
