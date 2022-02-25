@@ -8,14 +8,14 @@
 // @description:it  Aggiunge statistiche a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         3.3.0
+// @version         3.4.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
 // @updateURL       https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
 // @downloadURL     https://raw.githubusercontent.com/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 // @require         https://cdn.jsdelivr.net/gh/sizzlemctwizzle/GM_config@43fd0fe4de1166f343883511e53546e87840aeaf/gm_config.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.1/lib/utils/utils.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@utils-3.0.2/lib/utils/utils.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@trakt-1.5.4/lib/api/trakt.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
@@ -46,7 +46,7 @@
   //* GM_config
   GM_config.init({
     id: 'stats-for-trakt',
-    title: `Stats for Trakt v${GM.info.script.version} Settings`,
+    title: `${GM.info.script.name} v${GM.info.script.version} Settings`,
     fields: {
       TraktClientID: {
         label: 'Trakt Client ID',
@@ -95,9 +95,9 @@
       },
       save: () => {
         if (GM_config.isOpen && GM_config.get('TraktClientID') === '') {
-          window.alert('Stats for Trakt: check your settings and save')
+          window.alert(`${GM.info.script.name}: check your settings and save`)
         } else {
-          window.alert('Stats for Trakt: settings saved')
+          window.alert(`${GM.info.script.name}: settings saved`)
           GM_config.close()
           window.location.reload(false)
         }
@@ -108,9 +108,9 @@
 
   //* MyUtils
   const MU = new MyUtils({
-    name: 'Stats for Trakt',
+    name: GM.info.script.name,
     version: GM.info.script.version,
-    author: 'Davide',
+    author: GM.info.script.author,
     color: '#ed1c24',
     logging: GM_config.get('logging')
   })
@@ -136,6 +136,15 @@
   })
 
   //* Functions
+  /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
   /**
    * Returns a normalized episodes and season numbers by adding a zero to individual numbers: 1 => 01
    *
@@ -426,10 +435,11 @@
     $('#peopleProgressBar').children().remove()
   }
 
-  //* NodeCreationObserver
-  NodeCreationObserver.init('observed-stats')
-  NodeCreationObserver.onCreation('.shows.show', () => { // show page
-    $(document).ready(() => {
+  //* Script
+  $(document).ready(() => {
+    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
+    NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
+    NodeCreationObserver.onCreation('.shows.show', () => { // show page
       const id = getID() // Trakt ID
       if (!id) return
       addChartStructure() // add chart structure
@@ -443,9 +453,7 @@
         addScatterChart(response) // add chart
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('.people.show', () => { // people page
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('.people.show', () => { // people page
       addProgressBarStructure() // add progress bar structure
       addToMenu(1) // add stats to the menu
       $('.statsContainer').LoadingOverlay('show', { // show loading
@@ -457,9 +465,7 @@
         addProgressBar(response) // add progress bar
       }).catch((error) => MU.error(error))
     })
-  })
-  NodeCreationObserver.onCreation('.people.show #toast-container .toast.toast-success', () => { // people page
-    $(document).ready(() => {
+    NodeCreationObserver.onCreation('.people.show #toast-container .toast.toast-success', () => { // people page
       $('.statsContainer').LoadingOverlay('show', { // show loading
         image: '',
         custom: loading
