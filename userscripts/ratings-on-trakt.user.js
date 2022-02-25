@@ -8,7 +8,7 @@
 // @description:it  Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a Trakt
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.4.0
+// @version         4.5.0
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -19,7 +19,7 @@
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@omdb-1.2.6/lib/api/omdb.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@rottentomatoes-1.1.6/lib/api/rottentomatoes.min.js
 // @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@jikan-1.0.2/lib/api/jikan.min.js
-// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@ratings-2.0.4/lib/utils/ratings.min.js
+// @require         https://cdn.jsdelivr.net/gh/iFelix18/Userscripts@ratings-3.0.0/lib/utils/ratings.min.js
 // @require         https://cdn.jsdelivr.net/npm/node-creation-observer@1.2.0/release/node-creation-observer-latest.min.js
 // @require         https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require         https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js
@@ -127,7 +127,6 @@
   //* Ratings
   const rating = new Ratings({
     omdb_apikey: GM_config.get('OMDbApiKey'),
-    cache_period: 3_600_000,
     debug: GM_config.get('debugging')
   })
 
@@ -139,24 +138,12 @@
 
   //* Functions
   /**
-   * Returns IMDb ID
-   *
-   * @param {string} link IMDb link
-   * @returns {string} IMDb ID
+   * Adds a button for script configuration to the menu
    */
-  const getID = (link) => {
-    return link.match(/tt\d+/)[0]
-  }
-
-  /**
-   * Add template
-   *
-   * @param {object} target Target
-   */
-  const addTemplate = (target) => {
-    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><a href={{this.url}} target=_blank><img alt="{{this.source}} logo" class=logo src={{this.logo}}><div class=number><div class=rating style=display:flex;align-items:center;align-content:center;justify-content:center>{{this.rating}} {{#ifEqual this.rating "N/A"}} {{else}} <span style=font-weight:400;font-size:80%;opacity:.8>{{this.symbol}} </span>{{/ifEqual}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></a></li>{{/ifEqual}} {{/each}}</script>'
-
-    $(template).insertAfter(target)
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
   }
 
   /**
@@ -179,9 +166,43 @@
   }
 
   /**
-   * Add ratings
+   * Returns IMDb ID
+   *
+   * @param {string} link IMDb link
+   * @returns {string} IMDb ID
    */
-  const addRatings = () => {
+  const getID = (link) => {
+    return link.match(/tt\d+/)[0]
+  }
+
+  /**
+   * Add template
+   *
+   * @param {object} target Target
+   */
+  const addTemplate = (target) => {
+    const template = '<ul class=external-ratings style=margin-left:30px></ul><script id=external-ratings-template type=text/x-handlebars-template>{{#each ratings}} {{#ifEqual this.rating "N/A"}} {{else}}<li class={{this.source}}-rating><a href={{this.url}} target=_blank><img alt="{{this.source}} logo" class=logo src={{this.logo}}><div class=number><div class=rating style=display:flex;align-items:center;align-content:center;justify-content:center>{{this.rating}} {{#ifEqual this.rating "N/A"}} {{else}} <span style=font-weight:400;font-size:80%;opacity:.8>{{this.symbol}} </span>{{/ifEqual}}</div>{{#ifEqual this.source "metascore"}}<div class=votes style="width:100%;color:transparent;background:linear-gradient(to top,transparent 0,transparent 25%,{{this.votes}} 25%,{{this.votes}} 75%,transparent 75%,transparent 100%)">{{this.rating}}</div>{{else}}<div class=votes><span>{{this.votes}}</span></div>{{/ifEqual}}</div></a></li>{{/ifEqual}} {{/each}}</script>'
+
+    $(template).insertAfter(target)
+  }
+
+  /**
+   * Compile template
+   *
+   * @param {object} ratings Ratings
+   */
+  const compileTemplate = (ratings) => {
+    const template = Handlebars.compile($('#external-ratings-template').html()) // compile template
+    const context = { ratings: ratings }
+    const compile = template(context)
+    $('.external-ratings').html(compile)
+    if (GM_config.get('hideDefaultRatings')) hideDefaultRatings() // hide default ratings by Trakt
+  }
+
+  /**
+   * Main function
+   */
+  const main = async () => {
     clearOldCache()
 
     const link = $('#info-wrapper .sidebar .external li a#external-link-imdb').attr('href') // IMDb link
@@ -194,31 +215,28 @@
     if (target.length === 0) return // check if the target exists
     addTemplate(target) // add template
 
-    rating.get(id).then((data) => { // get data
-      rating.elaborate(data).then((data) => { // elaborate data
-        const template = Handlebars.compile($('#external-ratings-template').html()) // compile template
-        const context = { ratings: data }
-        const compile = template(context)
-        $('.external-ratings').html(compile)
+    const cache = await GM.getValue(id) // get cache
 
-        if (GM_config.get('hideDefaultRatings')) hideDefaultRatings() // hide default ratings by Trakt
-      }).catch((error) => console.error(error))
-    }).catch((error) => console.error(error))
-  }
+    if (cache !== undefined && ((Date.now() - cache.time) < 3_600_000) && !GM_config.get('debugging')) { // cache valid
+      MU.log(`${id} data from cache`)
 
-  /**
-   * Adds a button for script configuration to the menu
-   */
-  const addMenu = () => {
-    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
-    $('#user-menu ul li.separator').last().after(menu)
-    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+      compileTemplate(cache.ratings)
+    } else { // cache not valid
+      MU.log(`${id} data from API`)
+
+      const data = await rating.get(id).then() // get data ratings
+      const ratings = await rating.elaborate(data).then() // elaborate ratings
+
+      if (!GM_config.get('debugging')) GM.setValue(id, { ratings, time: Date.now() }) // set cache
+
+      compileTemplate(ratings)
+    }
   }
 
   //* Script
   $(document).ready(() => {
     NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
     NodeCreationObserver.onCreation('#user-menu ul', () => addMenu())
-    NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => addRatings()) // add ratings
+    NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => main()) // add ratings
   })
 })()
