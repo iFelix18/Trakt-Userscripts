@@ -8,7 +8,7 @@
 // @description:it  Aggiunge più link esterni su Trakt
 // @copyright       2022, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         1.3.0
+// @version         1.3.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -105,6 +105,27 @@
 
   //* Functions
   /**
+   * Adds a button for script configuration to the menu
+   */
+  const addMenu = () => {
+    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
+    $('#user-menu ul li.separator').last().after(menu)
+    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
+  }
+
+  /**
+   * Clear old data from the cache
+   */
+  const clearOldCache = async () => {
+    const values = await GM.listValues()
+
+    for (const value of values) {
+      const cache = await GM.getValue(value) // get cache
+      if ((Date.now() - cache.time) > 3_600_000) { GM.deleteValue(value) } // delete old cache
+    }
+  }
+
+  /**
    * Returns IMDb ID
    *
    * @returns {string} IMDb ID
@@ -131,18 +152,6 @@
   }
 
   /**
-   * Clear old data from the cache
-   */
-  const clearOldCache = async () => {
-    const values = await GM.listValues()
-
-    for (const value of values) {
-      const cache = await GM.getValue(value) // get cache
-      if ((Date.now() - cache.time) > 3_600_000) { GM.deleteValue(value) } // delete old cache
-    }
-  }
-
-  /**
    * Add external links
    *
    * @param {object} links Links data
@@ -156,15 +165,6 @@
         $('#info-wrapper .info .additional-stats li:last-child a:not([data-site]):not([data-method]):not([data-id])').last().after(externalLink).after(', ') // mobile
       }
     })
-  }
-
-  /**
-   * Adds a button for script configuration to the menu
-   */
-  const addMenu = () => {
-    const menu = `<li class='${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}'><a href='' onclick='return false;'>${GM.info.script.name}</a></li>`
-    $('#user-menu ul li.separator').last().after(menu)
-    $(`.${GM.info.script.name.toLowerCase().replace(/\s/g, '_')}`).click(() => GM_config.open())
   }
 
   /**
