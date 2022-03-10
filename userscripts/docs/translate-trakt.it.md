@@ -21,11 +21,11 @@ Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.t
 [trakt-client-id]: https://trakt.tv/oauth/applications/new
 [tmdb-language]: https://developers.themoviedb.org/3/configuration/get-primary-translations
 
-[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
+[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/translate-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Clicca qui!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Clicca qui!"
 
-[screenshot-1]: /docs/screenshots/translate-trakt_before.png?raw=true "Prima"
-[screenshot-2]: /docs/screenshots/translate-trakt_after.gif?raw=true "Dopo"
+[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_before.png?raw=true "Prima"
+[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_after.gif?raw=true "Dopo"

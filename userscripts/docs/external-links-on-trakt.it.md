@@ -18,15 +18,15 @@ Aggiunge più link esterni su [Trakt.tv][trakt-link]
 [trakt-link]: https://trakt.tv/
 [link]: #link-esterni-su-trakt
 
-[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/external-links-on-trakt.meta.js
+[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/external-links-on-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/external-links-on-trakt.user.js
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/external-links-on-trakt.user.js "Click here!"
 
-[screenshot-1]: /docs/screenshots/external-links-on-trakt_movie-before.png?raw=true "Prima"
-[screenshot-2]: /docs/screenshots/external-links-on-trakt_movie-after.png?raw=true "Dopo"
-[screenshot-3]: /docs/screenshots/external-links-on-trakt_show-before.png?raw=true "Prima"
-[screenshot-4]: /docs/screenshots/external-links-on-trakt_show-after.png?raw=true "Dopo"
-[screenshot-5]: /docs/screenshots/external-links-on-trakt_anime-before.png?raw=true "Prima"
-[screenshot-6]: /docs/screenshots/external-links-on-trakt_anime-after.png?raw=true "Dopo"
+[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-before.png?raw=true "Prima"
+[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-after.png?raw=true "Dopo"
+[screenshot-3]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-before.png?raw=true "Prima"
+[screenshot-4]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-after.png?raw=true "Dopo"
+[screenshot-5]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-before.png?raw=true "Prima"
+[screenshot-6]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-after.png?raw=true "Dopo"

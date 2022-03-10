@@ -27,15 +27,15 @@ Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to [Trakt.tv
 [link]: #ratings-on-trakt
 [omdb-api]: https://www.omdbapi.com/apikey.aspx
 
-[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
+[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/ratings-on-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Click here!"
 
-[screenshot-1]: /docs/screenshots/ratings-on-trakt_movie-before.png?raw=true "Before"
-[screenshot-2]: /docs/screenshots/ratings-on-trakt_movie-after.png?raw=true "After"
-[screenshot-3]: /docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Before"
-[screenshot-4]: /docs/screenshots/ratings-on-trakt_show-after.png?raw=true "After"
-[screenshot-5]: /docs/screenshots/ratings-on-trakt_anime-before.png?raw=true "Before"
-[screenshot-6]: /docs/screenshots/ratings-on-trakt_anime-after.png?raw=true "After"
+[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_movie-before.png?raw=true "Before"
+[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_movie-after.png?raw=true "After"
+[screenshot-3]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_show-before.png?raw=true "Before"
+[screenshot-4]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_show-after.png?raw=true "After"
+[screenshot-5]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_anime-before.png?raw=true "Before"
+[screenshot-6]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/ratings-on-trakt_anime-after.png?raw=true "After"

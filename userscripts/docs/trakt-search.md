@@ -18,10 +18,10 @@ Shows the results of a search on [Trakt.tv][trakt-link]
 [trakt-client-id]: https://trakt.tv/oauth/applications/new
 [tmdb-api]: https://developers.themoviedb.org/3/
 
-[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
+[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/trakt-search
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/trakt-search.user.js
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/trakt-search.user.js "Click here!"
 
-[screenshot-1]: /docs/screenshots/trakt-search.png?raw=true "Search Results"
+[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/trakt-search.png?raw=true "Search Results"

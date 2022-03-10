@@ -1,6 +1,7 @@
 {
   "env": {
-    "es6": true
+    "browser": true,
+    "es2022": true
   },
   "extends": [
     "standard",
@@ -11,7 +12,7 @@
     "plugin:unicorn/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 2021,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": [

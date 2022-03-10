@@ -8,7 +8,6 @@ Userscripts per migliorare e aggiungere funzionalità a [Trakt.tv][trakt-link]
 [![Open Issues][open-issues-badge]][open-issues-link]
 [![Closed Issues][closed-issues-badge]][closed-issues-link]
 [![Last Commit][last-commit-badge]][last-commit-link]
-[![jsDelivr Hits][jsdelivr-hits-badge]][jsdelivr-hits-link]
 [![JavaScript Style Guide][style-guide-badge]][style-guide-link]
 [![License][license-badge]][license-link]
 
@@ -65,8 +64,6 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 [closed-issues-link]: https://github.com/iFelix18/Trakt-Userscripts/issues?q=is%3Aissue+is%3Aclosed
 [last-commit-badge]: https://flat.badgen.net/github/last-commit/iFelix18/Trakt-Userscripts
 [last-commit-link]: https://github.com/iFelix18/Trakt-Userscripts/commits/master
-[jsdelivr-hits-badge]: https://flat.badgen.net/jsdelivr/hits/gh/iFelix18/Trakt-Userscripts?color=FF5627
-[jsdelivr-hits-link]: https://www.jsdelivr.com/package/gh/iFelix18/Trakt-Userscripts
 [style-guide-badge]: https://flat.badgen.net/badge/code%20style/standard/44CC11
 [style-guide-link]: https://standardjs.com
 [license-badge]: https://flat.badgen.net/github/license/iFelix18/Trakt-Userscripts
@@ -79,28 +76,28 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Clicca qui!"
 
-[ratings-on-trakt-link]: /docs/ratings-on-trakt.it.md "Più info"
-[ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/ratings-on-trakt.meta.js
+[ratings-on-trakt-link]: /userscripts/docs/ratings-on-trakt.it.md "Più info"
+[ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/ratings-on-trakt
 [ratings-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Clicca qui!"
 
-[external-links-on-trakt-link]: /docs/external-links-on-trakt.md "Più info"
-[external-links-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/external-links-on-trakt.meta.js
+[external-links-on-trakt-link]: /userscripts/docs/external-links-on-trakt.md "Più info"
+[external-links-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/external-links-on-trakt
 [external-links-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/external-links-on-trakt.user.js "Clicca qui!"
 
-[trakt-search-link]: /docs/trakt-search.it.md "Più info"
-[trakt-search-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/trakt-search.meta.js
+[trakt-search-link]: /userscripts/docs/trakt-search.it.md "Più info"
+[trakt-search-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/trakt-search
 [trakt-search-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/trakt-search.user.js "Clicca qui!"
 
-[stats-for-trakt-link]: /docs/stats-for-trakt.it.md "Più info"
-[stats-for-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
+[stats-for-trakt-link]: /userscripts/docs/stats-for-trakt.it.md "Più info"
+[stats-for-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/stats-for-trakt
 [stats-for-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/stats-for-trakt.user.js "Clicca qui!"
 
-[translate-trakt-link]: /docs/translate-trakt.it.md "Più info"
-[translate-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/translate-trakt.meta.js
+[translate-trakt-link]: /userscripts/docs/translate-trakt.it.md "Più info"
+[translate-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/translate-trakt
 [translate-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Clicca qui!"
 
-[profile-image-on-trakt-link]: /docs/profile-image-on-trakt.it.md "Più info"
-[profile-image-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/profile-image-on-trakt.meta.js
+[profile-image-on-trakt-link]: /userscripts/docs/profile-image-on-trakt.it.md "Più info"
+[profile-image-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/profile-image-on-trakt
 [profile-image-on-trakt-download]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/profile-image-on-trakt.user.js "Clicca qui!"
 
 [violentmonkey-link]: https://violentmonkey.github.io/

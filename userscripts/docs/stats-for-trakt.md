@@ -19,11 +19,11 @@ Adds stats on [Trakt.tv][trakt-link]
 [link]: #stats-for-trakt
 [trakt-client-id]: https://trakt.tv/oauth/applications/new
 
-[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/iFelix18/Trakt-Userscripts/master/userscripts/meta/stats-for-trakt.meta.js
+[version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/stats-for-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
 [install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/stats-for-trakt.user.js "Click here!"
 
-[screenshot-1]: /docs/screenshots/stats-for-trakt_episodes.png?raw=true "Episodes ratings stats"
-[screenshot-2]: /docs/screenshots/stats-for-trakt_people.png?raw=true "People stats"
+[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/stats-for-trakt_episodes.png?raw=true "Episodes ratings stats"
+[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/stats-for-trakt_people.png?raw=true "People stats"

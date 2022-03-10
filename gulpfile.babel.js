@@ -9,12 +9,12 @@ import replace from 'gulp-replace'
 // paths
 const paths = {
   css: {
-    dest: 'template/',
-    src: 'src/template/css/*.css'
+    dest: 'tempfiles/',
+    src: 'userscripts/src/css/*.css'
   },
   handlebars: {
-    dest: 'template/',
-    src: 'src/template/handlebars/*.hbs'
+    dest: 'tempfiles/',
+    src: 'userscripts/src/handlebars/*.hbs'
   },
   meta: {
     dest: 'userscripts/meta/',
@@ -33,7 +33,7 @@ const minifyCSS = () => {
     .pipe(dest(paths.css.dest))
 }
 
-const minifyHandlebars = () => {
+const minifyHBS = () => {
   return src(paths.handlebars.src)
     .pipe(htmlMinifier({
       collapseBooleanAttributes: true,
@@ -54,21 +54,25 @@ const minifyHandlebars = () => {
 const replaceCSS = () => {
   return src(paths.userscripts.src)
     .pipe(flatmap((stream, file) => {
-      return src(file.path)
-        .pipe(replace(/(?<=(css: )')(.*?)(?=')/g, readFileSync('template/config.css', 'utf8')))
-        .pipe(dest('userscripts/'))
+      const fileName = file.stem.replace('.user', '')
+
+      return existsSync(`tempfiles/${fileName}.css`)
+        ? src(file.path)
+          .pipe(replace(/(?<=(css: )')(.*?)(?=')/g, readFileSync(`tempfiles/${fileName}.css`, 'utf8')))
+          .pipe(dest(paths.userscripts.dest))
+        : stream
     }))
 }
 
-const replaceHandlebars = () => {
+const replaceHBS = () => {
   return src(paths.userscripts.src)
     .pipe(flatmap((stream, file) => {
       const fileName = file.stem.replace('.user', '')
 
-      return existsSync(`template/${fileName}.hbs`)
+      return existsSync(`tempfiles/${fileName}.hbs`)
         ? src(file.path)
-          .pipe(replace(/(?<=(const template = )')(.*?)(?=')/g, readFileSync(`template/${fileName}.hbs`, 'utf8')))
-          .pipe(dest('userscripts/'))
+          .pipe(replace(/(?<=(const template = )')(.*?)(?=')/g, readFileSync(`tempfiles/${fileName}.hbs`, 'utf8')))
+          .pipe(dest(paths.userscripts.dest))
         : stream
     }))
 }
@@ -89,7 +93,7 @@ const bumpMeta = (callback) => {
 }
 
 // watch
-const watchUserscripts = () => {
+const watchUserJS = () => {
   watch(paths.userscripts.src, {
     ignoreInitial: false
   }, series(bumpMeta))
@@ -101,12 +105,12 @@ const watchCSS = () => {
   }, series(minifyCSS, replaceCSS))
 }
 
-const watchHandlebars = () => {
+const watchHBS = () => {
   watch(paths.handlebars.src, {
     ignoreInitial: false
-  }, series(minifyHandlebars, replaceHandlebars))
+  }, series(minifyHBS, replaceHBS))
 }
 
 // export
-const _default = parallel(watchUserscripts, watchCSS, watchHandlebars)
+const _default = parallel(watchUserJS, watchCSS, watchHBS)
 export { _default as default }

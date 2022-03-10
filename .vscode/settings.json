@@ -1,6 +1,6 @@
 {
   "[markdown]": {
-    "editor.formatOnSave": false
+    "editor.formatOnPaste": true
   },
   "[javascript]": {
     "editor.formatOnSave": false
@@ -11,13 +11,11 @@
   },
   "editor.formatOnSave": true,
   "eslint.validate": [
-    "javascript"
+    "javascript",
+    "json"
   ],
-  "files.associations": {
-    "**/template/*.css": "plaintext",
-    "**/template/*.hbs": "plaintext"
-  },
   "files.insertFinalNewline": true,
+  "markdownlint.ignore": ".markdownlintignore",
   "search.exclude": {
     "**/node_modules": true
   }
