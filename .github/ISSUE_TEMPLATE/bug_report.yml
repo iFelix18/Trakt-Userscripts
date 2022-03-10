@@ -21,10 +21,10 @@ body:
       options:
         - Ratings on Trakt
         - External links on Trakt
-        - Trakt Search
-        - Stats for Trakt
-        - Translate Trakt
         - Profile image on Trakt
+        - Stats for Trakt
+        - Trakt Search
+        - Translate Trakt
     validations:
       required: true
   - type: input
