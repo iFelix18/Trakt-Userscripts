@@ -24,4 +24,4 @@ Mostra i risultati di una ricerca su [Trakt.tv][trakt-link]
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/trakt-search.user.js "Clicca qui!"
 
-[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/trakt-search.png?raw=true "Risultati ricerca"
+[screenshot-1]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/trakt-search.png?raw=true "Risultati ricerca"

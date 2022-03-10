@@ -27,5 +27,5 @@ Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.t
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Clicca qui!"
 
-[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_before.png?raw=true "Prima"
-[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_after.gif?raw=true "Dopo"
+[screenshot-1]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_before.png?raw=true "Prima"
+[screenshot-2]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_after.gif?raw=true "Dopo"

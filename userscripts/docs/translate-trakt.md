@@ -27,5 +27,5 @@ Translates titles, plots, taglines and posters of movies, TV series and episodes
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Click here!"
 
-[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_before.png?raw=true "Before"
-[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_after.gif?raw=true "AFter"
+[screenshot-1]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_before.png?raw=true "Before"
+[screenshot-2]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/translate-trakt_after.gif?raw=true "AFter"

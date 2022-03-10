@@ -24,9 +24,9 @@ Add more external links on [Trakt.tv][trakt-link]
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/external-links-on-trakt.user.js "Click here!"
 
-[screenshot-1]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-before.png?raw=true "Before"
-[screenshot-2]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-after.png?raw=true "After"
-[screenshot-3]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-before.png?raw=true "Before"
-[screenshot-4]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-after.png?raw=true "After"
-[screenshot-5]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-before.png?raw=true "Before"
-[screenshot-6]: https://github.com/iFelix18/Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-after.png?raw=true "After"
+[screenshot-1]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-before.png?raw=true "Before"
+[screenshot-2]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_movie-after.png?raw=true "After"
+[screenshot-3]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-before.png?raw=true "Before"
+[screenshot-4]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_show-after.png?raw=true "After"
+[screenshot-5]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-before.png?raw=true "Before"
+[screenshot-6]: https://github.com/iFelix18/Trakt-Userscripts/blob/master/userscripts/docs/screenshots/external-links-on-trakt_anime-after.png?raw=true "After"
