@@ -18,7 +18,7 @@
 // @description:zh-CN  在Trakt中添加来自IMDb、烂番茄、Metacritic和MyAnimeList的评分。
 // @copyright          2019, Davide (https://github.com/iFelix18)
 // @license            MIT
-// @version            4.6.0
+// @version            4.6.1
 // @homepage           https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL         https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -59,9 +59,7 @@
   //* Constants
   const cachePeriod = 3_600_000
   const id = GM.info.script.name.toLowerCase().replace(/\s/g, '-')
-
-  //* GM_config
-  const config = new GM_configStruct()
+  const title = `${GM.info.script.name} v${GM.info.script.version} Settings`
   const fields = {
     OMDbApiKey: {
       label: 'API Key:',
@@ -107,8 +105,13 @@
       }
     }
   }
-  const title = `${GM.info.script.name} v${GM.info.script.version} Settings`
 
+  //* NodeCreationObserver
+  NodeCreationObserver.init(id)
+
+  //* GM_config
+  UserscriptUtils.migrateConfig('trakt-config', id) // migrate to the new config ID
+  const config = new GM_configStruct()
   config.init({
     id,
     title,
@@ -116,10 +119,10 @@
     events: {
       init: () => {
         if (!config.isOpen && config.get('OMDbApiKey') === '') {
-          window.location = `/settings/${id}/`
+          window.addEventListener('load', () => config.open())
         }
         if (GM.info.scriptHandler !== 'Userscripts') { //! Userscripts Safari: GM.registerMenuCommand is missing
-          GM.registerMenuCommand('Configure', () => config.open())
+          GM.registerMenuCommand('Configure', () => { window.location = `/settings/${id}/` })
         }
       },
       save: () => {
@@ -133,8 +136,6 @@
       }
     }
   })
-
-  UserscriptUtils.migrateConfig('trakt-config', id) // migrate to the new config ID
 
   //* Utils
   const UU = new UserscriptUtils({
@@ -181,10 +182,6 @@
    * Adds settings
    */
   const addSettings = () => {
-    document.title = title // settings page title
-
-    $('html').css('background-color', 'rgb(29, 29, 29)') // background
-
     config.init({ // GM_config
       frame: $('body').empty().get(0),
       id,
@@ -193,6 +190,8 @@
       css: ':root{--font:"Montserrat",sans-serif!important;--black:rgb(0, 0, 0)!important;--dark-grey:rgb(22, 22, 22)!important;--grey:rgb(51, 51, 51)!important;--light-grey:rgb(102, 102, 102)!important;--red:rgb(237, 34, 36)!important;--white:rgb(255, 255, 255)!important}#ratings-on-trakt *{color:var(--white)!important;font-family:var(--font)!important;font-size:14px!important}#ratings-on-trakt{background-color:transparent!important;border:1px solid transparent!important;box-shadow:0 1px 1px rgba(0,0,0,.05)!important;box-sizing:border-box!important;height:auto!important;list-style-type:none!important;margin-bottom:0!important;margin-left:auto!important;margin-right:auto!important;margin-top:1em!important;max-height:none!important;max-width:1200px!important;padding:1em!important;position:static!important;width:auto!important}#ratings-on-trakt .config_header{color:var(--white)!important;font-size:34px!important;font-weight:400!important;line-height:1.1!important;margin:0!important;text-shadow:0 0 20px var(--black)!important}#ratings-on-trakt .section_header_holder{background-color:var(--dark-grey)!important;border:1px solid var(--grey)!important;margin-bottom:1em!important}#ratings-on-trakt .section_header{background-color:var(--grey)!important;background-image:none!important;border-bottom:1px solid transparent!important;border:1px solid var(--grey)!important;padding:8px!important;text-align:left!important;text-transform:uppercase!important}#ratings-on-trakt .section_desc{background-color:var(--black)!important;border:1px solid var(--grey)!important;border-left:0!important;border-right:0!important;font-size:13px!important;font-weight:400!important;margin:0!important;padding:10px 8px!important;text-align:left!important}#ratings-on-trakt .config_var{align-items:center!important;display:flex!important;margin:0!important;padding:15px!important}#ratings-on-trakt .field_label{margin-bottom:0!important;margin-left:6px!important}#ratings-on-trakt_field_OMDbApiKey{background-color:var(--grey)!important;border:1px solid var(--light-grey)!important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075)!important;flex:1!important;padding:6px 12px!important}#ratings-on-trakt_field_OMDbApiKey:focus{box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)!important;outline:0!important}#ratings-on-trakt_buttons_holder{padding:15px!important}#ratings-on-trakt button,#ratings-on-trakt input[type=button]{background-color:var(--grey)!important;background-image:none!important;border-radius:0!important;border:1px solid transparent!important;font-weight:400!important;text-align:center!important;vertical-align:middle!important;padding:10px 16px!important}#ratings-on-trakt_buttons_holder button{background-color:var(--red)!important}#ratings-on-trakt_closeBtn{display:none!important}#ratings-on-trakt .reset{margin-right:10px!important}',
       events: {
         init: () => {
+          $('html').css('background-color', 'rgb(29, 29, 29)') // background
+          document.title = title // settings page title
           config.open()
         },
         save: () => {
@@ -280,13 +279,10 @@
 
   //* Script
   $(document).ready(() => {
-    NodeCreationObserver.init(GM.info.script.name.toLowerCase().replace(/\s/g, '_'))
     NodeCreationObserver.onCreation('body', () => {
       addStyle() // add style for settings
-      addSettingsToMenu()
-      if (document.location.pathname === `/settings/${id}/`) {
-        addSettings() // add settings
-      }
+      addSettingsToMenu() // link settings to trakt menu
+      if (document.location.pathname === `/settings/${id}/`) addSettings() // add settings
     })
     NodeCreationObserver.onCreation('.movies.show #summary-ratings-wrapper, .shows.show #summary-ratings-wrapper, .shows.episode #summary-ratings-wrapper', () => {
       addRatings() // add ratings
