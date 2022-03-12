@@ -12,45 +12,26 @@
   color: var(--white) !important;
   font-family: var(--font) !important;
   font-size: 14px !important;
+  font-weight: 400 !important;
 }
 
 #ratings-on-trakt {
-  background-color: transparent !important;
-  border: 1px solid transparent !important;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .05) !important;
-  box-sizing: border-box !important;
-  height: auto !important;
-  list-style-type: none !important;
-  margin-bottom: 0 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-top: 1em !important;
-  max-height: none !important;
-  max-width: 1200px !important;
-  padding: 1em !important;
-  position: static !important;
-  width: auto !important;
+  background: var(--dark-grey) !important;
 }
 
 #ratings-on-trakt .config_header {
-  color: var(--white) !important;
   font-size: 34px !important;
-  font-weight: 400 !important;
   line-height: 1.1 !important;
-  margin: 0 !important;
   text-shadow: 0 0 20px var(--black) !important;
 }
 
 #ratings-on-trakt .section_header_holder {
-  background-color: var(--dark-grey) !important;
   border: 1px solid var(--grey) !important;
   margin-bottom: 1em !important;
 }
 
 #ratings-on-trakt .section_header {
-  background-color: var(--grey) !important;
-  background-image: none !important;
-  border-bottom: 1px solid transparent !important;
+  background: var(--grey) !important;
   border: 1px solid var(--grey) !important;
   padding: 8px !important;
   text-align: left !important;
@@ -58,12 +39,11 @@
 }
 
 #ratings-on-trakt .section_desc {
-  background-color: var(--black) !important;
+  background: var(--black) !important;
   border: 1px solid var(--grey) !important;
   border-left: 0 !important;
   border-right: 0 !important;
   font-size: 13px !important;
-  font-weight: 400 !important;
   margin: 0 !important;
   padding: 10px 8px !important;
   text-align: left !important;
@@ -77,7 +57,6 @@
 }
 
 #ratings-on-trakt .field_label {
-  margin-bottom: 0 !important;
   margin-left: 6px !important;
 }
 
@@ -94,29 +73,20 @@
   outline: 0 !important;
 }
 
-#ratings-on-trakt_buttons_holder {
-  padding: 15px !important;
-}
-
 #ratings-on-trakt input[type="button"],
 #ratings-on-trakt button {
-  background-color: var(--grey) !important;
-  background-image: none !important;
-  border-radius: 0 !important;
+  background: var(--grey) !important;
   border: 1px solid transparent !important;
-  font-weight: 400 !important;
-  text-align: center !important;
-  vertical-align: middle !important;
   padding: 10px 16px !important;
+}
+
+#ratings-on-trakt input[type="button"]:hover,
+#ratings-on-trakt button:hover {
+  filter: brightness(85%) !important;
 }
 
 #ratings-on-trakt_buttons_holder button {
   background-color: var(--red) !important;
-}
-
-
-#ratings-on-trakt_closeBtn {
-  display: none !important;
 }
 
 #ratings-on-trakt .reset {
