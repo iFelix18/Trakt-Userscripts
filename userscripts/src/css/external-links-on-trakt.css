@@ -1,28 +1,71 @@
 :root {
-  --mainBackground: #343433;
-  --background: #282828;
-  --text: #fff;
+  --font: "Montserrat", sans-serif;
+  --background-grey: rgb(29, 29, 29);
+  --black: rgb(0, 0, 0);
+  --dark-grey: rgb(22, 22, 22);
+  --grey: rgb(51, 51, 51);
+  --red: rgb(237, 34, 36);
+  --white: rgb(255, 255, 255);
 }
 
-body {
-  background-color: var(--mainBackground) !important;
-  color: var(--text) !important;
+#external-links-on-trakt * {
+  color: var(--white) !important;
+  font-family: var(--font) !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }
 
-body .section_header {
-  background-color: var(--background) !important;
-  border-bottom: none !important;
-  border: 1px solid var(--background) !important;
-  color: var(--text) !important;
+#external-links-on-trakt {
+  background: var(--background-grey) !important;
 }
 
-body .section_desc {
-  background-color: var(--background) !important;
-  border-top: none !important;
-  border: 1px solid var(--background) !important;
-  color: var(--text) !important;
+#external-links-on-trakt .config_header {
+  font-size: 34px !important;
+  line-height: 1.1 !important;
+  text-shadow: 0 0 20px var(--black) !important;
 }
 
-body .reset {
-  color: var(--text) !important;
+#external-links-on-trakt .section_header_holder {
+  background: var(--dark-grey) !important;
+  border: 1px solid var(--grey) !important;
+  margin-bottom: 1em !important;
+}
+
+#external-links-on-trakt .section_header {
+  background: var(--grey) !important;
+  border: 1px solid var(--grey) !important;
+  padding: 8px !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+#external-links-on-trakt .config_var {
+  align-items: center !important;
+  display: flex !important;
+  margin: 0 !important;
+  padding: 15px !important;
+}
+
+#external-links-on-trakt .field_label {
+  margin-left: 6px !important;
+}
+
+#external-links-on-trakt input[type="button"],
+#external-links-on-trakt button {
+  background: var(--grey) !important;
+  border: 1px solid transparent !important;
+  padding: 10px 16px !important;
+}
+
+#external-links-on-trakt input[type="button"]:hover,
+#external-links-on-trakt button:hover {
+  filter: brightness(85%) !important;
+}
+
+#external-links-on-trakt_buttons_holder button {
+  background-color: var(--red) !important;
+}
+
+#external-links-on-trakt .reset {
+  margin-right: 10px !important;
 }
