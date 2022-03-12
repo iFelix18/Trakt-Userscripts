@@ -18,7 +18,7 @@
 // @description:zh-CN  在Trakt中添加来自IMDb、烂番茄、Metacritic和MyAnimeList的评分。
 // @copyright          2019, Davide (https://github.com/iFelix18)
 // @license            MIT
-// @version            4.7.2
+// @version            4.7.3
 // @homepage           https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL         https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -111,7 +111,7 @@
   NodeCreationObserver.init(id)
 
   //* GM_config
-  UserscriptUtils.migrateConfig('trakt-GM_config', id) // migrate to the new GM_config ID
+  UserscriptUtils.migrateConfig('trakt-config', id) // migrate to the new GM_config ID
   GM_config.init({
     id,
     title,
