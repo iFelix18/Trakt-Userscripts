@@ -6,7 +6,7 @@ Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a [Trakt
 [![Size][size-badge]][link]
 [![Install][install-badge]][download-link]
 
->**Nota**: Dopo l'installazione, inserisci la tua [OMDb API Key][omdb-api] nella pagina delle impostazioni dello script accessibile a [questo indirizzo][settings-link].
+>**Nota**: Dopo l'installazione, inserisci la tua [OMDb API Key][omdb-api] nelle impostazioni dello script.
 
 |           Screenshots           |
 | :-----------------------------: |
@@ -26,7 +26,6 @@ Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a [Trakt
 [trakt-link]: https://trakt.tv/
 [link]: #valutazioni-su-trakt
 [omdb-api]: https://www.omdbapi.com/apikey.aspx
-[settings-link]: https://trakt.tv/settings/ratings-on-trakt/
 
 [version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/ratings-on-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
