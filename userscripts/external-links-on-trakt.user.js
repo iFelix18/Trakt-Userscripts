@@ -13,12 +13,12 @@
 // @description:de     Mehr externe Links auf Trakt hinzufügen
 // @description:es     Añadir más enlaces externos en Trakt
 // @description:fr     Ajouter plus de liens externes sur Trakt
-// @description:it     Aggiungere altri link esterni su Trakt
+// @description:it     Aggiunge più link esterni su Trakt
 // @description:ru     Добавить больше внешних ссылок на Тракт
 // @description:zh-CN  在Trakt上添加更多的外部链接
 // @copyright          2022, Davide (https://github.com/iFelix18)
 // @license            MIT
-// @version            1.4.0
+// @version            1.4.1
 // @homepage           https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL         https://github.com/iFelix18/Trakt-Userscripts/issues
