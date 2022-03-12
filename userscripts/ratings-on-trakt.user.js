@@ -13,12 +13,12 @@
 // @description:de     Fügt Bewertungen von IMDb, Rotten Tomatoes, Metacritic und MyAnimeList zu Trakt hinzu
 // @description:es     Agrega las calificaciones de IMDb, Rotten Tomatoes, Metacritic y MyAnimeList a Trakt
 // @description:fr     Ajoute des évaluations d'IMDb, Rotten Tomatoes, Metacritic et MyAnimeList à Trakt
-// @description:it     Aggiunge le valutazioni di IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a Trakt
+// @description:it     Aggiunge valutazioni da IMDb, Rotten Tomatoes, Metacritic e MyAnimeList a Trakt
 // @description:ru     Добавляет рейтинги IMDb, Rotten Tomatoes, Metacritic и MyAnimeList в Trakt
 // @description:zh-CN  在Trakt中添加来自IMDb、烂番茄、Metacritic和MyAnimeList的评分。
 // @copyright          2019, Davide (https://github.com/iFelix18)
 // @license            MIT
-// @version            4.7.1
+// @version            4.7.2
 // @homepage           https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL         https://github.com/iFelix18/Trakt-Userscripts/issues
