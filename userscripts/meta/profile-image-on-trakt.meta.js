@@ -5,5 +5,5 @@
 // @description Set your favorite movie, or TV series as your profile picture
 // @copyright 2019, Davide (https://github.com/iFelix18)
 // @license MIT
-// @version 2.1.1
+// @version 2.2.0
 // ==/UserScript==
