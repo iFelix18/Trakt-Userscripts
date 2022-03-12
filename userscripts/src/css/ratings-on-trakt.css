@@ -1,11 +1,12 @@
 :root {
-  --font: "Montserrat", sans-serif !important;
-  --black: rgb(0, 0, 0) !important;
-  --dark-grey: rgb(22, 22, 22) !important;
-  --grey: rgb(51, 51, 51) !important;
-  --light-grey: rgb(102, 102, 102) !important;
-  --red: rgb(237, 34, 36) !important;
-  --white: rgb(255, 255, 255) !important;
+  --font: "Montserrat", sans-serif;
+  --background-grey: rgb(29, 29, 29);
+  --black: rgb(0, 0, 0);
+  --dark-grey: rgb(22, 22, 22);
+  --grey: rgb(51, 51, 51);
+  --light-grey: rgb(102, 102, 102);
+  --red: rgb(237, 34, 36);
+  --white: rgb(255, 255, 255);
 }
 
 #ratings-on-trakt * {
@@ -16,7 +17,7 @@
 }
 
 #ratings-on-trakt {
-  background: var(--dark-grey) !important;
+  background: var(--background-grey) !important;
 }
 
 #ratings-on-trakt .config_header {
@@ -26,6 +27,7 @@
 }
 
 #ratings-on-trakt .section_header_holder {
+  background: var(--dark-grey) !important;
   border: 1px solid var(--grey) !important;
   margin-bottom: 1em !important;
 }
