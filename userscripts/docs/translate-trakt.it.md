@@ -21,7 +21,7 @@ Traduce titoli, trame, tagline e poster di film, serie TV ed episodi su [Trakt.t
 
 [version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/translate-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/translate-trakt.user.js
-[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Clicca qui!"
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/jsDelivr/blue "Clicca qui!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/translate-trakt.user.js "Clicca qui!"
 

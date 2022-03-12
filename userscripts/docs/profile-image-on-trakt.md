@@ -11,6 +11,6 @@ Set your favorite movie, or TV series as your profile picture on [Trakt.tv][trak
 
 [version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/profile-image-on-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/profile-image-on-trakt.user.js
-[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/jsDelivr/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/profile-image-on-trakt.user.js "Click here!"

@@ -74,7 +74,7 @@ This product uses Wikidata data but is not endorsed or certified by Wikidata.
 
 [scripts-link]: #scripts
 
-[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Clicca qui!"
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/jsDelivr/blue "Clicca qui!"
 
 [ratings-on-trakt-link]: /userscripts/docs/ratings-on-trakt.it.md "Più info"
 [ratings-on-trakt-version]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/ratings-on-trakt

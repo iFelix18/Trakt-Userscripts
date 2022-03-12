@@ -27,7 +27,7 @@ Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to [Trakt.tv
 
 [version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/ratings-on-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/ratings-on-trakt.user.js
-[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/jsDelivr/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/ratings-on-trakt.user.js "Click here!"
 

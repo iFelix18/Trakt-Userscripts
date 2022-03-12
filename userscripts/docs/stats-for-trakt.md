@@ -19,7 +19,7 @@ Adds stats on [Trakt.tv][trakt-link]
 
 [version-badge]: https://flat.badgen.net/runkit/iFelix18/version/Trakt-Userscripts/stats-for-trakt
 [size-badge]: https://flat.badgen.net/badgesize/normal/iFelix18/Trakt-Userscripts/master/userscripts/stats-for-trakt.user.js
-[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/GitHub/blue "Click here!"
+[install-badge]: https://flat.badgen.net/badge/install%20directly%20from/jsDelivr/blue "Click here!"
 
 [download-link]: https://cdn.jsdelivr.net/gh/iFelix18/Trakt-Userscripts@master/userscripts/stats-for-trakt.user.js "Click here!"
 
