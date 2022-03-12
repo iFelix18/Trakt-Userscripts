@@ -2,9 +2,7 @@
 
 Imposta il tuo film preferito, o serie TV come immagine del tuo profilo su [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Nota**: Dopo l'installazione, vai alla pagina del tuo film preferito o serie TV e fai clic su "SET PROFILE IMAGE" (fai di nuovo clic per eliminare l'immagine, fai clic su un altro film o serie TV per cambiarla).
 

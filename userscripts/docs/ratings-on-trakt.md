@@ -2,9 +2,7 @@
 
 Adds ratings from IMDb, Rotten Tomatoes, Metacritic and MyAnimeList to [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Note**: After installation, enter your [OMDb API Key][omdb-api] in the script settings.
 

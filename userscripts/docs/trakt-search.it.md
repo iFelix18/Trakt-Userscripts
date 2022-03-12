@@ -2,9 +2,7 @@
 
 Mostra i risultati di una ricerca su [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID][trakt-client-id] e la tua [TMDb API Key][tmdb-api] nelle impostazioni dello script.
 

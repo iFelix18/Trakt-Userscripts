@@ -2,9 +2,7 @@
 
 Add more external links on [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 |           Screenshots           |                                |
 | :-----------------------------: | :----------------------------: |

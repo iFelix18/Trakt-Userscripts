@@ -2,9 +2,7 @@
 
 Translates titles, plots, taglines and posters of movies, TV series and episodes on [Trakt.tv][trakt-link] in the choice language
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Note**: After installation, enter your [TMDb API Key][tmdb-api], your [Trakt Client ID][trakt-client-id] and select your [language][tmdb-language] in the script settings.
 

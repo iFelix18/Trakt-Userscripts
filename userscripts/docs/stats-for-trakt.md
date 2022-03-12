@@ -2,9 +2,7 @@
 
 Adds stats on [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Note**: After installation, enter your [Trakt Client ID][trakt-client-id] in the script settings.
 

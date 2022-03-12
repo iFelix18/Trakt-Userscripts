@@ -2,9 +2,7 @@
 
 Aggiunge statistiche a [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Nota**: Dopo l'installazione, inserisci il tuo [Trakt Client ID][trakt-client-id] nelle impostazioni dello script.
 

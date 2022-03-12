@@ -2,9 +2,7 @@
 
 Set your favorite movie, or TV series as your profile picture on [Trakt.tv][trakt-link]
 
-[![Version][version-badge]][link]
-[![Size][size-badge]][link]
-[![Install][install-badge]][download-link]
+[![Version][version-badge]][link] [![Size][size-badge]][link] [![Install][install-badge]][download-link]
 
 >**Note**: After installation, go to the page of your favorite movie or TV series and click on "SET PROFILE IMAGE" (click again to delete the image, click on another movie or TV series to change it).
 
