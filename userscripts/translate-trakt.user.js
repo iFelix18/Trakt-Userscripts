@@ -8,7 +8,7 @@
 // @description:it  Traduce titoli, trame, tagline e poster di film, serie TV ed episodi nella lingua scelta
 // @copyright       2019, Davide (https://github.com/iFelix18)
 // @license         MIT
-// @version         4.2.0
+// @version         4.2.1
 // @homepage        https://github.com/iFelix18/Trakt-Userscripts#readme
 // @homepageURL     https://github.com/iFelix18/Trakt-Userscripts#readme
 // @supportURL      https://github.com/iFelix18/Trakt-Userscripts/issues
@@ -92,7 +92,7 @@
         default: false
       }
     },
-    css: ':root{--mainBackground:#343433;--background:#282828;--text:#fff}body{background-color:var(--mainBackground)!important;color:var(--text)!important}body .section_header{background-color:var(--background)!important;border-bottom:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .section_desc{background-color:var(--background)!important;border-top:none!important;border:1px solid var(--background)!important;color:var(--text)!important}body .reset{color:var(--text)!important}',
+    css: ':root{--font:"Montserrat",sans-serif;--background-grey:rgb(29, 29, 29);--black:rgb(0, 0, 0);--dark-grey:rgb(22, 22, 22);--grey:rgb(51, 51, 51);--light-grey:rgb(102, 102, 102);--red:rgb(237, 34, 36);--white:rgb(255, 255, 255)}#translate-trakt *{color:var(--white)!important;font-family:var(--font)!important;font-size:14px!important;font-weight:400!important}#translate-trakt{background:var(--background-grey)!important}#translate-trakt .config_header{font-size:34px!important;line-height:1.1!important;text-shadow:0 0 20px var(--black)!important}#translate-trakt .section_header_holder{background:var(--dark-grey)!important;border:1px solid var(--grey)!important;margin-bottom:1em!important}#translate-trakt .section_header{background:var(--grey)!important;border:1px solid var(--grey)!important;padding:8px!important;text-align:left!important;text-transform:uppercase!important}#translate-trakt .section_desc{background:var(--black)!important;border:1px solid var(--grey)!important;border-left:0!important;border-right:0!important;font-size:13px!important;margin:0!important;padding:10px 8px!important;text-align:left!important}#translate-trakt .config_var{align-items:center!important;display:flex!important;margin:0!important;padding:15px!important}#translate-trakt .field_label{margin-left:6px!important}#translate-trakt select,#translate-trakt_field_TMDbApiKey,#translate-trakt_field_TraktClientID{background-color:var(--grey)!important;border:1px solid var(--light-grey)!important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075)!important;flex:1!important;padding:6px 12px!important}#translate-trakt select:focus,#translate-trakt_field_TMDbApiKey:focus,#translate-trakt_field_TraktClientID:focus{box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)!important;outline:0!important}#translate-trakt button,#translate-trakt input[type=button]{background:var(--grey)!important;border:1px solid transparent!important;padding:10px 16px!important}#translate-trakt button:hover,#translate-trakt input[type=button]:hover{filter:brightness(85%)!important}#translate-trakt_buttons_holder button{background-color:var(--red)!important}#translate-trakt .reset{margin-right:10px!important}',
     events: {
       init: () => {
         if (!GM_config.isOpen && (GM_config.get('TMDbApiKey') === '' | GM_config.get('TraktClientID') === '')) {
