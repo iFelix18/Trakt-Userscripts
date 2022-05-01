@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-env": "^7.17.10",
     "@babel/register": "^7.17.7",
     "eslint": "^8.11.0",
     "eslint-config-greasemonkey": "^1.0.1",
@@ -36,7 +36,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-regexp": "^1.6.0",
-    "eslint-plugin-unicorn": "^41.0.1",
+    "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-userscripts": "^0.2.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
