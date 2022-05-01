@@ -5027,10 +5027,10 @@ upath@^1.1.1:
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.2.0.tgz#8f66dbcd55a883acdae4408af8b035a5044c1894"
   integrity sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==
 
-updates@^13.0.4:
-  version "13.0.4"
-  resolved "https://registry.yarnpkg.com/updates/-/updates-13.0.4.tgz#d269a87edd4053ad2f629cdf2f774aed4e98136b"
-  integrity sha512-RgHZnmTlcoRdn2yA8FZUwlRj7ltEANZQvh3ISAoSZcxunIv2s5EpFnZh8jgU7DigtX4ogm4XSn0r5O4u+cF7sg==
+updates@^13.0.5:
+  version "13.0.5"
+  resolved "https://registry.yarnpkg.com/updates/-/updates-13.0.5.tgz#d908067e8c27173973ad89c9f6d74fa92de3b2e2"
+  integrity sha512-ut7RIiH5Qys7jan4cS9i1Lqk6AAKGmVy1q0udDNJ4YXhvVoUdwQTAk5I9/wkSH6nHQtqhaqytCcZvS6hEJs8xg==
 
 uri-js@^4.2.2:
   version "4.4.1"
