@@ -2169,10 +2169,10 @@ eslint-plugin-unicorn@^42.0.0:
     semver "^7.3.5"
     strip-indent "^3.0.0"
 
-eslint-plugin-userscripts@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-userscripts/-/eslint-plugin-userscripts-0.2.3.tgz#d3d9dda9e6525b5cdc3baac61c32c3f10b7a5d5d"
-  integrity sha512-TLEq/6tuCB4Hfw6y6pn7co+m3M1Ysrk4yGHr2NtA7gBqgST1Ay8/3WP6nPoFwpoxoZORP7NRZ0vHijVCqR14QA==
+eslint-plugin-userscripts@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-userscripts/-/eslint-plugin-userscripts-0.2.6.tgz#893ebb16c4ccbd238475c5d1ed82d1fa3d3124aa"
+  integrity sha512-io4f6q46Y0k8ZYEgkquYs5akXpEcM4b3WNQ0NkuMHk3APar6jvy6Xu4O4qmSL77y100Bp6yvG/x7xlmVHsDlRw==
   dependencies:
     requireindex "~1.2.0"
     semver "^7.3.5"
