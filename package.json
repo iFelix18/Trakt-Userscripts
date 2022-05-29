@@ -23,7 +23,7 @@
     "update": "updates -u & yarn install"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.0",
+    "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
     "@babel/register": "^7.17.7",
     "eslint": "^8.16.0",
