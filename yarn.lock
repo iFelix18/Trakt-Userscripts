@@ -5021,10 +5021,10 @@ update-browserslist-db@^1.0.4:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
-updates@^13.1.3:
-  version "13.1.3"
-  resolved "https://registry.yarnpkg.com/updates/-/updates-13.1.3.tgz#4e0bc598d5fdc5ac34f2c7cd275528653aded59d"
-  integrity sha512-iARmrsMv+XMmvqIsH25MSwSRGhLyCW6eYgTzYlkW1uOc7qcOPGaceTdvZENRoMPCRg9e3lKQ6zutWZAlNHNNqg==
+updates@^13.2.4:
+  version "13.2.4"
+  resolved "https://registry.yarnpkg.com/updates/-/updates-13.2.4.tgz#902a7b5438f493f4fd23a637d43e5777e732404a"
+  integrity sha512-aQcPi3/kRcMLqLZj6nvy0PZAX3ZhE78IdHoj02SujNqH3/55hgn2i/bHVzPUI86+qWITkt7PyjJHBLDSxDHEyA==
 
 uri-js@^4.2.2:
   version "4.4.1"
